@@ -14,7 +14,10 @@
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
     "hastebin": "^0.2.1",
+    "moment": "^2.29.4",
     "moment-duration-format": "^2.3.2",
+    "moment-timezone": "^0.5.37",
+    "mongoose": "^6.6.0",
     "systeminformation": "^5.12.6"
   },
   "repository": {

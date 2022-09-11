@@ -1,6 +1,6 @@
 const fs = require('fs');
 require("dotenv").config();
-
+const mongo=require('./mongodb/moongoose.js')
 const {
     Client,
     Collection,
@@ -71,5 +71,5 @@ for (const file of slashcommand) {
     const event = require(`./slashcommand/${file}`);
     client.on(event.name, (...args) => event.execute(...args, client));
 };
-
+mongo.login();
 client.login(Token); 
