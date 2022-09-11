@@ -17,5 +17,6 @@ node .
 Must: Change .env.example to .env and add values to .env and config.json
 
 ## Contributers
-Murali Anand (! Murali Anand#5615)
-Raghava (Raghav#4530)
+### 💬Discord:
+- Murali Anand (! Murali Anand#5615)
+- Raghava (Raghav#4530)
