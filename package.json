@@ -1,0 +1,28 @@
+{
+  "name": "ticket-discordjs14",
+  "version": "1.0.0",
+  "description": "EliteX Ticket Bot DiscordJS@14.0.2 Version",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Murali Anand (github.com/muralianand12345)",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/rest": "^1.1.0",
+    "discord-api-types": "^0.37.8",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2",
+    "hastebin": "^0.2.1",
+    "moment-duration-format": "^2.3.2",
+    "systeminformation": "^5.12.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:muralianand12345/Discord-Ticket-Bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/muralianand12345/Discord-Ticket-Bot/issues"
+  },
+  "homepage": "https://github.com/muralianand12345/Discord-Ticket-Bot#readme"
+}

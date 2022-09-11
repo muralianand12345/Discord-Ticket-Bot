@@ -1,0 +1,156 @@
+{
+    "INFO": {
+        "OWNER_ID": "",
+        "COOWNER_ID": "",
+        "PREFIX": "!",
+
+        "CONSOLE": {
+            "CHAN_ID": ""
+        }
+    },
+
+    "DARK_CHAT": {
+        "CHAN_ID": ""
+    },
+
+    "VOTE": {
+        "ROLE_ID": "",
+        "CHAN_ID": "",
+        "FILE_NAME": "vote1.txt"
+    },
+
+    "STREAMER": {
+        "STATUS": "STREAMING",
+        "GUILD": "",
+        "ROLE": {
+            "STREAM": "",
+            "YOUTUBER": ""
+        },
+        "UPDATE_INTERVAL": "5000"
+    },
+
+    "ANNOUNCE": {
+        "GUILD_1": {
+            "METHOD": "ID",
+            "ID": "",
+            "ROLE": {
+                "NAME": "Immigration Officer",
+                "ID": ""
+            },
+            "PERMS": "ADMINISTRATOR"
+        },
+        "GUILD_2": {
+            "METHOD": "PERMS",
+            "ID": "",
+            "ROLE": {
+                "NAME": "Immigration Officer",
+                "ID": ""
+            },
+            "PERMS": "ADMINISTRATOR"
+        }
+    },
+
+    "JOBS": {
+        "LOGS": {
+            "CHAN_ID": ""
+        },
+        "ECPD": {
+            "ID": "",
+            "HROLE_ID": ""
+        },
+        "ECMS": {
+            "ID": "",
+            "HROLE_ID": ""
+        },
+        "RTO": {
+            "ID": "",
+            "HROLE_ID": ""
+        },
+        "LAWYER": {
+            "ID": "",
+            "HROLE_ID": ""
+        },
+        "NEWS": {
+            "ID": "",
+            "HROLE_ID": ""
+        }
+    },
+
+    "REDM_CHAN": {
+        "CHAN_ID": "",
+        "ROLE": "REDM",
+        "ROLE_ID": "",
+        "EMOJI": "<:emojiid:123456789>"
+    },
+
+    "FIVEM_TICKET": {
+        "MAIN": "",
+        "OOC": "",
+        "CL": "",
+        "SUPPORT": "",
+        "BUG": "",
+        "CHAR": "",
+        "PLANNED": "",
+        "OTHER": "",
+        "BAN": "",
+        "CLOSED": "",
+        "ROLE_SUPPORT": {
+            "ID": ""
+        },
+        "TICKET_MSG": {
+            "CHAN_ID": ""
+        },
+        "LOG": {
+            "CHAN_ID": ""
+        }
+    },
+
+    "REDM_TICKET": {
+        "MAIN": "",
+        "OOC": "",
+        "CL": "",
+        "SUPPORT": "",
+        "BUG": "",
+        "CHAR": "",
+        "PLANNED": "",
+        "OTHER": "",
+        "BAN": "",
+        "CLOSED": "",
+        "ROLE_SUPPORT": {
+            "ID": ""
+        },
+        "TICKET_MSG": {
+            "CHAN_ID": ""
+        },
+        "LOG": {
+            "CHAN_ID": ""
+        }
+    },
+
+    "ERR_LOG": {
+        "CHAN_ID": "",
+        "ERR_TAG":"<@userid>"
+    },
+
+    "DATE": {
+        "ENABLE": "true",
+        "CHAN_ID": "",
+        "TIMEZONE":"Asia/Kolkata",
+        "FORMATDATE":"DD MMMM YYYY",
+        "UPDATE_INTERVAL":"600000"
+    },
+
+    "ROLE_CHECK": {
+        "ROLE_1": {
+            "ID": ""
+        },
+        "ROLE_2": {
+            "ID": ""
+        }
+    },
+
+    "TagMember": "COMMUNITY",
+    "footerText": "EliteX RolePlay",
+    "discordBotImage": ""
+
+}
