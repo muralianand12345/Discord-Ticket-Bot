@@ -1,6 +1,6 @@
 const fs = require('fs');
 require("dotenv").config();
-const mongo=require('./mongodb/moongoose.js')
+const mongo=require('./mongodb/mongoose.js')
 const {
     Client,
     Collection,
