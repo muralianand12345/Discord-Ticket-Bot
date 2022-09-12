@@ -1,4 +1,9 @@
 let hastebin = require('hastebin');
+//Database - MongoDB
+
+const db = require('../mongodb/schema.js');
+const db2 = require('../mongodb/schema2.js');
+
 //Collector & Channel
 const { 
     ChannelType, 
@@ -24,43 +29,68 @@ module.exports = {
         if (!interaction.isButton()) return;
         if (interaction.customId == "open-ticket-fivem") {
 
-            const InteID = BigInt(interaction.user.id) + BigInt(1);
-
-            if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == InteID.toString())) {
-                interaction.reply({
-                    content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
-                    ephemeral: true
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    const errTag = client.config.ERR_LOG.ERR_TAG;
-                    const errEmbed = new EmbedBuilder()
-                    .setTitle("ERROR")
-                    .setColor("Red")
-                    .setDescription(`${err}`)
+            const global_ticket_no=db2.findOne({guild_id:interaction.guild.id},async (err,records)=>
+            {
+                if(!records) {
+                    const new_db2=new db2({
+                        guild_id:interaction.guild.id,
+                        global_ticket_no:1,
+                    });
+                    await new_db2.save();
+                }
+                else if (records){
+                    records.global_ticket_no+=1;
+                    await records.save();
+                }
+            });
+            var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
+            {
+                if (!records)
+                {
+                    const new_ticket_no=new db({
+                        guild_id:interaction.guild.id,
+                        user_id: interaction.user.id,
+                        ticket_channel_id: 0,
+                        ticket_status: "open",
+                    });
+                    await new_ticket_no.save();
+                }
+                if (records)
+                {
+                    await interaction.reply({
+                        content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
+                        ephemeral: true
+                    }).catch(err => {
+                        const commandName = "interactionCreateFiveM.js(line 49)";
+                        const errTag = client.config.ERR_LOG.ERR_TAG;
+                        const errEmbed = new EmbedBuilder()
+                        .setTitle("ERROR")
+                        .setColor("Red")
+                        .setDescription(`${err}`)
+                        .addFields(
+                            { name: "File", value: `${commandName}`},
+                            { name: "User", value: `<@!${interaction.user.id}>`},
+                            { name: "Channel", value: `<#${interaction.channel.id}>`},
+                            { name: "Line", value: "Already Opened a Ticket!"}
+                        )
+                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                    });
+    
+                    const ticEmbed = new EmbedBuilder()
+                    .setColor("Blue")
+                    .setAuthor({ name: "FiveM"})
+                    .setDescription("Unable to open a new Ticket")
                     .addFields(
-                        { name: "File", value: `${commandName}`},
-                        { name: "User", value: `<@!${interaction.user.id}>`},
-                        { name: "Channel", value: `<#${interaction.channel.id}>`},
-                        { name: "Line", value: "Already Opened a Ticket!"}
+                        { name: 'User', value: `<@!${interaction.user.id}>`},
+                        { name: 'Reason', value: "has already opened a Ticket"}
                     )
-                    client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-                });
+                    return errorSend.send({ embeds:[ticEmbed] });
+                }
+            });
 
-                const ticEmbed = new EmbedBuilder()
-                .setColor("Blue")
-                .setAuthor({ name: "FiveM"})
-                .setDescription("Unable to open a new Ticket")
-                .addFields(
-                    { name: 'User', value: `<@!${interaction.user.id}>`},
-                    { name: 'Reason', value: "has already opened a Ticket"}
-                )
-                return errorSend.send({ embeds:[ticEmbed] });   
-            };
- 
             await interaction.guild.channels.create({
                 name: `fivem-ticket-${interaction.user.username}`,
                 parent: client.config.FIVEM_TICKET.MAIN,
-                topic: InteID.toString(),
                 permissionOverwrites: [
                     {
                         id: interaction.user.id,
@@ -77,7 +107,8 @@ module.exports = {
                 ],
                 type: ChannelType.GuildText,
             }).then(async c => {
-                interaction.reply({
+                await db.findOneAndUpdate({user_id:interaction.user.id}, {ticket_channel_id:c.id})
+                await interaction.reply({
                     content: `Ticket created! <#${c.id}>`,
                     ephemeral: true
                 }).catch(err => {

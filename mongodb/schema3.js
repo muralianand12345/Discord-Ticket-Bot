@@ -4,8 +4,9 @@ const details = new Schema({
     guild_id: Number,
     user_id: Number,
     ticket_channel_id: Number,
-    user_ticket_id: Number,
+    user_ticket_no: Number,
     ticket_status: String,
+    hastebin: String,
 })
 
-module.exports = model('Ticket-Details', details);
+module.exports = model('Closed-Ticket-Details', details);
