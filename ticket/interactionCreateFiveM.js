@@ -208,9 +208,11 @@ module.exports = {
                     if (i.user.id === interaction.user.id) { 
                         if (msg.deletable) {
                             //Ticket Details Updation - Database
-                            var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
+                            
+                            await msg.delete().then(async() => {
+                                var ticket_no=db.findOne({user_id:interaction.user.id},async(err,record)=>
                             {
-                                if (!records)
+                                if (!record)
                                 {   var global_ticket_no=db2.findOne({guild_id:interaction.guild.id},async(err,records)=>
                                 {
                                     const new_ticket_no=new db({
@@ -223,13 +225,10 @@ module.exports = {
                                         ticket_status: "open",
                                     });
                                     await new_ticket_no.save();
-                                })
-                            }
-                            });
-                            msg.delete().then(async() => {
+                                                                
                                 const embed = new EmbedBuilder()
                                 .setColor('Dark_Blue')
-                                .setAuthor({name:'Ticket', iconURL:'https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png'})
+                                .setAuthor({name:`Ticket - ${new_ticket_no.user_ticket_no}`, iconURL:'https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png'})
                                 .setDescription(`<@!${interaction.user.id}> Created a ticket ${i.values[0]}`)
                                 .setFooter({text:'Ticket', iconURL:'https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png'})
                                 .setTimestamp();
@@ -252,6 +251,9 @@ module.exports = {
                                 opened.pin().then(() => {
                                     opened.channel.bulkDelete(1);
                                 });
+                            })
+                        }
+                        });    
                             }).catch(err => {
                                 const commandName = "interactionCreateFiveM.js";
                                 const errTag = client.config.ERR_LOG.ERR_TAG;
@@ -379,10 +381,7 @@ module.exports = {
 
                 collector.on('collect', i => {
                     if (i.customId == 'confirm-close-fivem') {
-                        interaction.editReply({
-                            content: `Ticket closed by <@!${i.user.id}>`,
-                            components: []
-                        });
+                        
 
                         const chanID = i.channel.id;
                         var ticket_details=db.findOne({user_id:user_idd},async(err,records)=>
@@ -397,7 +396,12 @@ module.exports = {
                                 ticket_status:"closed",
                             })
                             await close_ticket_details.save();
+                            await interaction.editReply({
+                                content: `Ticket - ${records.user_ticket_no} closed by <@!${i.user.id}>`,
+                                components: []
+                            });
                             await db.findOneAndDelete({user_id:user_idd});
+                            
                         });
 
                         chan.edit({
