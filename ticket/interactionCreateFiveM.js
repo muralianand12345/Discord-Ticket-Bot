@@ -1,8 +1,9 @@
 let hastebin = require('hastebin');
 //Database - MongoDB
 
-const db = require('../mongodb/schema.js');
-const db2 = require('../mongodb/schema2.js');
+const db = require('../mongodb/schema.js'); //Ticket Details
+const db2 = require('../mongodb/schema2.js'); //Global Server Ticket Number
+const db3 = require('../mongodb/schema3.js'); //Closed Ticket Details
 
 //Collector & Channel
 const { 
@@ -18,6 +19,7 @@ const {
     ButtonStyle, 
     SelectMenuBuilder 
 } = require("discord.js");
+const { findOneAndDelete, findOne } = require('../mongodb/schema.js');
 
 module.exports = {
     name: 'interactionCreate',
@@ -27,8 +29,10 @@ module.exports = {
         const errorSend = client.channels.cache.get(errChan);
 
         if (!interaction.isButton()) return;
+        const user_idd=interaction.user.id;
         if (interaction.customId == "open-ticket-fivem") {
 
+        //Global Server Ticket Number Updation - Database
             const global_ticket_no=db2.findOne({guild_id:interaction.guild.id},async (err,records)=>
             {
                 if(!records) {
@@ -43,18 +47,10 @@ module.exports = {
                     await records.save();
                 }
             });
+    
+        //Repeated Ticket Violation Checker
             var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
             {
-                if (!records)
-                {
-                    const new_ticket_no=new db({
-                        guild_id:interaction.guild.id,
-                        user_id: interaction.user.id,
-                        ticket_channel_id: 0,
-                        ticket_status: "open",
-                    });
-                    await new_ticket_no.save();
-                }
                 if (records)
                 {
                     await interaction.reply({
@@ -87,7 +83,7 @@ module.exports = {
                     return errorSend.send({ embeds:[ticEmbed] });
                 }
             });
-
+        //Channel Creation    
             await interaction.guild.channels.create({
                 name: `fivem-ticket-${interaction.user.username}`,
                 parent: client.config.FIVEM_TICKET.MAIN,
@@ -107,7 +103,7 @@ module.exports = {
                 ],
                 type: ChannelType.GuildText,
             }).then(async c => {
-                await db.findOneAndUpdate({user_id:interaction.user.id}, {ticket_channel_id:c.id})
+                var ticket_channel=c;
                 await interaction.reply({
                     content: `Ticket created! <#${c.id}>`,
                     ephemeral: true
@@ -208,9 +204,28 @@ module.exports = {
                     time: 30000
                 });
                 
-                collector.on('collect', i => {
-                    if (i.user.id === interaction.user.id) {
+                collector.on('collect', async (i) => {
+                    if (i.user.id === interaction.user.id) { 
                         if (msg.deletable) {
+                            //Ticket Details Updation - Database
+                            var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
+                            {
+                                if (!records)
+                                {   var global_ticket_no=db2.findOne({guild_id:interaction.guild.id},async(err,records)=>
+                                {
+                                    const new_ticket_no=new db({
+                                        guild_id:interaction.guild.id,
+                                        user_id: interaction.user.id,
+                                        username:interaction.user.username,
+                                        usertag:interaction.user.discriminator,
+                                        ticket_channel_id: ticket_channel.id,
+                                        user_ticket_no:records.global_ticket_no,
+                                        ticket_status: "open",
+                                    });
+                                    await new_ticket_no.save();
+                                })
+                            }
+                            });
                             msg.delete().then(async() => {
                                 const embed = new EmbedBuilder()
                                 .setColor('Dark_Blue')
@@ -370,14 +385,27 @@ module.exports = {
                         });
 
                         const chanID = i.channel.id;
-                        const ChanTopic = BigInt(chan.topic) - BigInt(1);
+                        var ticket_details=db.findOne({user_id:user_idd},async(err,records)=>
+                        {
+                            var close_ticket_details = new db3({
+                                guild_id:records.guild_id,
+                                user_id:records.user_id,
+                                username:records.username,
+                                usertag:records.usertag,
+                                ticket_channel_id:records.ticket_channel_id,
+                                user_ticket_no:records.user_ticket_no,
+                                ticket_status:"closed",
+                            })
+                            await close_ticket_details.save();
+                            await db.findOneAndDelete({user_id:user_idd});
+                        });
 
                         chan.edit({
                             name: `closed-${chan.name}`,
                             parent: client.config.FIVEM_TICKET.CLOSED,
                             permissionOverwrites: [
                                 {
-                                    id: client.users.cache.get(ChanTopic.toString()), //error
+                                    id: client.users.cache.get(user_idd), //error
                                     deny: [PermissionFlagsBits.SendMessages,PermissionFlagsBits.ViewChannel],
                                 },
                                 {
@@ -503,8 +531,6 @@ module.exports = {
                     client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
                 });
 
-                const chanTopic = BigInt(chan.topic) - BigInt(1);
-
                 chan.messages.fetch().then(async(messages) => {
                     let a = messages.filter(m => m.author.bot !== true).map(m =>
                         `${new Date(m.createdTimestamp).toLocaleString('hi-IN')} - ${m.author.username}#${m.author.discriminator}: ${m.attachments.size > 0 ? m.attachments.first().proxyURL : m.content}`
@@ -534,10 +560,14 @@ module.exports = {
                     .then(function(urlToPaste) {
                         const embed = new EmbedBuilder()
                         .setAuthor({name:'Logs Ticket', iconURL:'https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png'})
-                        .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](${urlToPaste})`)
+                        .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${user_idd}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](${urlToPaste})`)
                         .setColor('Dark_Blue')
                         .setTimestamp();
-
+                        const delete_details=db3.findOne({user_id:user_idd},async(err,records)=>{
+                            records.ticket_status="Deleted";
+                            records.hastebin=`${urlToPaste}`;
+                            await records.save();
+                        })
                         client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
                             embeds: [embed]
                         }).catch(err => {
