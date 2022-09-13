@@ -14,7 +14,8 @@ module.exports={
             sslCert:cert,
         })
 
-        mongo.connection.on('connected',() => console.log("[DB] Connected"))
+        mongo.connection.on('connected',() => console.log("[DB] Connected"));
+        mongo.connection.on('err',() => console.log("[DB] ERROR"));
         mongo.connection.on('disconnect',() => console.log("[DB] Disconnected"));
     }
 }
