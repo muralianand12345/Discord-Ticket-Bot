@@ -31,7 +31,19 @@ new Client({
         GatewayIntentBits.GuildEmojisAndStickers, 
         GatewayIntentBits.GuildIntegrations, 
         GatewayIntentBits.GuildWebhooks, 
-        GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.MessageContent], shards: "auto", partials: [Partials.Message, Partials.Channel, Partials.GuildMember, Partials.Reaction, Partials.GuildScheduledEvent, Partials.User, Partials.ThreadMember]});
+        GatewayIntentBits.GuildInvites, 
+        GatewayIntentBits.GuildVoiceStates, 
+        GatewayIntentBits.GuildPresences, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.GuildMessageReactions, 
+        GatewayIntentBits.GuildMessageTyping, 
+        GatewayIntentBits.DirectMessages, 
+        GatewayIntentBits.DirectMessageReactions, 
+        GatewayIntentBits.DirectMessageTyping, 
+        GatewayIntentBits.MessageContent], 
+        shards: "auto", 
+        partials: [Partials.Message, Partials.Channel, Partials.GuildMember, Partials.Reaction, Partials.GuildScheduledEvent, Partials.User, Partials.ThreadMember]});
+
 client.commands = new Collection();
 const Token = process.env.TOKEN;
 
