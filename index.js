@@ -11,34 +11,32 @@ const {
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds, 
-		GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMembers,  
-		GatewayIntentBits.GuildPresences, 
-		GatewayIntentBits.GuildMessageReactions, 
-		GatewayIntentBits.GuildMessageTyping, 
-        GatewayIntentBits.DirectMessages, 
-        GatewayIntentBits.DirectMessageReactions,
-		GatewayIntentBits.MessageContent,
-    ],
-    partials: [
-        Partials.Channel, Partials.Message, Partials.User, Partials.GuildMember, Partials.Reaction
-    ] 
-});
-new Client({
-    intents: [
-        GatewayIntentBits.Guilds, 
         GatewayIntentBits.GuildMembers, 
         GatewayIntentBits.GuildEmojisAndStickers, 
         GatewayIntentBits.GuildIntegrations, 
         GatewayIntentBits.GuildWebhooks, 
-        GatewayIntentBits.GuildInvites, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildMessageTyping, GatewayIntentBits.DirectMessages, GatewayIntentBits.DirectMessageReactions, GatewayIntentBits.DirectMessageTyping, GatewayIntentBits.MessageContent], shards: "auto", partials: [Partials.Message, Partials.Channel, Partials.GuildMember, Partials.Reaction, Partials.GuildScheduledEvent, Partials.User, Partials.ThreadMember]});
+        GatewayIntentBits.GuildInvites, 
+        GatewayIntentBits.GuildVoiceStates, 
+        GatewayIntentBits.GuildPresences, 
+        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.GuildMessageReactions, 
+        GatewayIntentBits.GuildMessageTyping, 
+        GatewayIntentBits.DirectMessages, 
+        GatewayIntentBits.DirectMessageReactions, 
+        GatewayIntentBits.DirectMessageTyping, 
+        GatewayIntentBits.MessageContent], 
+        shards: "auto", 
+        partials: [Partials.Message, Partials.Channel, Partials.GuildMember, Partials.Reaction, Partials.GuildScheduledEvent, Partials.User, Partials.ThreadMember]});
+
 client.commands = new Collection();
 const Token = process.env.TOKEN;
 
 const config = require('./config.json');
 const Discord = require('discord.js');
+const err_log = require('./logs/err_log.js');
 client.discord = Discord;
 client.config = config;
+client.err_log = err_log;
 
 //Event File Read
 const eventFiles = fs.readdirSync('./events').filter(file => file.endsWith('.js'));
