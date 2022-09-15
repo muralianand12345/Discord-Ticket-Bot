@@ -57,19 +57,8 @@ module.exports = {
                         content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
                         ephemeral: true
                     }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js(line 49)";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Already Opened a Ticket!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const commandName = "interactionCreateFiveM.js";
+                        client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Already Opened a Ticket!",err);
                     });
     
                     const ticEmbed = new EmbedBuilder()
@@ -109,18 +98,7 @@ module.exports = {
                     ephemeral: true
                 }).catch(err => {
                     const commandName = "interactionCreateFiveM.js";
-                    const errTag = client.config.ERR_LOG.ERR_TAG;
-                    const errEmbed = new EmbedBuilder()
-                    .setTitle("ERROR")
-                    .setColor("Red")
-                    .setDescription(`${err}`)
-                    .addFields(
-                        { name: "File", value: `${commandName}`},
-                        { name: "User", value: `<@!${interaction.user.id}>`},
-                        { name: "Channel", value: `<#${c.id}>`},
-                        { name: "Line", value: "Ticket Not Created"}
-                    )
-                    client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                    client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Not Created",err);
                 });
 
                 const embed = new EmbedBuilder()
@@ -185,18 +163,7 @@ module.exports = {
                     components: [row]
                 }).catch(err => {
                     const commandName = "interactionCreateFiveM.js";
-                    const errTag = client.config.ERR_LOG.ERR_TAG;
-                    const errEmbed = new EmbedBuilder()
-                    .setTitle("ERROR")
-                    .setColor("Red")
-                    .setDescription(`${err}`)
-                    .addFields(
-                        { name: "File", value: `${commandName}`},
-                        { name: "User", value: `<@!${interaction.user.id}>`},
-                        { name: "Channel", value: `<#${interaction.channel.id}>`},
-                        { name: "Line", value: "Ticket Options Error"}
-                    )
-                    client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                    client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Options Error",err);
                 });
                 
                 const collector = await msg.createMessageComponentCollector({
@@ -256,18 +223,7 @@ module.exports = {
                         });    
                             }).catch(err => {
                                 const commandName = "interactionCreateFiveM.js";
-                                const errTag = client.config.ERR_LOG.ERR_TAG;
-                                const errEmbed = new EmbedBuilder()
-                                .setTitle("ERROR")
-                                .setColor("Red")
-                                .setDescription(`${err}`)
-                                .addFields(
-                                    { name: "File", value: `${commandName}`},
-                                    { name: "User", value: `<@!${interaction.user.id}>`},
-                                    { name: "Channel", value: `<#${interaction.channel.id}>`},
-                                    { name: "Line", value: "Option After Ticket"}
-                                )
-                                client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                                client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Option After Ticket",err);                            
                             });
                         };
                     
@@ -324,16 +280,7 @@ module.exports = {
                             }, 5000);
                         }).catch( err => {
                             const commandName = "interactionCreateFiveM.js";
-                            const errTag = client.config.ERR_LOG.ERR_TAG;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "Line", value: "No Category Selected Error. (Unable to close)"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"No Category Selected Error. (Unable to close)",err);
                         });
 
                         const ticEmbed2 = new EmbedBuilder()
@@ -424,19 +371,8 @@ module.exports = {
                         })
                         .catch(err => {
                             const commandName = "interactionCreateFiveM.js";
-                            const errTag = client.config.ERR_LOG.ERR_TAG;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "User", value: `<@!${interaction.user.id}>`},
-                                { name: "Channel", value: `<#${chanID}>`},
-                                { name: "Line", value: "Ticket Close Error"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-                        })
+                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Close Error",err);
+                            })
                         .then(async() => {
                             const embed = new EmbedBuilder()
                             .setColor('Dark_Blue')
@@ -460,19 +396,8 @@ module.exports = {
                             })
                             .catch( err => {
                                 const commandName = "interactionCreateFiveM.js";
-                                const errTag = client.config.ERR_LOG.ERR_TAG;
-                                const errEmbed = new EmbedBuilder()
-                                .setTitle("ERROR")
-                                .setColor("Red")
-                                .setDescription(`${err}`)
-                                .addFields(
-                                    { name: "File", value: `${commandName}`},
-                                    { name: "User", value: `<@!${interaction.user.id}>`},
-                                    { name: "Channel", value: `<#${chanID}>`},
-                                    { name: "Line", value: "Ticket Close Error"}
-                                )
-                                client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-                            });
+                                client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Close Error",err);
+                                });
                         });
                         collector.stop();
                     };
@@ -498,19 +423,8 @@ module.exports = {
 
         } catch(err) {
             const commandName = "interactionCreateFiveM.js";
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "File", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`},
-                { name: "Line", value: "Ticket Delete Error"}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-        }
+            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Delete Error",err);
+            }
 
         try{
             if (interaction.customId == "delete-ticket-fivem") {
@@ -521,18 +435,7 @@ module.exports = {
                     content: 'Saving Messages and Deleting the channel ...'
                 }).catch(err => {
                     const commandName = "interactionCreateFiveM.js";
-                    const errTag = client.config.ERR_LOG.ERR_TAG;
-                    const errEmbed = new EmbedBuilder()
-                    .setTitle("ERROR")
-                    .setColor("Red")
-                    .setDescription(`${err}`)
-                    .addFields(
-                        { name: "File", value: `${commandName}`},
-                        { name: "User", value: `<@!${interaction.user.id}>`},
-                        { name: "Channel", value: `<#${interaction.channel.id}>`},
-                        { name: "Line", value: "Saving Message Interaction"}
-                    )
-                    client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                    client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Saving Message Interaction",err);
                 });
 
                 chan.messages.fetch().then(async(messages) => {
@@ -548,19 +451,8 @@ module.exports = {
                     }, {})
                     .catch(err => {
                         const commandName = "interactionCreateFiveM.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Ticket Log Error (Unable to Save)"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-                    })
+                        client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Log Error (Unable to Save)",err);
+                        })
                     .then(function(urlToPaste) {
                         const embed = new EmbedBuilder()
                         .setAuthor({name:'Logs Ticket', iconURL:'https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png'})
@@ -576,64 +468,25 @@ module.exports = {
                             embeds: [embed]
                         }).catch(err => {
                             const commandName = "interactionCreateFiveM.js";
-                            const errTag = client.config.ERR_LOG.ERR_TAG;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "Line", value: "Unable to send ticket log"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Unable to send ticket log",err);
                         });
 
                         setTimeout( () => chan.delete().catch(err => {
                             const commandName = "interactionCreateFiveM.js";
-                            const errTag = client.config.ERR_LOG.ERR_TAG;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "Line", value: "Spamming"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Spamming",err);
                         }),5000);
 
                     })
                     .catch(err => {
                         const commandName = "interactionCreateFiveM.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "HasteBin Error"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"HasteBin Error",err);
                     });
                 });
             };
 
         } catch(err){
             const commandName = "interactionCreateFiveM.js";
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "File", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"lINE 489 InteractionCreateFiveM",err);
         }
     },
 };
