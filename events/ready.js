@@ -1,14 +1,16 @@
+var colors = require('colors/safe');
+const mongo=require('../mongodb/mongoose.js')
 const { EmbedBuilder, ActivityType } = require('discord.js');
 const moment = require('moment');
 const tz = require('moment-timezone');
+const fs = require('fs');
 
 module.exports = {
     name: 'ready',
     execute(client) {
-        console.log(`${client.user.tag} Bot is ready to rock n roll!`);
+        console.log(colors.rainbow(`${client.user.tag} Bot is ready to rock n roll!`));
 
         //Err
-        const errTag = client.config.ERR_LOG.ERR_TAG;
         const err_chanid = client.config.ERR_LOG.CHAN_ID
         const err_logchan = client.channels.cache.get(err_chanid); 
 
@@ -31,7 +33,7 @@ module.exports = {
             const needDatenTime = client.config.DATE.ENABLE;
 
             if (needDatenTime == "true") {
-                console.log('Date and Time has been enabled');
+                console.log(colors.green.underline('Date and Time has been enabled'));
                 const TIMEZONE = client.config.DATE.TIMEZONE;
                 const FORMAT = client.config.DATE.FORMATDATE;
                 const CHANNEL_ID = client.config.DATE.CHAN_ID;
@@ -47,21 +49,18 @@ module.exports = {
                 }, UPDATE_INTERVAL);
     
             } else if (needDatenTime == "false") {
-                console.log('Date and Time has been disabled');
+                console.log(colors.red.underline('Date and Time has been disabled'));
             } else {
-                console.log('Error Has been occured at Time and Date!');
+                console.log(colors.trap('Error Has been occured at Time and Date!'));
             }
 
         } catch(err) {
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Date and Time Error", value: `Reason: No/Slow Internet`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "ready.js";
+            const Line = "No/Slow Internet | Date and Time";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
+
+        mongo.login(client);
         
         //Restart Embed Message
         const embed = new EmbedBuilder()
