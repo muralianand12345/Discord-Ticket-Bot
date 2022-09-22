@@ -15,24 +15,11 @@ module.exports = {
         ),
     async execute(interaction, client) {
 
-        const user = interaction.options.getUser('user');
-
-        //Err
-       const errTag = client.config.ERR_LOG.ERR_TAG;
-       const err_chanid = client.config.ERR_LOG.CHAN_ID
-       const err_logchan = client.channels.cache.get(err_chanid);     
+        const user = interaction.options.getUser('user');   
            
-       //log
-       const commandName = "GIVEROLE";
-       const logEmbed = new EmbedBuilder()
-       .setColor("Green")
-       .addFields(
-           { name: "Command", value: `${commandName}`},
-           { name: "User", value: `<@!${interaction.user.id}>`},
-           { name: "Channel", value: `<#${interaction.channel.id}>`},
-           { name: "To User", value: `<#${user.id}>`}
-       )
-       err_logchan.send({ embeds: [logEmbed]}); 
+        //log
+        const commandName = "GIVEROLE";
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         const Mention = client.guilds.cache.get(interaction.guild.id).members.cache.get(user.id);
 
@@ -81,18 +68,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${ECPD_ROLE}`);
                     Mention.roles.remove(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Remove Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Remove Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("ECPD")
@@ -127,18 +104,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${ECPD_ROLE}`);
                     Mention.roles.add(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Add Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Add Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("ECPD")
@@ -176,18 +143,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${ECMS_ROLE}`);
                     Mention.roles.remove(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Remove Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Remove Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("ECMS")
@@ -221,18 +178,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${ECMS_ROLE}`);
                     Mention.roles.add(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Add Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Add Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("ECMS")
@@ -270,18 +217,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${RTO_ROLE}`);
                     Mention.roles.remove(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Remove Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Remove Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("RTO")
@@ -315,18 +252,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${RTO_ROLE}`);
                     Mention.roles.add(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Add Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Add Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("RTO")
@@ -364,18 +291,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${LAWYER_ROLE}`);
                     Mention.roles.remove(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Remove Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Remove Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("LAWYER")
@@ -409,18 +326,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${LAWYER_ROLE}`);
                     Mention.roles.add(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Add Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Add Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("LAWYER")
@@ -458,18 +365,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${NEWS_ROLE}`);
                     Mention.roles.remove(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Remove Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Remove Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("NEWS")
@@ -503,18 +400,8 @@ module.exports = {
                     let role = interaction.guild.roles.cache.get(`${NEWS_ROLE}`);
                     Mention.roles.add(role).catch(err => {
                         const commandName = "giverole.js";
-                        const errTag = client.config.ERR_LOG.ERR_TAG;
-                        const errEmbed = new EmbedBuilder()
-                        .setTitle("ERROR")
-                        .setColor("Red")
-                        .setDescription(`${err}`)
-                        .addFields(
-                            { name: "File", value: `${commandName}`},
-                            { name: "User", value: `<@!${interaction.user.id}>`},
-                            { name: "Channel", value: `<#${interaction.channel.id}>`},
-                            { name: "Line", value: "Unable to Add Role!"}
-                        )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const Line = "Unable to Add Role!";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     });
                     const mainPage = new EmbedBuilder()
                         .setTitle("NEWS")
@@ -547,16 +434,9 @@ module.exports = {
             }
      
         } catch(err) {
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "giverole.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
     }
 };

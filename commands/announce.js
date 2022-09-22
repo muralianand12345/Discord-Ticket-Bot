@@ -26,19 +26,8 @@ module.exports = {
         const annnouceText = interaction.options.getString('text');
         const annchannel = interaction.options.getChannel('channelid'); 
 
-        const commandName = "ANNOUNCE";
-
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`},
-            { name: "To Channel", value: `<#${annchannel.id}>`},
-            { name: "Text", value: `${annnouceText}`}
-        )
-        
-        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ embeds: [logEmbed]});
+        const commandName = "ADD";
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         if (annchannel.type !== ChannelType.GuildText) {
             const ReplyEmbed = new EmbedBuilder()
@@ -78,17 +67,9 @@ module.exports = {
                         });
 
                     } catch(err) {
-                        const errTag = client.config.errTag;
-                        const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "Command", value: `${commandName}`},
-                                { name: "User", value: `<@!${interaction.user.id}>`},
-                                { name: "Channel", value: `<#${interaction.channel.id}>`}
-                            )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const commandName = "announce.js";
+                        const Line = "Catch Error";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     }
                 } else {
                     const ReplyEmbed = new EmbedBuilder()
@@ -160,17 +141,9 @@ module.exports = {
                         });
 
                     } catch(err) {
-                        const errTag = client.config.errTag;
-                        const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("Red")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "Command", value: `${commandName}`},
-                                { name: "User", value: `<@!${interaction.user.id}>`},
-                                { name: "Channel", value: `<#${interaction.channel.id}>`}
-                            )
-                        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                        const commandName = "announce.js";
+                        const Line = "Catch Error";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     }
                 } else {
                     const ReplyEmbed = new EmbedBuilder()

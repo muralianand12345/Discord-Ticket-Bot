@@ -12,23 +12,11 @@ module.exports = {
             option.setName('target')
             .setDescription('Member to add to ticket')
             .setRequired(true)),
-    async execute(interaction, client) {
-
-        //Err
-        const errTag = client.config.ERR_LOG.ERR_TAG;
-        const err_chanid = client.config.ERR_LOG.CHAN_ID
-        const err_logchan = client.channels.cache.get(err_chanid);     
-            
+    async execute(interaction, client) {         
+      
         //log
         const commandName = "ADD";
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`}
-        )
-        err_logchan.send({ embeds: [logEmbed]});
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         try{
             const chan = client.channels.cache.get(interaction.channelId);
@@ -40,7 +28,6 @@ module.exports = {
             function Fivem() {
                 return Support_Role = client.config.FIVEM_TICKET.ROLE_SUPPORT.ID;
             }
-
             function Redm() {
                 return Support_Role = client.config.REDM_TICKET.ROLE_SUPPORT.ID;
             }
@@ -49,12 +36,11 @@ module.exports = {
                 Fivem();
             } else if ( interaction.guild.id == client.config.ANNOUNCE.GUILD_2.ID ) {
                 Redm();
-
             } else {
-                const logEmbed = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription("ERROR Has Occured\nFile Name: add.js")
-                return err_logchan.send({ embeds: [logEmbed]});
+                const err = "ERROR Has Occured\nFile Name: add.js";
+                const commandName = "add.js";
+                const Line = "Else Error";
+                return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
             }
 
             if (chan.name.includes('ticket')) {
@@ -90,17 +76,9 @@ module.exports = {
             };
 
         } catch(err) {
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
-        } 
-        
+            const commandName = "add.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
+        }     
     },
 };

@@ -9,17 +9,10 @@ module.exports = {
         .setName('ping')
         .setDescription("Ping Pong!"),
     async execute(interaction, client) {
-        const commandName = "PING";
 
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`}
-        )
-        
-        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ embeds: [logEmbed]});
+        //log
+        const commandName = "PING";
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         try{ 
             if (cooldown.has(interaction.user.id)) {
@@ -53,17 +46,9 @@ module.exports = {
             }
       
         } catch(err) {
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "ping.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
     }
 };

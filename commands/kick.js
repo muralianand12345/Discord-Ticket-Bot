@@ -13,22 +13,10 @@ module.exports = {
             .setDescription('Reason to kick')
             .setRequired(false)),
     async execute(interaction, client) {
-        //Err
-        const errTag = client.config.ERR_LOG.ERR_TAG;
-        const err_chanid = client.config.ERR_LOG.CHAN_ID
-        const err_logchan = client.channels.cache.get(err_chanid);     
-           
+
         //log
         const commandName = "KICK";
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`},
-            { name: "To User", value: `<#${user.id}>`}
-        )
-        err_logchan.send({ embeds: [logEmbed]});
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
         
         const user = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.options.getUser('target').id);
         const executer = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.user.id);
@@ -90,16 +78,9 @@ module.exports = {
             };
 
         } catch(err) {
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "kick.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }  
     },
 };
