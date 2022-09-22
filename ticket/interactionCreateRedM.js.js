@@ -408,7 +408,7 @@ module.exports = {
 
                         setTimeout( () => chan.delete().catch(err => {
                             const commandName = "interactionCreateRedM.js";
-                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Spamming",err);
+                            client.err_log.error(client,commandName,interaction.user.id,"Deleted Channel","Spamming",err);
                         }),5000);
 
                     })

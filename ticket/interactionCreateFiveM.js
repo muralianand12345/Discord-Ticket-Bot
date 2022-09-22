@@ -32,7 +32,32 @@ module.exports = {
         const user_idd=interaction.user.id;
         if (interaction.customId == "open-ticket-fivem") {
 
-        //Global Server Ticket Number Updation - Database
+    
+        //Repeated Ticket Violation Checker
+            var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
+            {
+                if (records)
+                {
+                    await interaction.reply({
+                        content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
+                        ephemeral: true
+                    }).catch(err => {
+                        const commandName = "interactionCreateFiveM.js";
+                        client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Already Opened a Ticket!",err);
+                    });
+
+                    const ticEmbed = new EmbedBuilder()
+                    .setColor("Blue")
+                    .setAuthor({ name: "FiveM"})
+                    .setDescription("Unable to open a new Ticket")
+                    .addFields(
+                        { name: 'User', value: `<@!${interaction.user.id}>`},
+                        { name: 'Reason', value: "has already opened a Ticket"}
+                    )
+                    return errorSend.send({ embeds:[ticEmbed] });
+                }
+            
+            // Server Ticket Number Updation - Database
             const global_ticket_no=db2.findOne({guild_id:interaction.guild.id},async (err,records)=>
             {
                 if(!records) {
@@ -47,31 +72,7 @@ module.exports = {
                     await records.save();
                 }
             });
-    
-        //Repeated Ticket Violation Checker
-            var ticket_no=db.findOne({user_id:interaction.user.id},async(err,records)=>
-            {
-                if (records)
-                {
-                    await interaction.reply({
-                        content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
-                        ephemeral: true
-                    }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
-                        client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Already Opened a Ticket!",err);
-                    });
-    
-                    const ticEmbed = new EmbedBuilder()
-                    .setColor("Blue")
-                    .setAuthor({ name: "FiveM"})
-                    .setDescription("Unable to open a new Ticket")
-                    .addFields(
-                        { name: 'User', value: `<@!${interaction.user.id}>`},
-                        { name: 'Reason', value: "has already opened a Ticket"}
-                    )
-                    return errorSend.send({ embeds:[ticEmbed] });
-                }
-            });
+
         //Channel Creation    
             await interaction.guild.channels.create({
                 name: `fivem-ticket-${interaction.user.username}`,
@@ -295,6 +296,7 @@ module.exports = {
                     };
                 });
             });
+        });    
         };
 
         try{
@@ -473,7 +475,7 @@ module.exports = {
 
                         setTimeout( () => chan.delete().catch(err => {
                             const commandName = "interactionCreateFiveM.js";
-                            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Spamming",err);
+                            client.err_log.error(client,commandName,interaction.user.id,"Deleted Channel","Spamming",err);
                         }),5000);
 
                     })

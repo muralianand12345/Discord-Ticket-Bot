@@ -35,23 +35,13 @@ module.exports = {
     
                         User.roles.remove(role).catch(err => {
                             const commandName = "interactionRole.js";
-                            const errTag = client.config.errTag;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("RED")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "User", value: `<@!${interaction.user.id}>`},
-                                { name: "Channel", value: `<#${interaction.channel.id}>`},
-                                { name: "Line", value: "Unable to Remove Role!"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                            const Line = "Unable to Remove Role!";
+                            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                         });
 
                         const rmEmbed = new EmbedBuilder()
                             .setTitle("REDM ROLE")
-                            .setColor("BLACK")
+                            .setColor("Black")
                             .addFields(
                                 { name: "User", value: `<@!${interaction.user.id}>`},
                                 { name: "Removed", value: `${Role}`}
@@ -71,22 +61,12 @@ module.exports = {
     
                         User.roles.add(role).catch(err => {
                             const commandName = "interactionRole.js";
-                            const errTag = client.config.ERR_LOG.ERR_TAG;
-                            const errEmbed = new EmbedBuilder()
-                            .setTitle("ERROR")
-                            .setColor("RED")
-                            .setDescription(`${err}`)
-                            .addFields(
-                                { name: "File", value: `${commandName}`},
-                                { name: "User", value: `<@!${interaction.user.id}>`},
-                                { name: "Channel", value: `<#${interaction.channel.id}>`},
-                                { name: "Line", value: "Unable to Give Role!"}
-                            )
-                            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+                            const Line = "Unable to Add Role!";
+                            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                         });
                         const getEmbed = new EmbedBuilder()
                             .setTitle("REDM ROLE")
-                            .setColor("BLACK")
+                            .setColor("Black")
                             .addFields(
                                 { name: "User", value: `<@!${interaction.user.id}>`},
                                 { name: "Received", value: `${Role}`}
@@ -103,17 +83,8 @@ module.exports = {
                                                                  
         } catch(err) {
             const commandName = "interactionRole.js";
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("RED")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "File", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
     }
 }

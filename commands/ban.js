@@ -18,17 +18,10 @@ module.exports = {
             .setRequired(false)),
 
     async execute(interaction, client) {
-        const commandName = "BAN";
 
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`}
-        )
-        
-        client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ embeds: [logEmbed]});
+        //log
+        const commandName = "BAN";
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         const user = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.options.getUser('target').id);
         const executer = client.guilds.cache.get(interaction.guildId).members.cache.get(interaction.user.id);
@@ -99,19 +92,9 @@ module.exports = {
             };
 
         } catch(err) {
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
-        }
-
-        
+            const commandName = "ban.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
+        }        
     },
 };

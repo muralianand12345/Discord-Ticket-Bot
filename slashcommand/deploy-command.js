@@ -1,3 +1,5 @@
+var colors = require('colors/safe');
+
 const fs = require('fs');
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
@@ -23,11 +25,12 @@ module.exports = {
 
         rest.put(Routes.applicationCommands(clientID), {
             body: slashcommands
-        }).then(() => console.log('Successfully registered application commands.'))
-        .catch(console.error);
-        //console.log(`${slashcommands} Loaded to the Client`);
+        }).then(() => console.log(colors.green('Successfully registered application commands.')))
+        .catch( err => {
+            console.log(colors.red(err));
+        });
         slashcommands.forEach( eachcommands => {
-            console.log(`${eachcommands.name} has been loaded`);
+            console.log(colors.blue(`${eachcommands.name} has been loaded`));
         });    
     },
 };

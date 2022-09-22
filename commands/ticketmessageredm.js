@@ -11,21 +11,10 @@ module.exports = {
     .setDescription("Sends Ticket To Ticket Channel!"),
     
     async execute(interaction, client) {
-        //Err
-        const errTag = client.config.ERR_LOG.ERR_TAG;
-        const err_chanid = client.config.ERR_LOG.CHAN_ID
-        const err_logchan = client.channels.cache.get(err_chanid);     
-            
+        
         //log
-        const commandName = "TicketMessageREDM";
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`}
-        )
-        err_logchan.send({ embeds: [logEmbed]});
+        const commandName = "TICKETMESSAGEREDM";
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         //command
         
@@ -75,16 +64,9 @@ module.exports = {
             }
      
         } catch(err) {
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "ticketmessageredm.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
         
     }

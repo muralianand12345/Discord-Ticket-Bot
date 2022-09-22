@@ -1,8 +1,9 @@
 const { EmbedBuilder } = require('discord.js');
 
 module.exports={
+
     async error(client,file="unknown",user="unknown",channel="unknown",line="unknown",err="unknown")
-    {
+    {   
         let log_channel=await client.channels.cache.get(client.config.ERR_LOG.CHAN_ID);
         const embed = new EmbedBuilder()
             .setColor('Red')
@@ -10,7 +11,7 @@ module.exports={
             .setDescription(err)
             .addFields(
                 { name:"File", value:file },
-                { name:"User", value:`<!@${user}>`},
+                { name:"User", value:`<@${user}>`},
                 { name:"channel", value:`<#${channel}>`},
                 { name:"line", value:line},
             );
@@ -19,6 +20,5 @@ module.exports={
             content: client.config.ERR_LOG.ERR_TAG,
             embeds: [embed]
         });
-
     }
 }

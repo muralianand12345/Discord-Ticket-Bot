@@ -79,17 +79,8 @@ module.exports = {
 
         } catch(err) {
             const commandName = "interactionVoting.js";
-            const errTag = client.config.ERR_LOG.ERR_TAG;
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("RED")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "File", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            client.channels.cache.get(client.config.ERR_LOG.CHAN_ID).send({ content: `${errTag}`, embeds: [errEmbed] });
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
     }
 }

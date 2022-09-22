@@ -15,21 +15,9 @@ module.exports = {
             .setRequired(true)),
     async execute(interaction, client) {
 
-        //Err
-        const errTag = client.config.ERR_LOG.ERR_TAG;
-        const err_chanid = client.config.ERR_LOG.CHAN_ID
-        const err_logchan = client.channels.cache.get(err_chanid);     
-           
         //log
         const commandName = "VOTERESULT";
-        const logEmbed = new EmbedBuilder()
-        .setColor("Green")
-        .addFields(
-            { name: "Command", value: `${commandName}`},
-            { name: "User", value: `<@!${interaction.user.id}>`},
-            { name: "Channel", value: `<#${interaction.channel.id}>`}
-        )
-        err_logchan.send({ embeds: [logEmbed]});
+        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
 
         async function ReadFileArray(votefile) {
             const readFileLines = filename => 
@@ -97,7 +85,10 @@ module.exports = {
                     } else if (DeleteOp == false) {
                         
                     } else {
-                        err_logchan.send({ content: `File: voteresult.js\nUnable to Delete | **ERROR!**`});
+                        const commandName = "id.js";
+                        const err = "**ERROR!**";
+                        const Line = "Unable to Delete";
+                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
                     }
 
                 } else {
@@ -117,16 +108,9 @@ module.exports = {
             }
             
         } catch(err){
-            const errEmbed = new EmbedBuilder()
-            .setTitle("ERROR")
-            .setColor("Red")
-            .setDescription(`${err}`)
-            .addFields(
-                { name: "Command", value: `${commandName}`},
-                { name: "User", value: `<@!${interaction.user.id}>`},
-                { name: "Channel", value: `<#${interaction.channel.id}>`}
-            )
-            err_logchan.send({ content: `${errTag}`, embeds: [errEmbed] });
+            const commandName = "voteresult.js";
+            const Line = "Catch Error";
+            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
         }
         
         
