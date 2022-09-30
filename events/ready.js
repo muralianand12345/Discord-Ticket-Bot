@@ -1,5 +1,4 @@
 var colors = require('colors/safe');
-const mongo=require('../mongodb/mongoose.js')
 const { EmbedBuilder, ActivityType } = require('discord.js');
 const moment = require('moment');
 const tz = require('moment-timezone');
@@ -17,8 +16,8 @@ module.exports = {
         const activities = [
             { name: `your Queries 24/7!`, type: ActivityType.Listening },
             { name: `EliteX RolePlay ❤️`, type: ActivityType.Playing },
-            { name: `${client.users.cache.size} Users`, type: ActivityType.Watching },
-            { name: `Discord.js v14`, type: ActivityType.Competing }
+            { name: `${client.users.cache.size} Users!`, type: ActivityType.Watching },
+            { name: `#zeroLeaksFiveMServer`, type: ActivityType.Competing }
         ];
 
         let i = 0;
@@ -57,11 +56,9 @@ module.exports = {
         } catch(err) {
             const commandName = "ready.js";
             const Line = "No/Slow Internet | Date and Time";
-            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
+            return client.err_log.error(client,commandName,"Unknown","Date and Time VC",Line,err);
         }
 
-        mongo.login(client);
-        
         //Restart Embed Message
         const embed = new EmbedBuilder()
             .setColor('Orange')

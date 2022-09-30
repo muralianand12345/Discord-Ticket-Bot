@@ -1,8 +1,9 @@
 var colors = require('colors/safe');
-
 const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+const { 
+    REST, 
+    Routes 
+} = require('discord.js');
 require("dotenv").config();
 
 module.exports = {
@@ -12,10 +13,10 @@ module.exports = {
         const Token = process.env.TOKEN;
 
         const slashcommands = [];
-        const slashcommandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+        const slashcommandFiles = fs.readdirSync('./commands/slash').filter(file => file.endsWith('.js'));
 
         for (const file of slashcommandFiles) {
-            const command = require(`../commands/${file}`);
+            const command = require(`../commands/slash/${file}`);
             slashcommands.push(command.data.toJSON());
         }
 

@@ -1,32 +1,51 @@
 {
     "INFO": {
-        "OWNER_ID": "",
-        "COOWNER_ID": "",
-        "PREFIX": "!",
+        "OWNER_ID": "678402714765361182",
+        "COOWNER_ID": "758579147009163304",
+        "PREFIX": "-",
 
         "CONSOLE": {
             "CHAN_ID": ""
         }
     },
 
-    "DARK_CHAT": {
+    "MESSAGE": {
+		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
+	},
+
+    "ERR_LOG": {
+        "CHAN_ID": "",
+        "ERR_TAG":"<@678402714765361182>"
+    },
+
+    "STD_LOG": {
         "CHAN_ID": ""
     },
-
-    "VOTE": {
-        "ROLE_ID": "",
-        "CHAN_ID": "",
-        "FILE_NAME": "vote1.txt"
-    },
-
+   
     "STREAMER": {
         "STATUS": "STREAMING",
         "GUILD": "",
         "ROLE": {
             "STREAM": "",
-            "YOUTUBER": ""
+            "YOUTUBER": "",
+            "ELITEXPR": ""
         },
-        "UPDATE_INTERVAL": "5000"
+        "UPDATE_INTERVAL": "20000"
+    },
+
+    "QUESTIONS": {
+        "ROLEID": "",
+        "ANS_CHAN_ID": ""
+    },
+
+    "DARK_CHAT": {
+        "CHAN_ID": ""
+    },
+    
+    "VOTE": {
+        "ROLE_ID": "",
+        "CHAN_ID": "",
+        "FILE_NAME": "vote1.txt"
     },
 
     "ANNOUNCE": {
@@ -80,7 +99,7 @@
         "CHAN_ID": "",
         "ROLE": "REDM",
         "ROLE_ID": "",
-        "EMOJI": "<:emojiid:123456789>"
+        "EMOJI": "<:muralianand:986286100232421466>"
     },
 
     "FIVEM_TICKET": {
@@ -127,11 +146,6 @@
         }
     },
 
-    "ERR_LOG": {
-        "CHAN_ID": "",
-        "ERR_TAG":"<@userid>"
-    },
-
     "DATE": {
         "ENABLE": "true",
         "CHAN_ID": "",
@@ -139,7 +153,7 @@
         "FORMATDATE":"DD MMMM YYYY",
         "UPDATE_INTERVAL":"600000"
     },
-
+    
     "ROLE_CHECK": {
         "ROLE_1": {
             "ID": ""
@@ -151,6 +165,5 @@
 
     "TagMember": "COMMUNITY",
     "footerText": "EliteX RolePlay",
-    "discordBotImage": ""
-
+    "discordBotImage": "https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png"
 }

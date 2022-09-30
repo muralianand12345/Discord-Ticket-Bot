@@ -15,6 +15,6 @@ module.exports={
 
         await log_channel.send({
             embeds: [embed]
-        });
+        }).catch(err=>console.log(err));
     }
 }

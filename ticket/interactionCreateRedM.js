@@ -24,22 +24,22 @@ module.exports = {
         const errorSend = client.channels.cache.get(errChan);
 
         if (!interaction.isButton()) return;
-        if (interaction.customId == "open-ticket-fivem") {
+        if (interaction.customId == "open-ticket-redm") {
 
-            const InteID = BigInt(interaction.user.id) + BigInt(1);
+            const InteID = BigInt(interaction.user.id) + BigInt(2);
 
             if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == InteID.toString())) {
                 interaction.reply({
                     content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
                     ephemeral: true
                 }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
+                    const commandName = "interactionCreateRedM.js";
                     client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Already Opened a Ticket!",err);
                 });
 
                 const ticEmbed = new EmbedBuilder()
                 .setColor("Blue")
-                .setAuthor({ name: "FiveM"})
+                .setAuthor({ name: "RedM"})
                 .setDescription("Unable to open a new Ticket")
                 .addFields(
                     { name: 'User', value: `<@!${interaction.user.id}>`},
@@ -49,8 +49,8 @@ module.exports = {
             };
  
             await interaction.guild.channels.create({
-                name: `fivem-ticket-${interaction.user.username}`,
-                parent: client.config.FIVEM_TICKET.MAIN,
+                name: `redm-ticket-${interaction.user.username}`,
+                parent: client.config.REDM_TICKET.MAIN,
                 topic: InteID.toString(),
                 permissionOverwrites: [
                     {
@@ -58,7 +58,7 @@ module.exports = {
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
-                        id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
+                        id: client.config.REDM_TICKET.ROLE_SUPPORT.ID,
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
@@ -72,7 +72,7 @@ module.exports = {
                     content: `Ticket created! <#${c.id}>`,
                     ephemeral: true
                 }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
+                    const commandName = "interactionCreateRedM.js";
                     client.err_log.error(client,commandName,interaction.user.id,c.id,"Ticket Not Created",err);
                 });
 
@@ -137,7 +137,7 @@ module.exports = {
                     embeds: [embed],
                     components: [row]
                 }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
+                    const commandName = "interactionCreateRedM.js";
                     client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Options Error",err);
                 });
                 
@@ -160,7 +160,7 @@ module.exports = {
                                 const row = new ActionRowBuilder()
                                 .addComponents(
                                     new ButtonBuilder()
-                                    .setCustomId('close-ticket-fivem')
+                                    .setCustomId('close-ticket-redm')
                                     .setLabel('Close Ticket')
                                     .setEmoji('899745362137477181')
                                     .setStyle(ButtonStyle.Danger),
@@ -176,49 +176,49 @@ module.exports = {
                                     opened.channel.bulkDelete(1);
                                 });
                             }).catch(err => {
-                                const commandName = "interactionCreateFiveM.js";
+                                const commandName = "interactionCreateRedM.js";
                                 client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Option After Ticket",err);
                             });
                         };
                     
                         if (i.values[0] == 'Ooc') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.OOC
+                                parent: client.config.REDM_TICKET.OOC
                             });
                         };
                         if (i.values[0] == 'CombatLogging') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.CL
+                                parent: client.config.REDM_TICKET.CL
                             });
                         };
                         if (i.values[0] == 'Bugs') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.BUG
+                                parent: client.config.REDM_TICKET.BUG
                             });
                         };
                         if (i.values[0] == 'Supporters') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.SUPPORT
+                                parent: client.config.REDM_TICKET.SUPPORT
                             });
                         };
                         if (i.values[0] == 'Planned') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.PLANNED
+                                parent: client.config.REDM_TICKET.PLANNED
                             });
                         };
                         if (i.values[0] == 'Character') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.CHAR
+                                parent: client.config.REDM_TICKET.CHAR
                             });
                         };
                         if (i.values[0] == 'BanAppeal') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.BAN
+                                parent: client.config.REDM_TICKET.BAN
                             });
                         };
                         if (i.values[0] == 'Others') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.OTHER
+                                parent: client.config.REDM_TICKET.OTHER
                             });
                         };
                     };
@@ -233,13 +233,13 @@ module.exports = {
                                 }
                             }, 5000);
                         }).catch( err => {
-                            const commandName = "interactionCreateFiveM.js";
+                            const commandName = "interactionCreateRedM.js";
                             client.err_log.error(client,commandName,"User Unknown","Deleted Channel","No Category Selected Error. (Unable to close)",err);
                         });
 
                         const ticEmbed2 = new EmbedBuilder()
                         .setColor("Blue")
-                        .setAuthor({ name: "FIVEM"})
+                        .setAuthor({ name: "REDM"})
                         .setDescription("Menu Closed")
                         .addFields(
                             { name: 'User', value: `<@!${interaction.user.id}>`},
@@ -252,7 +252,7 @@ module.exports = {
         };
 
         try{
-            if (interaction.customId == "close-ticket-fivem") {
+            if (interaction.customId == "close-ticket-redm") {
                 const userButton = interaction.user.id;
                 const guild = client.guilds.cache.get(interaction.guildId);
                 const chan = guild.channels.cache.get(interaction.channelId);
@@ -260,12 +260,12 @@ module.exports = {
                 const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                    .setCustomId('confirm-close-fivem')
+                    .setCustomId('confirm-close-redm')
                     .setLabel('Close ticket')
                     .setStyle(ButtonStyle.Danger),
                     
                     new ButtonBuilder()
-                    .setCustomId('no-fivem')
+                    .setCustomId('no-redm')
                     .setLabel('Cancel closure')
                     .setStyle(ButtonStyle.Secondary),
                 );
@@ -281,25 +281,25 @@ module.exports = {
                 });
 
                 collector.on('collect', i => {
-                    if (i.customId == 'confirm-close-fivem') {
+                    if (i.customId == 'confirm-close-redm') {
                         interaction.editReply({
                             content: `Ticket closed by <@!${i.user.id}>`,
                             components: []
                         });
 
                         const chanID = i.channel.id;
-                        const ChanTopic = BigInt(chan.topic) - BigInt(1);
+                        const ChanTopic = BigInt(chan.topic) - BigInt(2);
 
                         chan.edit({
                             name: `closed-${chan.name}`,
-                            parent: client.config.FIVEM_TICKET.CLOSED,
+                            parent: client.config.REDM_TICKET.CLOSED,
                             permissionOverwrites: [
                                 {
                                     id: client.users.cache.get(ChanTopic.toString()), //error
                                     deny: [PermissionFlagsBits.SendMessages,PermissionFlagsBits.ViewChannel],
                                 },
                                 {
-                                    id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
+                                    id: client.config.REDM_TICKET.ROLE_SUPPORT.ID,
                                     allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                                 },
                                 {
@@ -309,7 +309,7 @@ module.exports = {
                             ],
                         })
                         .catch(err => {
-                            const commandName = "interactionCreateFiveM.js";
+                            const commandName = "interactionCreateRedM.js";
                             client.err_log.error(client,commandName,interaction.user.id,chanID,"Ticket Close Error",err);
                         })
                         .then(async() => {
@@ -323,7 +323,7 @@ module.exports = {
                             const row = new ActionRowBuilder()
                             .addComponents(
                                 new ButtonBuilder()
-                                .setCustomId('delete-ticket-fivem')
+                                .setCustomId('delete-ticket-redm')
                                 .setLabel('Delete ticket')
                                 .setEmoji('🗑️')
                                 .setStyle(ButtonStyle.Danger),
@@ -334,14 +334,14 @@ module.exports = {
                                 components: [row]
                             })
                             .catch( err => {
-                                const commandName = "interactionCreateFiveM.js";
+                                const commandName = "interactionCreateRedM.js";
                                 client.err_log.error(client,commandName,interaction.user.id,chanID,"Ticket Close Error",err);
                             });
                         });
                         collector.stop();
                     };
                      
-                    if (i.customId == 'no-fivem') {
+                    if (i.customId == 'no-redm') {
                         interaction.editReply({
                             content: `**Ticket closure cancelled!** (<@${i.user.id}>)`,
                             components: []
@@ -361,23 +361,23 @@ module.exports = {
             };
 
         } catch(err) {
-            const commandName = "interactionCreateFiveM.js";
+            const commandName = "interactionCreateRedM.js";
             client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Delete Error",err);
         }
 
         try{
-            if (interaction.customId == "delete-ticket-fivem") {
+            if (interaction.customId == "delete-ticket-redm") {
                 const guild = client.guilds.cache.get(interaction.guildId);
                 const chan = guild.channels.cache.get(interaction.channelId);
 
                 interaction.reply({
                     content: 'Saving Messages and Deleting the channel ...'
                 }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
+                    const commandName = "interactionCreateRedM.js";
                     client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Saving Message Interaction",err);
                 });
 
-                const chanTopic = BigInt(chan.topic) - BigInt(1);
+                const chanTopic = BigInt(chan.topic) - BigInt(2);
 
                 chan.messages.fetch().then(async(messages) => {
                     let a = messages.filter(m => m.author.bot !== true).map(m =>
@@ -397,7 +397,7 @@ module.exports = {
                         privacy: 1
                     })
                     .catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
+                        const commandName = "interactionCreateRedM.js";
                         client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"Ticket Log Error (Unable to Save)",err);
                     })
                     .then(function(urlToPaste) {
@@ -407,10 +407,10 @@ module.exports = {
                         .setColor('Dark_Blue')
                         .setTimestamp();
 
-                        client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
+                        client.channels.cache.get(client.config.REDM_TICKET.LOG.CHAN_ID).send({
                             embeds: [embed]
                         }).catch(err => {
-                            const commandName = "interactionCreateFiveM.js";
+                            const commandName = "interactionCreateRedM.js";
                             client.err_log.error(client,commandName,"Unknown User","Channel Deleted","Unable to send ticket log",err);
                         });
 
@@ -422,21 +422,21 @@ module.exports = {
                         });
 
                         setTimeout( () => chan.delete().catch(err => {
-                            const commandName = "interactionCreateFiveM.js";
+                            const commandName = "interactionCreateRedM.js";
                             client.err_log.error(client,commandName,"Unknown User","Channel Deleted","Spamming",err);
                         }),5000);
 
                     })
                     .catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
+                        const commandName = "interactionCreateRedM.js";
                         client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"HasteBin Error",err);
                     });
                 });
             };
-
+            
         } catch(err){
-            const commandName = "interactionCreateFiveM.js";
-            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"lINE 431 InteractionCreateFiveM",err);
+            const commandName = "interactionCreateRedM.js";
+            client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,"lINE 431 InteractionCreateRedM",err);
         }
     },
 };

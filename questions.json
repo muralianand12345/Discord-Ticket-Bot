@@ -1,0 +1,33 @@
+{
+    "TITLE": "EliteX Exclusive",
+    "MIN_LENGTH": 3,
+    "MAX_LENGTH": 100,
+
+    "ONE": {
+        "QUESTION": "Question 1",
+        "PLACEHOLDER": "PlaceHolder 1",
+        "STYLE": "short",
+        "REQUIRED": true
+    },
+
+    "TWO": {
+        "QUESTION": "Question 2",
+        "PLACEHOLDER": "PlaceHolder 2",
+        "STYLE": "paragragh",
+        "REQUIRED": false
+    },
+
+    "THREE": {
+        "QUESTION": "Question 3",
+        "PLACEHOLDER": "PlaceHolder 3",
+        "STYLE": "short",
+        "REQUIRED": true
+    },
+
+    "FOUR": {
+        "QUESTION": "Question 4",
+        "PLACEHOLDER": "PlaceHolder 4",
+        "STYLE": "paragragh",
+        "REQUIRED": false
+    }
+}
