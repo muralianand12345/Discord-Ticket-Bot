@@ -163,7 +163,10 @@
         }
     },
 
-    "TagMember": "COMMUNITY",
-    "footerText": "EliteX RolePlay",
-    "discordBotImage": "https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png"
+    "EMBED": {
+        "IMAGE": "https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png",
+        "FOOTTEXT": "EliteX RolePlay"
+    },
+    
+    "TAG_MEMBER": "COMMUNITY"
 }
