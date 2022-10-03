@@ -9,7 +9,7 @@
   "author": "Murali Anand (github.com/muralianand12345)",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0",
+    "colors": "1.4.0",
     "discord.js": "^14.5.0",
     "dotenv": "^16.0.2",
     "moment": "^2.29.4",
