@@ -37,7 +37,23 @@ module.exports = {
 
         try {
 
-            let command = client.commands.get(cmd)
+            let command = client.commands.get(cmd);
+            
+            if ( !commandUser.roles.cache?.has(BlackMoney)) {
+                const replyEmbed = new EmbedBuilder()
+                .setColor('Red')
+                .setDescription("This command is only for the `Black Money` dealers!")
+            
+                return message.channel.send({ 
+                    content: `<@${message.author.id}>`,
+                    embeds: [replyEmbed]
+                }).then((msg) => {
+                    setTimeout( function() {
+                        msg.delete()
+                    }, 4000);
+                });
+            }
+            
             if (!command) command = client.commands.get(client.aliases.get(cmd));
 
             if (command) {
