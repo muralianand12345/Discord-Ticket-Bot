@@ -14,7 +14,7 @@ module.exports = {
 		client.std_log.error(client, commandName, message.author.id, message.channel.id);
 
 		message.delete().catch(err => {
-			const commandName = "id.js";
+			const commandName = "darkchat.js";
 			const Line = "Unable To Delete Message";
 			return client.err_log.error(client, commandName, message.author.id, message.channel.id, Line, err);
 		});
@@ -33,7 +33,7 @@ module.exports = {
 					.setColor("Green")
 					.setDescription('No webhook was found that I can use!')
 
-				return message.reply({
+				return message.channel.send({
 					content: `<@${message.author.id}>`,
 					embeds: [ReplyEmbed]
 				}).then((msg) => {
@@ -49,13 +49,13 @@ module.exports = {
 				avatarURL: 'https://thumbs.dreamstime.com/b/illegal-stamp-illegal-round-grunge-stamp-illegal-sign-illegal-136960672.jpg',
 				//embeds: [embed],    
 			}).catch(err => {
-				const commandName = "id.js";
+				const commandName = "darkchat.js";
 				const Line = "Unable To Send Webhook";
 				return client.err_log.error(client, commandName, message.author.id, message.channel.id, Line, err);
 			});
 
 		} catch (err) {
-			const commandName = "id.js";
+			const commandName = "darkchat.js";
 			const Line = "Catch Error";
 			return client.err_log.error(client, commandName, message.author.id, message.channel.id, Line, err);
 		}
