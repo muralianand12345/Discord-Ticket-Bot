@@ -11,6 +11,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('id')
         .setDescription('Citzen ID and Name (Ticket Command)')
+        .setDMPermission(false)
         .addStringOption(
             option =>
             option.setName('citiname')

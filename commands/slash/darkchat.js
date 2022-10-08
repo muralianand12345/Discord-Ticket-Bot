@@ -9,8 +9,9 @@ module.exports = {
     botPerms: [],
 
     data: new SlashCommandBuilder()
-        .setName('darkchat')
+        .setName('darkchats')
         .setDescription("Send's anonymous chat")
+        .setDMPermission(false)
         .addStringOption(option =>
             option.setName('text')
                 .setDescription('Your message here! (Use `\\n` for new line)')
@@ -58,8 +59,6 @@ module.exports = {
                 embeds: [ReplyEmbed],
                 ephemeral: true
             });
-
-
 
         } catch (err) {
             const commandName = "darkchat.js";

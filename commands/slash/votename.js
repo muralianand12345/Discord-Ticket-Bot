@@ -1,5 +1,6 @@
 const {
-    SlashCommandBuilder 
+    SlashCommandBuilder,
+    PermissionFlagsBits
 } = require('discord.js');
 const fs = require('fs');
 
@@ -11,6 +12,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('votename')
         .setDescription('Gets The Result of the Current Voting (Only Admins)')
+        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addBooleanOption(option =>
             option.setName('updown')
                 .setDescription("True = Up || False = Down")

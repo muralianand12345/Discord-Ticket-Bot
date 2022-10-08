@@ -14,14 +14,14 @@ module.exports = {
 
             //Import All Questions
 
-            const que = require('../../questions.json');
+            const que = require('../../cars.json');
 
             var Title;
             var MinLength, MaxLength;
-            var q1, q2, q3, q4;
+            var q1, q2, q3;
             var place1, place2, place3, place3;
-            var qstyle1, qstyle2, qstyle3, qstyle4;
-            var qreq1, qreq2, qreq3, qreq4;
+            var qstyle1, qstyle2, qstyle3;
+            var qreq1, qreq2, qreq3;
 
             Title = que.TITLE;
 
@@ -31,22 +31,18 @@ module.exports = {
             q1 = que.ONE.QUESTION;
             q2 = que.TWO.QUESTION;
             q3 = que.THREE.QUESTION;
-            q4 = que.FOUR.QUESTION;
 
             place1 = que.ONE.PLACEHOLDER;
             place2 = que.TWO.PLACEHOLDER;
             place3 = que.THREE.PLACEHOLDER;
-            place4 = que.FOUR.PLACEHOLDER;
 
             qreq1 = que.ONE.REQUIRED;
             qreq2 = que.TWO.REQUIRED;
             qreq3 = que.THREE.REQUIRED;
-            qreq4 = que.FOUR.REQUIRED;
 
             qstyle1 = que.ONE.STYLE;
             qstyle2 = que.TWO.STYLE;
-            qstyle3 = que.THREE.STYLE;
-            qstyle4 = que.FOUR.STYLE;            
+            qstyle3 = que.THREE.STYLE;        
 
             if (qstyle1 == "short") {
                 qstyle1 = TextInputStyle.Short;
@@ -72,20 +68,12 @@ module.exports = {
                 console.log("Some Error 3")
             }
 
-            if (qstyle4 == "short") {
-                qstyle4 = TextInputStyle.Short;
-            } else if (qstyle4 == "paragragh") {
-                qstyle4 = TextInputStyle.Paragraph
-            } else {
-                console.log("Some Error 4")
-            }
-
             //interaction Button
-            if (interaction.customId == "elitexpr") {
+            if (interaction.customId == "carorder") {
 
                 //Creating modals
                 let modal = new ModalBuilder()
-                .setCustomId('EliteXQ')
+                .setCustomId('Carmodal')
 			    .setTitle(Title);
 
                 //Questions
@@ -116,75 +104,48 @@ module.exports = {
                 .setPlaceholder(place3)
 			    .setStyle(qstyle3);
 
-                let queFour = new TextInputBuilder()
-			    .setCustomId('four')
-			    .setLabel(q4)
-                .setRequired(qreq4)
-                .setMinLength(MinLength)
-                .setMaxLength(MaxLength)
-                .setPlaceholder(place4)
-			    .setStyle(qstyle4);
-                
-
                 const firstActionRow = new ActionRowBuilder()
                 .addComponents(queOne);
 		        const secondActionRow = new ActionRowBuilder()
                 .addComponents(queTwo);
                 const thirdActionRow = new ActionRowBuilder()
                 .addComponents(queThree);
-		        const fourthActionRow = new ActionRowBuilder()
-                .addComponents(queFour);
 
                 //Adding questions
-                modal.addComponents(firstActionRow, secondActionRow, thirdActionRow, fourthActionRow);
+                modal.addComponents(firstActionRow, secondActionRow, thirdActionRow);
 
                 //showing modal to user
                 await interaction.showModal(modal);
 
             }
 
-            if (interaction.customId === 'EliteXQ') {
+            if (interaction.customId === 'Carmodal') {
                 const UserID = interaction.user.id;
 
                 const rmEmbed = new EmbedBuilder()
                 .setColor("Green")
                 .setDescription(`**Form Submitted By:** <@${UserID}>\n\`\`\`ID: ${UserID}\`\`\``)
 
-                await interaction.reply({ embeds: [rmEmbed] });
+                await interaction.reply({ embeds: [rmEmbed], ephemeral: true });
 
                 const Ques1 = interaction.fields.getTextInputValue('one');
                 const Ques2 = interaction.fields.getTextInputValue('two');
                 const Ques3 = interaction.fields.getTextInputValue('three');
-                const Ques4 = interaction.fields.getTextInputValue('four');
 
                 const interactionUser = await interaction.guild.members.fetch(interaction.user.id)
                 const NickName = interactionUser.nickname;
                 const UserName = interactionUser.user.username
-                /*var arrUserAns;
-                arrUserAns = {
-                    NickName,
-                    UserName,
-                    UserID,
-                    Answer: { 
-                        Ques1, 
-                        Ques2, 
-                        Ques3, 
-                        Ques4 
-                    }
-                }
-                console.log(arrUserAns)*/
                 
                 const errEmbed = new EmbedBuilder()
                 .setTitle("EliteX Exclusive")
                 .setColor("Green")
-                .setDescription(`\`\`\`User ID: ${UserID}\nServer Name: ${NickName}\nUserName: ${UserName}\`\`\``)
+                .setDescription(`\`\`\`Server Name: ${NickName}\nUserName: ${UserName}\`\`\``)
                 .addFields(
-                    { name: "__Question 1__", value: `**Question:** ${q1}\n**Answer:** ${Ques1}`},
-                    { name: "__Question 2__", value: `**Question:** ${q2}\n**Answer:** ${Ques2}`},
-                    { name: "__Question 3__", value: `**Question:** ${q3}\n**Answer:** ${Ques3}`},
-                    { name: "__Question 4__", value: `**Question:** ${q4}\n**Answer:** ${Ques4}`}
+                    { name: "`------------`", value: `**${q1}**\n${Ques1}`},
+                    { name: "`------------`", value: `**${q2}**\n${Ques2}`},
+                    { name: "`------------`", value: `**${q3}**\n${Ques3}`}
                 )
-                client.channels.cache.get(client.config.QUESTIONS.ANS_CHAN_ID).send({ embeds: [errEmbed] });
+                client.channels.cache.get(client.config.CAR.REPLY_CHAN).send({ embeds: [errEmbed] });
                 
             }
 

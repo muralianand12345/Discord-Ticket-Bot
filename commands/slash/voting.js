@@ -3,7 +3,8 @@ const {
     EmbedBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle,
+    PermissionFlagsBits
 } = require('discord.js');
 
 module.exports = {
@@ -14,6 +15,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('vote')
         .setDescription('Custom voting (Only Admins)')
+        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(option =>
             option.setName('text')
                 .setDescription('Your vote poll message here')

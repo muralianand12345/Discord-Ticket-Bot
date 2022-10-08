@@ -3,7 +3,8 @@ const {
     EmbedBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle,
+    PermissionFlagsBits
 } = require('discord.js');
 
 module.exports = {
@@ -13,7 +14,9 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('ticketmessageredm')
-        .setDescription("Sends Ticket To Ticket Channel!"),
+        .setDescription("Sends Ticket To Ticket Channel!")
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .setDMPermission(false),
 
     async execute(interaction, client) {
 

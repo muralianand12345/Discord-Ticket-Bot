@@ -12,6 +12,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('add')
         .setDescription('Add someone to the ticket (Ticket Command) ')
+        .setDMPermission(false)
         .addUserOption(option =>
             option.setName('target')
             .setDescription('Member to add to ticket')

@@ -26,22 +26,30 @@ module.exports = {
                         return interaction.reply({ embeds: [coolEmbed], ephemeral: true });
                     }
 
-                    //userPermission
-                    if (command.userPerms || command.botPerms) {
-                        if (!interaction.member.permissions.has(PermissionsBitField.resolve(command.userPerms || []))) {
-                            const userPerms = new EmbedBuilder()
-                                .setDescription(`🚫 <@${interaction.user.id}>, You don't have \`${command.userPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return interaction.reply({ embeds: [userPerms], ephemeral: true });
+                    if (interaction.guild != null) {
+                        //userPermission
+                        if (command.userPerms || command.botPerms) {
+                            if (!interaction.member.permissions.has(PermissionsBitField.resolve(command.userPerms || []))) {
+                                const userPerms = new EmbedBuilder()
+                                    .setDescription(`🚫 <@${interaction.user.id}>, You don't have \`${command.userPerms}\` permissions to use this command!`)
+                                    .setColor('Red')
+                                return interaction.reply({ embeds: [userPerms], ephemeral: true });
+                            }
+
+                            if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(command.botPerms || []))) {
+                                const botPerms = new EmbedBuilder()
+                                    .setDescription(`🚫 <@${interaction.user.id}>, I don't have \`${command.botPerms}\` permissions to use this command!`)
+                                    .setColor('Red')
+                                return interaction.reply({ embeds: [botPerms], ephemeral: true });
+                            }
                         }
 
-                        if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(command.botPerms || []))) {
-                            const botPerms = new EmbedBuilder()
-                                .setDescription(`🚫 <@${interaction.user.id}>, I don't have \`${command.botPerms}\` permissions to use this command!`)
-                                .setColor('Red')
-                            return interaction.reply({ embeds: [botPerms], ephemeral: true });
+                    } else {
+                        if (command.userPerms || command.botPerms) {
+                            return;
                         }
                     }
+
 
                     //cooldown
                     config = client.config;
@@ -75,8 +83,8 @@ module.exports = {
         } catch (error) {
             global.console.log(error);
             const botErrorEmbed = new EmbedBuilder()
-            .setColor('Red')
-            .setDescription('An Internal **Error** Occurred, Kindly Contact The Bot Developers!')
+                .setColor('Red')
+                .setDescription('An Internal **Error** Occurred, Kindly Contact The Bot Developers!')
             return interaction.reply({
                 embeds: [botErrorEmbed],
                 ephemeral: true

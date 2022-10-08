@@ -3,7 +3,8 @@ const {
     EmbedBuilder,
     ActionRowBuilder,
     ButtonBuilder,
-    ButtonStyle
+    ButtonStyle,
+    PermissionFlagsBits
 } = require('discord.js');
 
 module.exports = {
@@ -13,7 +14,9 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('questions')
-        .setDescription('Sends EliteX PR Question'),
+        .setDescription('Sends EliteX PR Question')
+        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction, client) {
 
         //log

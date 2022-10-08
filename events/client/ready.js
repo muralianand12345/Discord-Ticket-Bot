@@ -1,8 +1,8 @@
 var colors = require('colors/safe');
-const { EmbedBuilder, ActivityType } = require('discord.js');
-const moment = require('moment');
-const tz = require('moment-timezone');
-const fs = require('fs');
+const { 
+    EmbedBuilder, 
+    ActivityType 
+} = require('discord.js');
 
 module.exports = {
     name: 'ready',
@@ -23,41 +23,9 @@ module.exports = {
         let i = 0;
         setInterval(() => {
             if(i >= activities.length) i = 0
-		    client.user.setActivity(activities[i])
+		    client.user.setActivity(activities[i]);
 		    i++;
         }, 5000);
-
-        //Date
-        try {
-            const needDatenTime = client.config.DATE.ENABLE;
-
-            if (needDatenTime == "true") {
-                console.log(colors.green.underline('Date and Time has been enabled'));
-                const TIMEZONE = client.config.DATE.TIMEZONE;
-                const FORMAT = client.config.DATE.FORMATDATE;
-                const CHANNEL_ID = client.config.DATE.CHAN_ID;
-                const UPDATE_INTERVAL = client.config.DATE.UPDATE_INTERVAL;
-    
-                const timeNow = moment().tz(TIMEZONE).format(FORMAT);
-                const clockChannel = client.channels.cache.get(CHANNEL_ID);
-                clockChannel.edit({ name: `🕒 ${timeNow}` }, 'Clock update').catch(console.error);
-    
-                setInterval(() => {
-                    const timeNowUpdate = moment().tz(TIMEZONE).format(FORMAT);
-                    clockChannel.edit({ name: `🕒 ${timeNowUpdate}` }, 'Clock update').catch(console.error);
-                }, UPDATE_INTERVAL);
-    
-            } else if (needDatenTime == "false") {
-                console.log(colors.red.underline('Date and Time has been disabled'));
-            } else {
-                console.log(colors.trap('Error Has been occured at Time and Date!'));
-            }
-
-        } catch(err) {
-            const commandName = "ready.js";
-            const Line = "No/Slow Internet | Date and Time";
-            return client.err_log.error(client,commandName,"Unknown","Date and Time VC",Line,err);
-        }
 
         //Restart Embed Message
         const embed = new EmbedBuilder()

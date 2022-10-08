@@ -3,7 +3,8 @@ const {
     EmbedBuilder, 
     ActionRowBuilder, 
     ButtonBuilder,
-    ButtonStyle 
+    ButtonStyle,
+    PermissionFlagsBits
 } = require('discord.js');
 
 module.exports = {
@@ -13,7 +14,9 @@ module.exports = {
     
     data: new SlashCommandBuilder()
         .setName('reactionrole')
-        .setDescription('Sends reaction role message'),
+        .setDescription('Sends reaction role message')
+        .setDMPermission(false)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async execute(interaction, client) { 
         const Role = client.config.REDM_CHAN.ROLE;
         const Emoji = client.config.REDM_CHAN.EMOJI;

@@ -11,6 +11,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('giverole')
         .setDescription("Give/Remove job roles to a user")
+        .setDMPermission(false)
         .addUserOption(
             option =>
             option.setName('user')
@@ -33,9 +34,6 @@ module.exports = {
         const ECMS_ROLE = client.config.JOBS.ECMS.ID;
         const ECMS_HEAD = client.config.JOBS.ECMS.HROLE_ID;
 
-        const RTO_ROLE = client.config.JOBS.RTO.ID;
-        const RTO_HEAD = client.config.JOBS.RTO.HROLE_ID;
-
         const LAWYER_ROLE = client.config.JOBS.LAWYER.ID;
         const LAWYER_HEAD = client.config.JOBS.LAWYER.HROLE_ID;
 
@@ -49,8 +47,6 @@ module.exports = {
                 ECPD();
             } else if ( commandUser.roles.cache?.has(`${ECMS_HEAD}`)) {
                 ECMS();
-            } else if ( commandUser.roles.cache?.has(`${RTO_HEAD}`)) {
-                RTO();
             } else if ( commandUser.roles.cache?.has(`${LAWYER_HEAD}`)) {
                 LAWYER();
             } else if ( commandUser.roles.cache?.has(`${NEWS_HEAD}`)) {
@@ -207,80 +203,6 @@ module.exports = {
                     .setColor("Green")
                     .setDescription(`**ECMS** Role Given To <@${Mention.id}>`)
                     
-                    interaction.reply({
-                        embeds: [ReplyEmbed],
-                        ephemeral: true
-                    });
-                    return client.channels.cache.get(client.config.JOBS.LOGS.CHAN_ID).send({embeds: [mainPage] });
-                }
-            }
-
-            //RTO
-            function RTO() {
-                if ( Mention.roles.cache?.has(`${RTO_ROLE}`)) {
-                    let role = interaction.guild.roles.cache.get(`${RTO_ROLE}`);
-                    Mention.roles.remove(role).catch(err => {
-                        const commandName = "giverole.js";
-                        const Line = "Unable to Remove Role!";
-                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
-                    });
-                    const mainPage = new EmbedBuilder()
-                        .setTitle("RTO")
-                        .setDescription("ROLE REMOVED")
-                        .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
-                        .setColor('Blue')
-                        .addFields(
-                            {
-                                name: `To`,
-                                value: `<@${Mention.id}>`,
-                                inline: true,
-                            },
-                            {
-                                name: `By`,
-                                value: `<@${interaction.user.id}>`,
-                                inline: true,
-                            }
-                        )
-        
-                    const ReplyEmbed = new EmbedBuilder()
-                    .setColor("Green")
-                    .setDescription(`**RTO** Role Removed From <@${Mention.id}>`)
-                        
-                    interaction.reply({
-                        embeds: [ReplyEmbed],
-                        ephemeral: true
-                    });
-                    return client.channels.cache.get(client.config.JOBS.LOGS.CHAN_ID).send({embeds: [mainPage] });
-    
-                } else {
-                    let role = interaction.guild.roles.cache.get(`${RTO_ROLE}`);
-                    Mention.roles.add(role).catch(err => {
-                        const commandName = "giverole.js";
-                        const Line = "Unable to Add Role!";
-                        return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
-                    });
-                    const mainPage = new EmbedBuilder()
-                        .setTitle("RTO")
-                        .setDescription("ROLE ADDED")
-                        .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}`})
-                        .setColor('Blue')
-                        .addFields(
-                            {
-                                name: `To`,
-                                value: `<@${Mention.id}>`,
-                                inline: true,
-                            },
-                            {
-                                name: `By`,
-                                value: `<@${interaction.user.id}>`,
-                                inline: true,
-                            }
-                        )
-        
-                    const ReplyEmbed = new EmbedBuilder()
-                    .setColor("Green")
-                    .setDescription(`**RTO** Role Given To <@${Mention.id}>`)
-                            
                     interaction.reply({
                         embeds: [ReplyEmbed],
                         ephemeral: true

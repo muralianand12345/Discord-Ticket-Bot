@@ -1,27 +1,50 @@
-const { 
-    SlashCommandBuilder, 
-    EmbedBuilder 
+const {
+    SlashCommandBuilder,
+    EmbedBuilder
 } = require('discord.js');
 const wait = require('util').promisify(setTimeout);
 
 module.exports = {
     cooldown: 10000,
-    userPerms: [],
-    botPerms: [],
 
     data: new SlashCommandBuilder()
         .setName('ping')
-        .setDescription("Ping Pong!"),
+        .setDescription("Ping Pong!")
+        .setDMPermission(true),
     async execute(interaction, client) {
 
         //log
         const commandName = "PING";
-        client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
+        var chanID;
+        if (interaction.channel == null) {
+            chanID = "DM";
+        } else {
+            chanID = interaction.channel.id;
+        }
+        client.std_log.error(client, commandName, interaction.user.id, chanID);
 
         try {
 
-            await interaction.reply({ content: "Pinging EliteX Support Bot ..." });
+            await interaction.deferReply({ content: "Connecting Discord API" });
             await wait(1000);
+            await interaction.editReply({ content: "Loading ." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading .." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading ..." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading ." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading .." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading ..." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading ." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading .." });
+            await wait(500);
+            await interaction.editReply({ content: "Loading ..." });
+            await wait(500);
             await interaction.editReply({ content: "Fast As Fuck Boiiiiii 🏃💨 ..." });
             await wait(2000);
             await interaction.editReply({ content: "**🏓 Pong!**" });
@@ -35,7 +58,13 @@ module.exports = {
         } catch (err) {
             const commandName = "ping.js";
             const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+            var chanID;
+            if (interaction.channel == null) {
+                chanID = "DM";
+            } else {
+                chanID = interaction.channel.id;
+            }
+            return client.err_log.error(client, commandName, interaction.user.id, chanID, Line, err);
         }
     }
 };

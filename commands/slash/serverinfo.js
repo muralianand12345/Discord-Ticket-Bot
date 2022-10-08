@@ -10,7 +10,8 @@ module.exports = {
 
     data: new SlashCommandBuilder()
         .setName('serverinfo')
-        .setDescription("Send's The Server's Info"),
+        .setDescription("Send's The Server's Info")
+        .setDMPermission(false),
     async execute(interaction, client) {
 
         //log

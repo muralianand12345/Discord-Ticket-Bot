@@ -10,17 +10,22 @@ require("moment-duration-format");
 
 module.exports = {
     cooldown: 10000,
-    userPerms: [],
-    botPerms: [],
 
     data: new SlashCommandBuilder()
         .setName('botinfo')
-        .setDescription('About the Bot <3'),
+        .setDescription('About the Bot <3')
+        .setDMPermission(true),
     async execute(interaction, client) {
 
         //log
         const commandName = "BOTINFO";
-        client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
+        var chanID;
+        if (interaction.channel == null) {
+            chanID = "DM";
+        } else {
+            chanID = interaction.channel.id;
+        }
+        client.std_log.error(client, commandName, interaction.user.id, chanID);
 
         try {
 
@@ -94,7 +99,13 @@ module.exports = {
         } catch (err) {
             const commandName = "botinfo.js";
             const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+            var chanID;
+            if (interaction.channel == null) {
+                chanID = "DM";
+            } else {
+                chanID = interaction.channel.id;
+            }
+            return client.err_log.error(client, commandName, interaction.user.id, chanID, Line, err);
         }
 
     },

@@ -8,17 +8,22 @@ const {
 
 module.exports = {
     cooldown: 10000,
-    userPerms: [],
-    botPerms: [],
 
     data: new SlashCommandBuilder()
         .setName('invite')
-        .setDescription("Sends EliteX RP Server Invite Link"),
+        .setDescription("Sends EliteX RP Server Invite Link")
+        .setDMPermission(true),
     async execute(interaction, client) {
 
         //log
         const commandName = "INVITE";
-        client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
+        var chanID;
+        if (interaction.channel == null) {
+            chanID = "DM";
+        } else {
+            chanID = interaction.channel.id;
+        }
+        client.std_log.error(client, commandName, interaction.user.id, chanID);
 
         try {
             const row = new ActionRowBuilder()
@@ -39,7 +44,13 @@ module.exports = {
         } catch (err) {
             const commandName = "invite.js";
             const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+            var chanID;
+            if (interaction.channel == null) {
+                chanID = "DM";
+            } else {
+                chanID = interaction.channel.id;
+            }
+            return client.err_log.error(client, commandName, interaction.user.id, chanID, Line, err);
         }
 
     }
