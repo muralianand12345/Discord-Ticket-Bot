@@ -32,6 +32,12 @@
         },
         "UPDATE_INTERVAL": "20000"
     },
+	
+    "CAR": {
+        "CHAN_ID": "",
+        "ROLE_ID": "",
+        "REPLY_CHAN": ""
+    },
 
     "QUESTIONS": {
         "ROLEID": "",
