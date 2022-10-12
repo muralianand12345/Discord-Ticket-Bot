@@ -370,6 +370,7 @@ module.exports = {
             if (interaction.customId == "delete-ticket-redm") {
                 const guild = client.guilds.cache.get(interaction.guildId);
                 const chan = guild.channels.cache.get(interaction.channelId);
+                if (chan == null) return;
 
                 interaction.reply({
                     content: 'Saving Messages and Deleting the channel ...'
@@ -421,9 +422,10 @@ module.exports = {
                     client.err_log.error(client, commandName, chanTopic.toString(), "Unable to DM the user", err);
                 });
 
-                setTimeout(() => chan.delete().catch(err => {
-                    const commandName = "interactionCreateRedM.js";
-                    client.err_log.error(client, commandName, "Unknown User", "Channel Deleted", "Spamming", err);
+                setTimeout(() => chan.delete().catch(error => {
+                    if (error.code == 10003) {
+                        return; //channel not found error
+                    }
                 }), 5000);
             };
 
