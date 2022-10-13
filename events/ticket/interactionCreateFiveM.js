@@ -1,12 +1,14 @@
 const discordTranscripts = require('discord-html-transcripts');
 require("dotenv").config();
 const fs = require('fs');
+const buttonCooldown = new Set()
 
 //Collector & Channel
 const {
     ChannelType,
     PermissionFlagsBits,
-    ComponentType
+    ComponentType,
+    Embed
 } = require('discord.js');
 //Embeds & Buttons & Select Menus
 const {
@@ -368,65 +370,77 @@ module.exports = {
 
         try {
             if (interaction.customId == "delete-ticket-fivem") {
-                const guild = client.guilds.cache.get(interaction.guildId);
-                const chan = guild.channels.cache.get(interaction.channelId);
-                if (chan == null) return;
 
-                interaction.reply({
-                    content: 'Saving Messages and Deleting the channel ...'
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Saving Message Interaction", err);
-                });
+                if (buttonCooldown.has(interaction.user.id)) {
+                    const replyEmbed = new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription("Interaction not registered! (Button Spam Dedected!)")
+                    interaction.reply({ embeds: [replyEmbed], ephemeral:true });
+                } else {
+                    buttonCooldown.add(interaction.user.id);
 
-                const chanTopic = BigInt(chan.topic) - BigInt(1);
+                    const guild = client.guilds.cache.get(interaction.guildId);
+                    const chan = guild.channels.cache.get(interaction.channelId);
+                    if (chan == null) return;
 
-                //Ticket Logs
-                const htmlCode = await discordTranscripts.createTranscript(chan, {
-                    limit: -1,
-                    returnType: 'string',
-                    filename: `transcript-${chan.id}.html`,
-                    saveImages: true,
-                    poweredBy: false
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "html Code Error", err);
-                });
-
-                const serverAdd = `${process.env.SERVER_IP}:${process.env.PORT}`;
-
-                fs.writeFile(`./ticket-logs/transcript-${chan.id}.html`, htmlCode, function (err) {
-                    if (err) {
+                    interaction.reply({
+                        content: 'Saving Messages and Deleting the channel in 10 seconds...'
+                    }).catch(err => {
                         const commandName = "interactionCreateFiveM.js";
-                        return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Unable to save Html Code", err);
-                    }
-                });
+                        client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Saving Message Interaction", err);
+                    });
 
-                const embed = new EmbedBuilder()
-                    .setAuthor({ name: 'Logs Ticket', iconURL: client.config.EMBED.IMAGE })
-                    .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
-                    .setColor('Dark_Blue')
-                    .setTimestamp();
+                    const chanTopic = BigInt(chan.topic) - BigInt(1);
 
-                client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
-                    embeds: [embed]
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, "Unknown User", "Channel Deleted", "Unable to send ticket log", err);
-                });
+                    //Ticket Logs
+                    const htmlCode = await discordTranscripts.createTranscript(chan, {
+                        limit: -1,
+                        returnType: 'string',
+                        filename: `transcript-${chan.id}.html`,
+                        saveImages: true,
+                        poweredBy: false
+                    }).catch(err => {
+                        const commandName = "interactionCreateFiveM.js";
+                        client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "html Code Error", err);
+                    });
 
-                client.users.cache.get(chanTopic.toString()).send({
-                    embeds: [embed]
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, chanTopic.toString(), "Unable to DM the user", err);
-                });
+                    const serverAdd = `${process.env.SERVER_IP}:${process.env.PORT}`;
 
-                setTimeout(() => chan.delete().catch(error => {
-                    if (error.code == 10003) {
-                        return; //channel not found error
-                    }
-                }), 5000);
+                    fs.writeFile(`./ticket-logs/transcript-${chan.id}.html`, htmlCode, function (err) {
+                        if (err) {
+                            const commandName = "interactionCreateFiveM.js";
+                            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Unable to save Html Code", err);
+                        }
+                    });
+
+                    const embed = new EmbedBuilder()
+                        .setAuthor({ name: 'Logs Ticket', iconURL: client.config.EMBED.IMAGE })
+                        .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
+                        .setColor('Dark_Blue')
+                        .setTimestamp();
+
+                    client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
+                        embeds: [embed]
+                    }).catch(err => {
+                        const commandName = "interactionCreateFiveM.js";
+                        client.err_log.error(client, commandName, "Unknown User", "Channel Deleted", "Unable to send ticket log", err);
+                    });
+
+                    client.users.cache.get(chanTopic.toString()).send({
+                        embeds: [embed]
+                    }).catch(err => {
+                        const commandName = "interactionCreateFiveM.js";
+                        client.err_log.error(client, commandName, chanTopic.toString(), "Unable to DM the user", err);
+                    });
+
+                    setTimeout(() => chan.delete().catch(error => {
+                        if (error.code == 10003) {
+                            return; //channel not found error
+                        }
+                    }), 10000);
+
+                    setTimeout(() => buttonCooldown.delete(interaction.user.id), 20000)
+                }
             };
 
         } catch (err) {
