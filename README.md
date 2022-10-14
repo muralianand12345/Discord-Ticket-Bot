@@ -8,7 +8,7 @@ Discord.js Version: 14.3.0
 Requirements:
 NodeJS 16+ (better latest version)
 
-LINUX
+### LINUX
 
 ``````bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
@@ -19,7 +19,7 @@ nvm ls
 nvm use (version)
 ``````
 
-WINDOWS
+### WINDOWS
 
 https://nodejs.org/dist/v16.17.0/node-v16.17.0-x64.msi
 
@@ -36,6 +36,18 @@ bash start.sh
 Must: Change .env.example to .env and add values to .env and config.json
 
 ## Contributers
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
 ### 💬Discord:
 - Murali Anand (! Murali Anand#5615)
 - Raghava (Raghav#4530)
+
+## A ⭐ to this repository will be encouraging 
