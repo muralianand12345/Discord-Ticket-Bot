@@ -1,7 +1,7 @@
 # Ticket Bot
 
 Discord Ticket Bot For FiveM RP Server!
-Discord.js Version: 14.3.0
+Discord.js Version: 14.5.0
 
 ## Installation Steps
 
