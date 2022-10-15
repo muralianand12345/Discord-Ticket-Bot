@@ -17,6 +17,8 @@ module.exports = {
         .setDMPermission(true),
     async execute(interaction, client) {
 
+        const discordpackage = require("../../node_modules/discord.js/package.json");
+
         //log
         const commandName = "BOTINFO";
         var chanID;
@@ -75,7 +77,7 @@ module.exports = {
                     },
                     {
                         name: 'Discord',
-                        value: `\`\`\`DiscordJS 14.5.0\`\`\``,
+                        value: `\`\`\`DiscordJS ${discordpackage.version}\`\`\``,
                         inline: true,
                     },
                     {
