@@ -67,30 +67,18 @@ module.exports = {
             await interaction.reply({ embeds: [ResultEmbed], ephemeral: true });
         }
 
-        try {
-            const FileName = client.config.VOTE.FILE_NAME;
-            ReadFileArray(FileName);
-            const DeleteOp = interaction.options.getBoolean('delete');
-            const ChannelID = interaction.channel.id;
-            if (DeleteOp == true) {
-                fs.writeFile(FileName, '', function () {
-                    client.channels.cache.get(ChannelID).send({ content: "**Vote Deleted**\nStart a new voting!" });
-                });
-            } else if (DeleteOp == false) {
+        const FileName = client.config.VOTE.FILE_NAME;
+        ReadFileArray(FileName);
+        const DeleteOp = interaction.options.getBoolean('delete');
+        const ChannelID = interaction.channel.id;
+        if (DeleteOp == true) {
+            fs.writeFile(FileName, '', function () {
+                client.channels.cache.get(ChannelID).send({ content: "**Vote Deleted**\nStart a new voting!" });
+            });
+        } else if (DeleteOp == false) {
 
-            } else {
-                const commandName = "id.js";
-                const err = "**ERROR!**";
-                const Line = "Unable to Delete";
-                return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
-            }
-
-        } catch (err) {
-            const commandName = "voteresult.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+        } else {
+            return;
         }
-
-
     },
 };

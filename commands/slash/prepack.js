@@ -59,45 +59,39 @@ module.exports = {
         const commandName = "PREPACK";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
 
-        try {
+        //embed function
+        async function sendSupMsg() {
+            const supChan = client.channels.cache.get(supchannel);
+            const supEmbed = new EmbedBuilder()
+                .setColor("White")
+                .setTitle("Supporter Packs")
+                .setDescription(`\`\`\`${packName}\`\`\``)
 
-            //embed function
-            async function sendSupMsg() {
-                const supChan = client.channels.cache.get(supchannel);
-                const supEmbed = new EmbedBuilder()
-                    .setColor("White")
-                    .setTitle("Supporter Packs")
-                    .setDescription(`\`\`\`${packName}\`\`\``)
+            const supButton = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setLabel(`${packMonth} Pack`)
+                        .setEmoji('🪙')
+                        .setStyle(ButtonStyle.Link)
+                        .setURL(packLink)
+                )
 
-                const supButton = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setLabel(`${packMonth} Pack`)
-                            .setEmoji('🪙')
-                            .setStyle(ButtonStyle.Link)
-                            .setURL(packLink)
-                    )
-
-                supChan.send({
-                    embeds: [supEmbed],
-                    components: [supButton],
-                });
-            }
-
-            const ReplyEmbed = new EmbedBuilder()
-                .setColor("Green")
-                .setDescription("Supporter Pack Message Has Been Sent!")
-            interaction.reply({
-                embeds: [ReplyEmbed],
-                ephemeral: true
-            }).then(() => {
-                sendSupMsg();
+            supChan.send({
+                embeds: [supEmbed],
+                components: [supButton],
             });
-
-        } catch (err) {
-            const commandName = "prepack.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
         }
+
+        const ReplyEmbed = new EmbedBuilder()
+            .setColor("Green")
+            .setDescription("Supporter Pack Message Has Been Sent!")
+        interaction.reply({
+            embeds: [ReplyEmbed],
+            ephemeral: true
+        }).then(() => {
+            sendSupMsg();
+        });
+
+
     }
 };

@@ -1,4 +1,4 @@
-const { 
+const {
     SlashCommandBuilder,
     EmbedBuilder,
     ActionRowBuilder,
@@ -26,46 +26,38 @@ module.exports = {
 
         //command
 
-        try {
-            const Ticket = client.channels.cache.get(client.config.REDM_TICKET.TICKET_MSG.CHAN_ID);
-            async function sendTicketMSG() {
+        const Ticket = client.channels.cache.get(client.config.REDM_TICKET.TICKET_MSG.CHAN_ID);
+        async function sendTicketMSG() {
 
-                const embed = new EmbedBuilder()
-                    .setColor('#6d6ee8')
-                    .setAuthor({ name: "EliteX Roleplay" })
-                    .setDescription('```REDM TICKET HERE```')
-                    .setFooter({ text: client.config.EMBED.FOOTTEXT, iconURL: client.user.avatarURL() })
+            const embed = new EmbedBuilder()
+                .setColor('#6d6ee8')
+                .setAuthor({ name: "EliteX Roleplay" })
+                .setDescription('```REDM TICKET HERE```')
+                .setFooter({ text: client.config.EMBED.FOOTTEXT, iconURL: client.user.avatarURL() })
 
-                const button = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('open-ticket-redm')
-                            .setLabel('REDM Ticket')
-                            .setEmoji('🎟️')
-                            .setStyle(ButtonStyle.Success),
-                    );
+            const button = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('open-ticket-redm')
+                        .setLabel('REDM Ticket')
+                        .setEmoji('🎟️')
+                        .setStyle(ButtonStyle.Success),
+                );
 
-                Ticket.send({
-                    embeds: [embed],
-                    components: [button]
-                })
-            }
-
-            sendTicketMSG();
-
-            const ReplyEmbed = new EmbedBuilder()
-                .setColor("Green")
-                .setDescription("Ticket Message Has Been Sent!")
-            interaction.reply({
-                embeds: [ReplyEmbed],
-                ephemeral: true
-            });
-
-        } catch (err) {
-            const commandName = "ticketmessageredm.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+            Ticket.send({
+                embeds: [embed],
+                components: [button]
+            })
         }
 
+        sendTicketMSG();
+
+        const ReplyEmbed = new EmbedBuilder()
+            .setColor("Green")
+            .setDescription("Ticket Message Has Been Sent!")
+        interaction.reply({
+            embeds: [ReplyEmbed],
+            ephemeral: true
+        });
     }
 };

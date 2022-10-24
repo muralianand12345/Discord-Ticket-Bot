@@ -35,9 +35,6 @@ module.exports = {
                 interaction.reply({
                     content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
                     ephemeral: true
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Already Opened a Ticket!", err);
                 });
 
                 const ticEmbed = new EmbedBuilder()
@@ -74,9 +71,6 @@ module.exports = {
                 interaction.reply({
                     content: `Ticket created! <#${c.id}>`,
                     ephemeral: true
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, interaction.user.id, c.id, "Ticket Not Created", err);
                 });
 
                 const embed = new EmbedBuilder()
@@ -139,9 +133,6 @@ module.exports = {
                     content: `<@!${interaction.user.id}>`,
                     embeds: [embed],
                     components: [row]
-                }).catch(err => {
-                    const commandName = "interactionCreateFiveM.js";
-                    client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Ticket Options Error", err);
                 });
 
                 const collector = await msg.createMessageComponentCollector({
@@ -178,9 +169,6 @@ module.exports = {
                                 opened.pin().then(() => {
                                     opened.channel.bulkDelete(1);
                                 });
-                            }).catch(err => {
-                                const commandName = "interactionCreateFiveM.js";
-                                client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Option After Ticket", err);
                             });
                         };
 
@@ -235,9 +223,6 @@ module.exports = {
                                     c.delete();
                                 }
                             }, 5000);
-                        }).catch(err => {
-                            const commandName = "interactionCreateFiveM.js";
-                            client.err_log.error(client, commandName, "User Unknown", "Deleted Channel", "No Category Selected Error. (Unable to close)", err);
                         });
 
                         const ticEmbed2 = new EmbedBuilder()
@@ -254,198 +239,169 @@ module.exports = {
             });
         };
 
-        try {
-            if (interaction.customId == "close-ticket-fivem") {
-                const userButton = interaction.user.id;
-                const guild = client.guilds.cache.get(interaction.guildId);
-                const chan = guild.channels.cache.get(interaction.channelId);
 
-                const row = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('confirm-close-fivem')
-                            .setLabel('Close ticket')
-                            .setStyle(ButtonStyle.Danger),
+        if (interaction.customId == "close-ticket-fivem") {
+            const userButton = interaction.user.id;
+            const guild = client.guilds.cache.get(interaction.guildId);
+            const chan = guild.channels.cache.get(interaction.channelId);
 
-                        new ButtonBuilder()
-                            .setCustomId('no-fivem')
-                            .setLabel('Cancel closure')
-                            .setStyle(ButtonStyle.Secondary),
-                    );
+            const row = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('confirm-close-fivem')
+                        .setLabel('Close ticket')
+                        .setStyle(ButtonStyle.Danger),
 
-                const verif = await interaction.reply({
-                    content: 'Are you sure you want to close the ticket?',
-                    components: [row]
-                });
+                    new ButtonBuilder()
+                        .setCustomId('no-fivem')
+                        .setLabel('Cancel closure')
+                        .setStyle(ButtonStyle.Secondary),
+                );
 
-                const collector = interaction.channel.createMessageComponentCollector({
-                    componentType: ComponentType.Button,
-                    time: 10000
-                });
+            const verif = await interaction.reply({
+                content: 'Are you sure you want to close the ticket?',
+                components: [row]
+            });
 
-                collector.on('collect', i => {
-                    if (i.customId == 'confirm-close-fivem') {
-                        interaction.editReply({
-                            content: `Ticket closed by <@!${i.user.id}>`,
-                            components: []
-                        });
+            const collector = interaction.channel.createMessageComponentCollector({
+                componentType: ComponentType.Button,
+                time: 10000
+            });
 
-                        const chanID = i.channel.id;
-                        const ChanTopic = BigInt(chan.topic) - BigInt(1);
+            collector.on('collect', i => {
+                if (i.customId == 'confirm-close-fivem') {
+                    interaction.editReply({
+                        content: `Ticket closed by <@!${i.user.id}>`,
+                        components: []
+                    });
 
-                        chan.edit({
-                            name: `closed-${chan.name}`,
-                            parent: client.config.FIVEM_TICKET.CLOSED,
-                            permissionOverwrites: [
-                                {
-                                    id: client.users.cache.get(ChanTopic.toString()), //error
-                                    deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
-                                },
-                                {
-                                    id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
-                                    allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
-                                },
-                                {
-                                    id: interaction.guild.roles.everyone,
-                                    deny: [PermissionFlagsBits.ViewChannel],
-                                },
-                            ],
-                        })
-                            .catch(err => {
-                                const commandName = "interactionCreateFiveM.js";
-                                client.err_log.error(client, commandName, interaction.user.id, chanID, "Ticket Close Error", err);
-                            })
-                            .then(async () => {
-                                const embed = new EmbedBuilder()
-                                    .setColor('Dark_Blue')
-                                    .setAuthor({ name: 'Ticket', iconURL: client.config.EMBED.IMAGE })
-                                    .setDescription('```Ticket Supporters, Delete After Verifying```')
-                                    .setFooter({ text: client.config.EMBED.FOOTTEXT, iconURL: client.config.EMBED.IMAGE })
-                                    .setTimestamp();
+                    const chanID = i.channel.id;
+                    const ChanTopic = BigInt(chan.topic) - BigInt(1);
 
-                                const row = new ActionRowBuilder()
-                                    .addComponents(
-                                        new ButtonBuilder()
-                                            .setCustomId('delete-ticket-fivem')
-                                            .setLabel('Delete ticket')
-                                            .setEmoji('🗑️')
-                                            .setStyle(ButtonStyle.Danger),
-                                    );
+                    chan.edit({
+                        name: `closed-${chan.name}`,
+                        parent: client.config.FIVEM_TICKET.CLOSED,
+                        permissionOverwrites: [
+                            {
+                                id: client.users.cache.get(ChanTopic.toString()), //error
+                                deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
+                            },
+                            {
+                                id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
+                                allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
+                            },
+                            {
+                                id: interaction.guild.roles.everyone,
+                                deny: [PermissionFlagsBits.ViewChannel],
+                            },
+                        ],
+                    })
+                        .then(async () => {
+                            const embed = new EmbedBuilder()
+                                .setColor('Dark_Blue')
+                                .setAuthor({ name: 'Ticket', iconURL: client.config.EMBED.IMAGE })
+                                .setDescription('```Ticket Supporters, Delete After Verifying```')
+                                .setFooter({ text: client.config.EMBED.FOOTTEXT, iconURL: client.config.EMBED.IMAGE })
+                                .setTimestamp();
 
-                                chan.send({
-                                    embeds: [embed],
-                                    components: [row]
-                                })
-                                    .catch(err => {
-                                        const commandName = "interactionCreateFiveM.js";
-                                        client.err_log.error(client, commandName, interaction.user.id, chanID, "Ticket Close Error", err);
-                                    });
+                            const row = new ActionRowBuilder()
+                                .addComponents(
+                                    new ButtonBuilder()
+                                        .setCustomId('delete-ticket-fivem')
+                                        .setLabel('Delete ticket')
+                                        .setEmoji('🗑️')
+                                        .setStyle(ButtonStyle.Danger),
+                                );
+
+                            chan.send({
+                                embeds: [embed],
+                                components: [row]
                             });
-                        collector.stop();
-                    };
-
-                    if (i.customId == 'no-fivem') {
-                        interaction.editReply({
-                            content: `**Ticket closure cancelled!** (<@${i.user.id}>)`,
-                            components: []
                         });
-                        collector.stop();
-                    };
-                });
+                    collector.stop();
+                };
 
-                collector.on('end', (i) => {
-                    if (i.size < 1) {
-                        interaction.editReply({
-                            content: `**Closing of the canceled ticket!** (<@!${userButton}>)`,
-                            components: []
-                        });
-                    };
-                });
-            };
+                if (i.customId == 'no-fivem') {
+                    interaction.editReply({
+                        content: `**Ticket closure cancelled!** (<@${i.user.id}>)`,
+                        components: []
+                    });
+                    collector.stop();
+                };
+            });
 
-        } catch (err) {
-            const commandName = "interactionCreateFiveM.js";
-            client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Ticket Delete Error", err);
-        }
+            collector.on('end', (i) => {
+                if (i.size < 1) {
+                    interaction.editReply({
+                        content: `**Closing of the canceled ticket!** (<@!${userButton}>)`,
+                        components: []
+                    });
+                };
+            });
+        };
 
-        try {
-            if (interaction.customId == "delete-ticket-fivem") {
 
-                if (buttonCooldown.has(interaction.user.id)) {
-                    const replyEmbed = new EmbedBuilder()
+
+
+        if (interaction.customId == "delete-ticket-fivem") {
+
+            if (buttonCooldown.has(interaction.user.id)) {
+                const replyEmbed = new EmbedBuilder()
                     .setColor('Red')
                     .setDescription("Interaction not registered! (Button Spam Dedected!)")
-                    interaction.reply({ embeds: [replyEmbed], ephemeral:true });
-                } else {
-                    buttonCooldown.add(interaction.user.id);
+                interaction.reply({ embeds: [replyEmbed], ephemeral: true });
+            } else {
+                buttonCooldown.add(interaction.user.id);
 
-                    const guild = client.guilds.cache.get(interaction.guildId);
-                    const chan = guild.channels.cache.get(interaction.channelId);
-                    if (chan == null) return;
+                const guild = client.guilds.cache.get(interaction.guildId);
+                const chan = guild.channels.cache.get(interaction.channelId);
+                if (chan == null) return;
 
-                    interaction.reply({
-                        content: 'Saving Messages and Deleting the channel in 10 seconds...'
-                    }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
-                        client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Saving Message Interaction", err);
-                    });
+                interaction.reply({
+                    content: 'Saving Messages and Deleting the channel in 10 seconds...'
+                });
 
-                    const chanTopic = BigInt(chan.topic) - BigInt(1);
+                const chanTopic = BigInt(chan.topic) - BigInt(1);
 
-                    //Ticket Logs
-                    const htmlCode = await discordTranscripts.createTranscript(chan, {
-                        limit: -1,
-                        returnType: 'string',
-                        filename: `transcript-${chan.id}.html`,
-                        saveImages: true,
-                        poweredBy: false
-                    }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
-                        client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "html Code Error", err);
-                    });
+                //Ticket Logs
+                const htmlCode = await discordTranscripts.createTranscript(chan, {
+                    limit: -1,
+                    returnType: 'string',
+                    filename: `transcript-${chan.id}.html`,
+                    saveImages: true,
+                    poweredBy: false
+                });
 
-                    const serverAdd = `${process.env.SERVER_IP}:${process.env.PORT}`;
+                const serverAdd = `${process.env.SERVER_IP}:${process.env.PORT}`;
 
-                    fs.writeFile(`./ticket-logs/transcript-${chan.id}.html`, htmlCode, function (err) {
-                        if (err) {
-                            const commandName = "interactionCreateFiveM.js";
-                            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "Unable to save Html Code", err);
-                        }
-                    });
+                fs.writeFile(`./ticket-logs/transcript-${chan.id}.html`, htmlCode, function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
 
-                    const embed = new EmbedBuilder()
-                        .setAuthor({ name: 'Logs Ticket', iconURL: client.config.EMBED.IMAGE })
-                        .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
-                        .setColor('Dark_Blue')
-                        .setTimestamp();
+                const embed = new EmbedBuilder()
+                    .setAuthor({ name: 'Logs Ticket', iconURL: client.config.EMBED.IMAGE })
+                    .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and deleted by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
+                    .setColor('Dark_Blue')
+                    .setTimestamp();
 
-                    client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
-                        embeds: [embed]
-                    }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
-                        client.err_log.error(client, commandName, "Unknown User", "Channel Deleted", "Unable to send ticket log", err);
-                    });
+                client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
+                    embeds: [embed]
+                });
 
-                    client.users.cache.get(chanTopic.toString()).send({
-                        embeds: [embed]
-                    }).catch(err => {
-                        const commandName = "interactionCreateFiveM.js";
-                        client.err_log.error(client, commandName, chanTopic.toString(), "Unable to DM the user", err);
-                    });
+                client.users.cache.get(chanTopic.toString()).send({
+                    embeds: [embed]
+                });
 
-                    setTimeout(() => chan.delete().catch(error => {
-                        if (error.code == 10003) {
-                            return; //channel not found error
-                        }
-                    }), 10000);
+                setTimeout(() => chan.delete().catch(error => {
+                    if (error.code == 10003) {
+                        return; //channel not found error
+                    }
+                }), 10000);
 
-                    setTimeout(() => buttonCooldown.delete(interaction.user.id), 20000)
-                }
-            };
-
-        } catch (err) {
-            const commandName = "interactionCreateFiveM.js";
-            client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, "lINE 431 InteractionCreateFiveM", err);
-        }
+                setTimeout(() => buttonCooldown.delete(interaction.user.id), 20000)
+            }
+        };
     },
 };

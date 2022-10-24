@@ -1,7 +1,7 @@
-const { 
+const {
     SlashCommandBuilder,
-    EmbedBuilder, 
-    PermissionFlagsBits 
+    EmbedBuilder,
+    PermissionFlagsBits
 } = require('discord.js');
 
 module.exports = {
@@ -15,76 +15,67 @@ module.exports = {
         .setDMPermission(false)
         .addUserOption(option =>
             option.setName('target')
-            .setDescription('Member to add to ticket')
-            .setRequired(true)),
-    async execute(interaction, client) {         
-      
+                .setDescription('Member to add to ticket')
+                .setRequired(true)),
+    async execute(interaction, client) {
+
         //log
         const commandName = "ADD";
-        client.std_log.error(client,commandName,interaction.user.id,interaction.channel.id);
+        client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
 
-        try{
-            const chan = client.channels.cache.get(interaction.channelId);
-            const user = interaction.options.getUser('target');
-            const userID = user.id;
 
-            let Support_Role;
+        const chan = client.channels.cache.get(interaction.channelId);
+        const user = interaction.options.getUser('target');
+        const userID = user.id;
 
-            function Fivem() {
-                return Support_Role = client.config.FIVEM_TICKET.ROLE_SUPPORT.ID;
-            }
-            function Redm() {
-                return Support_Role = client.config.REDM_TICKET.ROLE_SUPPORT.ID;
-            }
+        let Support_Role;
 
-            if ( interaction.guild.id == client.config.ANNOUNCE.GUILD_1.ID ) {
-                Fivem();
-            } else if ( interaction.guild.id == client.config.ANNOUNCE.GUILD_2.ID ) {
-                Redm();
-            } else {
-                const err = "ERROR Has Occured\nFile Name: add.js";
-                const commandName = "add.js";
-                const Line = "Else Error";
-                return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
-            }
+        function Fivem() {
+            return Support_Role = client.config.FIVEM_TICKET.ROLE_SUPPORT.ID;
+        }
+        function Redm() {
+            return Support_Role = client.config.REDM_TICKET.ROLE_SUPPORT.ID;
+        }
 
-            if (chan.name.includes('ticket')) {
-                chan.edit({
-                    permissionOverwrites: [
-                        {
-                            id: userID,
-                            allow: [PermissionFlagsBits.SendMessages,PermissionFlagsBits.ViewChannel],
-                        },
-                        {
-                            id: interaction.guild.roles.everyone,
-                            deny: [PermissionFlagsBits.ViewChannel],
-                        },
-                        {
-                            id: Support_Role,
-                            allow: [PermissionFlagsBits.SendMessages,PermissionFlagsBits.ViewChannel],
-                        },
-                    ],
-                }).then(async() => {
-                    interaction.reply({
-                        content: `<@${user.id}> must me in a ticket to access the form!`,
-                        ephemeral: true
-                    });
+        if (interaction.guild.id == client.config.ANNOUNCE.GUILD_1.ID) {
+            Fivem();
+        } else if (interaction.guild.id == client.config.ANNOUNCE.GUILD_2.ID) {
+            Redm();
+        } else {
+            return;
+        }
+
+        if (chan.name.includes('ticket')) {
+            chan.edit({
+                permissionOverwrites: [
+                    {
+                        id: userID,
+                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
+                    },
+                    {
+                        id: interaction.guild.roles.everyone,
+                        deny: [PermissionFlagsBits.ViewChannel],
+                    },
+                    {
+                        id: Support_Role,
+                        allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
+                    },
+                ],
+            }).then(async () => {
+                interaction.reply({
+                    content: `<@${user.id}> must me in a ticket to access the form!`,
+                    ephemeral: true
                 });
-            } else {
-                const ReplyEmbed = new EmbedBuilder()
+            });
+        } else {
+            const ReplyEmbed = new EmbedBuilder()
                 .setColor("Red")
                 .setDescription('You are not in a Ticket!')
 
-                await interaction.reply({
-                    embeds: [ReplyEmbed],
-                    ephemeral: true
-                });
-            };
-
-        } catch(err) {
-            const commandName = "add.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client,commandName,interaction.user.id,interaction.channel.id,Line,err);
-        }     
+            await interaction.reply({
+                embeds: [ReplyEmbed],
+                ephemeral: true
+            });
+        };
     },
 };

@@ -23,52 +23,45 @@ module.exports = {
         const commandName = "QUESTIONS";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
 
-        try {
-            const chan = client.channels.cache.get(interaction.channelId);
-            if (chan.name.includes('ticket')) {
-                //sent message
-                sendMsg();
-                const ReplyEmbed = new EmbedBuilder()
-                    .setColor("Green")
-                    .setDescription("`A Question has been Sent Successfully!`")
+        const chan = client.channels.cache.get(interaction.channelId);
+        if (chan.name.includes('ticket')) {
+            //sent message
+            sendMsg();
+            const ReplyEmbed = new EmbedBuilder()
+                .setColor("Green")
+                .setDescription("`A Question has been Sent Successfully!`")
 
-                return interaction.reply({
-                    embeds: [ReplyEmbed],
-                    ephemeral: true
-                });
+            return interaction.reply({
+                embeds: [ReplyEmbed],
+                ephemeral: true
+            });
 
-            } else {
-                const ReplyEmbed = new EmbedBuilder()
-                    .setColor("Red")
-                    .setDescription("You must be in a ticket to use this command")
+        } else {
+            const ReplyEmbed = new EmbedBuilder()
+                .setColor("Red")
+                .setDescription("You must be in a ticket to use this command")
 
-                return await interaction.reply({
-                    embeds: [ReplyEmbed],
-                    ephemeral: true
-                });
-            }
+            return await interaction.reply({
+                embeds: [ReplyEmbed],
+                ephemeral: true
+            });
+        }
 
-            function sendMsg() {
-                const ticketChan = interaction.channel.id;
-                const reactionRole = client.channels.cache.get(ticketChan);
-                const embed = new EmbedBuilder()
-                    .setColor("Orange")
-                    .setDescription('```EliteX Exclusive Role```')
+        function sendMsg() {
+            const ticketChan = interaction.channel.id;
+            const reactionRole = client.channels.cache.get(ticketChan);
+            const embed = new EmbedBuilder()
+                .setColor("Orange")
+                .setDescription('```EliteX Exclusive Role```')
 
-                const button = new ActionRowBuilder()
-                    .addComponents(
-                        new ButtonBuilder()
-                            .setCustomId('elitexpr')
-                            .setLabel("Start")
-                            .setStyle(ButtonStyle.Success),
-                    );
-                reactionRole.send({ embeds: [embed], components: [button] });
-            }
-
-        } catch (err) {
-            const commandName = "questions.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
+            const button = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('elitexpr')
+                        .setLabel("Start")
+                        .setStyle(ButtonStyle.Success),
+                );
+            reactionRole.send({ embeds: [embed], components: [button] });
         }
     },
 };

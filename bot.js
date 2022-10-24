@@ -5,6 +5,7 @@ const {
   Collection,
   GatewayIntentBits,
 } = require('discord.js');
+const Errorhandler = require("discord-error-handler");
 
 const colors = require("colors");
 
@@ -27,16 +28,22 @@ const client = new Client({
 
 client.commands = new Collection();
 const Token = process.env.TOKEN;
+const WebhookId = process.env.WEBHOOK_ID;
+const WebhookToken = process.env.WEBHOOK_TOKEN;
+
+const handle  = new Errorhandler(client, {
+  webhook: { id: WebhookId, token: WebhookToken },
+  stats: true,
+}) 
 
 const config = require('./config.json');
 const Discord = require('discord.js');
-const err_log = require('./logs/err_log.js');
 const std_log = require('./logs/std_log.js');
 
 client.discord = Discord;
 client.config = config;
-client.err_log = err_log;
 client.std_log = std_log;
+client.handle = handle;
 module.exports = client;
 
 //events Read
@@ -62,14 +69,13 @@ client.login(Token).catch(err => {
   console.error(err);
   return process.exit();
 });
-
 //Error Handling
 process.on('unhandledRejection', async (err, promise) => {
-  console.error(`[ANTI-CRASH] Unhandled Rejection: ${err}`.red);
-  console.error(promise);
+  handle.createrr(client,undefined, undefined, err)
 });
 
 process.on('uncaughtException', async (err, origin) => {
-  console.error(`[ANTI-CRASH] Unhandled Exception: ${err}`.red);
-  console.error(origin);
+  handle.createrr(client,undefined, undefined, err)
 });
+
+//handle.createrr(client, message.guild.id, message.content, error)

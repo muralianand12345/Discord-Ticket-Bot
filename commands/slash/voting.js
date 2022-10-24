@@ -1,4 +1,4 @@
-const { 
+const {
     SlashCommandBuilder,
     EmbedBuilder,
     ActionRowBuilder,
@@ -52,21 +52,14 @@ module.exports = {
             }).catch(err => console.log(err));
         }
 
-        try {
-            sendMsg();
-            const ReplyEmbed = new EmbedBuilder()
-                .setColor("Red")
-                .setDescription("`Vote Sent Successfully!`")
+        sendMsg();
+        const ReplyEmbed = new EmbedBuilder()
+            .setColor("Red")
+            .setDescription("`Vote Sent Successfully!`")
 
-            return interaction.reply({
-                embeds: [ReplyEmbed],
-                ephemeral: true
-            });
-
-        } catch (err) {
-            const commandName = "voting.js";
-            const Line = "Catch Error";
-            return client.err_log.error(client, commandName, interaction.user.id, interaction.channel.id, Line, err);
-        }
+        return interaction.reply({
+            embeds: [ReplyEmbed],
+            ephemeral: true
+        });
     },
 };

@@ -25,33 +25,20 @@ module.exports = {
         }
         client.std_log.error(client, commandName, interaction.user.id, chanID);
 
-        try {
-            const row = new ActionRowBuilder()
-                .addComponents(
-                    new ButtonBuilder()
-                        .setLabel("EliteX RP")
-                        .setStyle(ButtonStyle.Link)
-                        .setURL("https://discord.gg/jPSbpsjb4r")
-                );
-            const mainPage = new EmbedBuilder()
-                .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
-                .setThumbnail(`${client.user.displayAvatarURL()}`)
-                .setColor('#303236')
-                .addFields({ name: '**Join ELiteX RP**', value: `[Here](https://discord.gg/jPSbpsjb4r)` })
 
-            interaction.reply({ embeds: [mainPage], components: [row] })
+        const row = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setLabel("EliteX RP")
+                    .setStyle(ButtonStyle.Link)
+                    .setURL("https://discord.gg/jPSbpsjb4r")
+            );
+        const mainPage = new EmbedBuilder()
+            .setAuthor({ name: `${interaction.user.username}`, iconURL: `${interaction.user.displayAvatarURL()}` })
+            .setThumbnail(`${client.user.displayAvatarURL()}`)
+            .setColor('#303236')
+            .addFields({ name: '**Join ELiteX RP**', value: `[Here](https://discord.gg/jPSbpsjb4r)` })
 
-        } catch (err) {
-            const commandName = "invite.js";
-            const Line = "Catch Error";
-            var chanID;
-            if (interaction.channel == null) {
-                chanID = "DM";
-            } else {
-                chanID = interaction.channel.id;
-            }
-            return client.err_log.error(client, commandName, interaction.user.id, chanID, Line, err);
-        }
-
+        interaction.reply({ embeds: [mainPage], components: [row] })
     }
 };
