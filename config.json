@@ -10,8 +10,30 @@
     },
 
     "MESSAGE": {
-		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
-	},
+        "COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
+    },
+	
+    "DM_MESSAGE": {
+        "LOGO": "https://cdn.discordapp.com/attachments/787730813181231144/1022938601652244600/EliteX_Logo.png",
+        "LINK": "",
+        "SERVER_DETAIL": "",
+
+        "ACCEPTED": {
+            "LOGCHAN": "",
+            "VPCHAN": "",
+            "WAITING_HALL": ""
+        },
+        "REJECTED": {
+            "REJCHAN": "",
+            "LOGCHAN": "",
+            "RULECHAN": "",
+            "APPLYCHAN": ""
+        },
+        "WELCOME": {
+            "LOGCHAN": "",
+            "TAGCHAN": ""
+        }
+    },
 
     "ERR_LOG": {
         "CHAN_ID": "",
