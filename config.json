@@ -29,6 +29,16 @@
             "RULECHAN": "",
             "APPLYCHAN": ""
         },
+	"VISA": {
+            "VISACHAN": "",
+            "HELPCHAN": "",
+            "LOGCHAN": ""
+        },
+        "HOLD": {
+            "HOLDCHAN": "",
+            "RULECHAN": "",
+            "LOGCHAN": ""
+        },
         "WELCOME": {
             "LOGCHAN": "",
             "TAGCHAN": ""
