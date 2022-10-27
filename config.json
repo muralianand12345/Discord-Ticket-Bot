@@ -19,6 +19,12 @@
         "BOT_GENDER": "Male"
     },
 	
+    "ROLE_CHECK": {
+        "ROLE1": "",
+        "ROLE2": "",
+        "GUILDID": ""
+    },
+	
     "DM_MESSAGE": {
         "LOGO": "https://cdn.discordapp.com/attachments/787730813181231144/1022938601652244600/EliteX_Logo.png",
         "LINK": "",
@@ -196,15 +202,6 @@
         "TIMEZONE":"Asia/Kolkata",
         "FORMATDATE":"DD MMMM YYYY",
         "UPDATE_INTERVAL":"600000"
-    },
-    
-    "ROLE_CHECK": {
-        "ROLE_1": {
-            "ID": ""
-        },
-        "ROLE_2": {
-            "ID": ""
-        }
     },
 
     "EMBED": {
