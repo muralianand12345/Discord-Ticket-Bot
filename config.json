@@ -12,6 +12,12 @@
     "MESSAGE": {
         "COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
     },
+     
+    "CHAT_BOT": {
+        "CHANID": "",
+        "BOT_NAME": "Naruto Uzumaki",
+        "BOT_GENDER": "Male"
+    },
 	
     "DM_MESSAGE": {
         "LOGO": "https://cdn.discordapp.com/attachments/787730813181231144/1022938601652244600/EliteX_Logo.png",
