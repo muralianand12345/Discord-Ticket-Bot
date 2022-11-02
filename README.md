@@ -35,6 +35,11 @@ bash start.sh
 ``````
 Must: Change .env.example to .env and add values to .env and config.json
 
+## Things to Note Here
+
+There are tooooooo many features in this discord bot code. If anyone isn't configured properly, error might occur.
+So before removing any unwanted code or feature, also remove any other code or file related to that feature.
+
 ## Contributers
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
