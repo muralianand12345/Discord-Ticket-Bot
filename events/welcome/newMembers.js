@@ -37,24 +37,25 @@ module.exports = {
             embeds: [embed],
             components: [sbutton]
         }).catch(error => {
+
+            //LOG
             if (error.code == 50007) {
-                const logembed = new EmbedBuilder()
+                const logembederr = new EmbedBuilder()
                     .setColor('Black')
                     .setDescription(`Unable to DM <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
 
                 return client.channels.cache.get(client.config.DM_MESSAGE.WELCOME.LOGCHAN).send({
+                    embeds: [logembederr]
+                });
+            } else {
+                const logembed = new EmbedBuilder()
+                    .setColor('Black')
+                    .setDescription(`DM sent to <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
+
+                client.channels.cache.get(client.config.DM_MESSAGE.WELCOME.LOGCHAN).send({
                     embeds: [logembed]
                 });
             }
         })
-
-        //LOG
-        const logembed = new EmbedBuilder()
-            .setColor('Black')
-            .setDescription(`DM sent to <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
-
-        client.channels.cache.get(client.config.DM_MESSAGE.WELCOME.LOGCHAN).send({
-            embeds: [logembed]
-        });
     }
 }
