@@ -39,6 +39,8 @@ module.exports = {
                         embeds: [embed],
                         components: [sbutton]
                     }).catch(error => {
+
+                        //LOG
                         if (error.code == 50007) {
                             const logembed = new EmbedBuilder()
                                 .setColor('Black')
@@ -47,17 +49,16 @@ module.exports = {
                             return client.channels.cache.get(client.config.DM_MESSAGE.ACCEPTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
+                        } else {
+                            const logembed = new EmbedBuilder()
+                                .setColor('Black')
+                                .setDescription(`DM sent to <@${mentionID}> (VP Response Acc)`)
+
+                            client.channels.cache.get(client.config.DM_MESSAGE.ACCEPTED.LOGCHAN).send({
+                                embeds: [logembed]
+                            });
                         }
                     })
-
-                    //LOG
-                    const logembed = new EmbedBuilder()
-                        .setColor('Black')
-                        .setDescription(`DM sent to <@${mentionID}> (VP Response Acc)`)
-
-                    client.channels.cache.get(client.config.DM_MESSAGE.ACCEPTED.LOGCHAN).send({
-                        embeds: [logembed]
-                    });
                 }
             }
         }
@@ -92,6 +93,8 @@ module.exports = {
                         embeds: [embed],
                         components: [sbutton]
                     }).catch(error => {
+
+                        //LOG
                         if (error.code == 50007) {
                             const logembed = new EmbedBuilder()
                                 .setColor('Black')
@@ -100,16 +103,15 @@ module.exports = {
                             return client.channels.cache.get(client.config.DM_MESSAGE.REJECTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
+                        } else {
+                            const logembed = new EmbedBuilder()
+                                .setColor('Black')
+                                .setDescription(`DM sent to <@${mentionID}> (VP Response Rej)`)
+
+                            client.channels.cache.get(client.config.DM_MESSAGE.REJECTED.LOGCHAN).send({
+                                embeds: [logembed]
+                            });
                         }
-                    })
-
-                    //LOG
-                    const logembed = new EmbedBuilder()
-                        .setColor('Black')
-                        .setDescription(`DM sent to <@${mentionID}> (VP Response Rej)`)
-
-                    client.channels.cache.get(client.config.DM_MESSAGE.REJECTED.LOGCHAN).send({
-                        embeds: [logembed]
                     });
                 }
             }
@@ -150,6 +152,8 @@ module.exports = {
                         embeds: [embed],
                         components: [sbutton]
                     }).catch(error => {
+
+                        //LOG
                         if (error.code == 50007) {
                             const logembed = new EmbedBuilder()
                                 .setColor('Black')
@@ -158,17 +162,16 @@ module.exports = {
                             return client.channels.cache.get(client.config.DM_MESSAGE.VISA.LOGCHAN).send({
                                 embeds: [logembed]
                             });
+                        } else {
+                            const logembed = new EmbedBuilder()
+                                .setColor('Black')
+                                .setDescription(`DM sent to <@${mentionID}> (Acc Response)`)
+
+                            client.channels.cache.get(client.config.DM_MESSAGE.VISA.LOGCHAN).send({
+                                embeds: [logembed]
+                            });
                         }
                     })
-
-                    //LOG
-                    const logembed = new EmbedBuilder()
-                        .setColor('Black')
-                        .setDescription(`DM sent to <@${mentionID}> (Acc Response)`)
-
-                    client.channels.cache.get(client.config.DM_MESSAGE.VISA.LOGCHAN).send({
-                        embeds: [logembed]
-                    });
                 }
             }
         }
@@ -203,6 +206,8 @@ module.exports = {
                         embeds: [embed],
                         components: [sbutton]
                     }).catch(error => {
+
+                        //LOG
                         if (error.code == 50007) {
                             const logembed = new EmbedBuilder()
                                 .setColor('Black')
@@ -211,16 +216,15 @@ module.exports = {
                             return client.channels.cache.get(client.config.DM_MESSAGE.HOLD.LOGCHAN).send({
                                 embeds: [logembed]
                             });
+                        } else {
+                            const logembed = new EmbedBuilder()
+                                .setColor('Black')
+                                .setDescription(`DM sent to <@${mentionID}> (Hold Response)`)
+
+                            client.channels.cache.get(client.config.DM_MESSAGE.HOLD.LOGCHAN).send({
+                                embeds: [logembed]
+                            });
                         }
-                    })
-
-                    //LOG
-                    const logembed = new EmbedBuilder()
-                        .setColor('Black')
-                        .setDescription(`DM sent to <@${mentionID}> (Hold Response)`)
-
-                    client.channels.cache.get(client.config.DM_MESSAGE.HOLD.LOGCHAN).send({
-                        embeds: [logembed]
                     });
                 }
             }
