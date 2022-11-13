@@ -159,6 +159,7 @@
     },
 
     "FIVEM_TICKET": {
+	"GUILDID": "",
         "MAIN": "",
         "OOC": "",
         "CL": "",
@@ -181,6 +182,7 @@
     },
 
     "REDM_TICKET": {
+	"GUILDID": "",
         "MAIN": "",
         "OOC": "",
         "CL": "",
