@@ -37,9 +37,9 @@ module.exports = {
             return Support_Role = client.config.REDM_TICKET.ROLE_SUPPORT.ID;
         }
 
-        if (interaction.guild.id == client.config.ANNOUNCE.GUILD_1.ID) {
+        if (interaction.guild.id == client.config.FIVEM_TICKET.GUILDID) {
             Fivem();
-        } else if (interaction.guild.id == client.config.ANNOUNCE.GUILD_2.ID) {
+        } else if (interaction.guild.id == client.config.REDM_TICKET.GUILDID) {
             Redm();
         } else {
             return;
@@ -63,10 +63,10 @@ module.exports = {
                 ],
             }).then(async () => {
                 interaction.reply({
-                    content: `<@${user.id}> must me in a ticket to access the form!`,
-                    ephemeral: true
+                    content: `<@${user.id}> has been added to the ticket!`
                 });
             });
+
         } else {
             const ReplyEmbed = new EmbedBuilder()
                 .setColor("Red")
