@@ -13,6 +13,12 @@
         "COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!"
     },
      
+    "AUTO_TICKET_LOG": {
+        "ENABLE": true,
+        "GUILD_ID": "",
+        "CHAN_NAME": "fivem-ticket",
+        "INTERVAL": 10800000
+    },
     "CHAT_BOT": {
         "CHANID": "",
         "BOT_NAME": "Naruto Uzumaki",
