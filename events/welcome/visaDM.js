@@ -10,7 +10,7 @@ module.exports = {
     execute: async (message, client) => {
 
         //ACCEPTED
-        const VPChan = client.config.DM_MESSAGE.ACCEPTED.VPCHAN;
+        const VPChan = client.visa.ACCEPTED.VPCHAN;
         if (message.channel.id === VPChan) {
             if (message.content.includes('<@')) {
                 var mention = message.mentions.users.first();
@@ -22,9 +22,9 @@ module.exports = {
 
                     const embed = new EmbedBuilder()
                         .setColor('Green')
-                        .setThumbnail(client.config.DM_MESSAGE.LOGO)
+                        .setThumbnail(client.visa.LOGO)
                         .setTitle(`EliteX Voice Process`)
-                        .setDescription(`<@${mentionID}>, your **Voice Process Application** has been accepted 😊! Kindly join the <#${client.config.DM_MESSAGE.ACCEPTED.WAITING_HALL}>`)
+                        .setDescription(`<@${mentionID}>, your **Voice Process Application** has been accepted 😊! Kindly join the <#${client.visa.ACCEPTED.WAITING_HALL}>`)
 
                     const sbutton = new ActionRowBuilder()
                         .addComponents(
@@ -46,7 +46,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`Unable to DM <@${mentionID}> (VP Response Acc)`)
 
-                            return client.channels.cache.get(client.config.DM_MESSAGE.ACCEPTED.LOGCHAN).send({
+                            return client.channels.cache.get(client.visa.ACCEPTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         } else {
@@ -54,7 +54,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`DM sent to <@${mentionID}> (VP Response Acc)`)
 
-                            client.channels.cache.get(client.config.DM_MESSAGE.ACCEPTED.LOGCHAN).send({
+                            client.channels.cache.get(client.visa.ACCEPTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         }
@@ -64,7 +64,7 @@ module.exports = {
         }
 
         //REJECTED
-        const RejChan = client.config.DM_MESSAGE.REJECTED.REJCHAN;
+        const RejChan = client.visa.REJECTED.REJCHAN;
         if (message.channel.id === RejChan) {
             if (message.content.includes('<@')) {
                 var mention = message.mentions.users.first();
@@ -76,9 +76,9 @@ module.exports = {
 
                     const embed = new EmbedBuilder()
                         .setColor('Red')
-                        .setThumbnail(client.config.DM_MESSAGE.LOGO)
+                        .setThumbnail(client.visa.LOGO)
                         .setTitle(`EliteX Voice Process`)
-                        .setDescription(`<@${mentionID}>, your **Voice Process Application** has been rejected 😓! Kindly reapply after 2 days <#${client.config.DM_MESSAGE.REJECTED.APPLYCHAN}>\nServer Rules: <#${client.config.DM_MESSAGE.REJECTED.RULECHAN}>`)
+                        .setDescription(`<@${mentionID}>, your **Voice Process Application** has been rejected 😓! Kindly reapply after 2 days <#${client.visa.REJECTED.APPLYCHAN}>\nServer Rules: <#${client.visa.REJECTED.RULECHAN}>`)
 
                     const sbutton = new ActionRowBuilder()
                         .addComponents(
@@ -100,7 +100,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`Unable to DM <@${mentionID}> (VP Response Rej)`)
 
-                            return client.channels.cache.get(client.config.DM_MESSAGE.REJECTED.LOGCHAN).send({
+                            return client.channels.cache.get(client.visa.REJECTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         } else {
@@ -108,7 +108,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`DM sent to <@${mentionID}> (VP Response Rej)`)
 
-                            client.channels.cache.get(client.config.DM_MESSAGE.REJECTED.LOGCHAN).send({
+                            client.channels.cache.get(client.visa.REJECTED.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         }
@@ -118,7 +118,7 @@ module.exports = {
         }
 
         //VISAGIVEN
-        const VisaChan = client.config.DM_MESSAGE.VISA.VISACHAN;
+        const VisaChan = client.visa.VISA.VISACHAN;
         if (message.channel.id === VisaChan) {
             if (message.content.includes('<@')) {
                 var mention = message.mentions.users.first();
@@ -130,9 +130,9 @@ module.exports = {
 
                     const embed = new EmbedBuilder()
                         .setColor('Green')
-                        .setThumbnail(client.config.DM_MESSAGE.LOGO)
+                        .setThumbnail(client.visa.LOGO)
                         .setTitle(`EliteX Voice Process`)
-                        .setDescription(`<@${mentionID}>, Congratulations 🎊! Your **Visa has been approved**, Thanks for attending the Voice Process.\nFor further queries regarding login and connectivity contact staffs in <#${client.config.DM_MESSAGE.VISA.HELPCHAN}>`)
+                        .setDescription(`<@${mentionID}>, Congratulations 🎊! Your **Visa has been approved**, Thanks for attending the Voice Process.\nFor further queries regarding login and connectivity contact staffs in <#${client.visa.VISA.HELPCHAN}>`)
 
                     const sbutton = new ActionRowBuilder()
                         .addComponents(
@@ -140,7 +140,7 @@ module.exports = {
                                 .setLabel(`Connect EliteX`)
                                 .setEmoji('🔗')
                                 .setStyle(ButtonStyle.Link)
-                                .setURL(client.config.DM_MESSAGE.CONNECT),
+                                .setURL(client.visa.CONNECT),
                             new ButtonBuilder()
                                 .setLabel(`Message`)
                                 .setEmoji('📑')
@@ -159,7 +159,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`Unable to DM <@${mentionID}> (Acc Response)`)
 
-                            return client.channels.cache.get(client.config.DM_MESSAGE.VISA.LOGCHAN).send({
+                            return client.channels.cache.get(client.visa.VISA.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         } else {
@@ -167,7 +167,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`DM sent to <@${mentionID}> (Acc Response)`)
 
-                            client.channels.cache.get(client.config.DM_MESSAGE.VISA.LOGCHAN).send({
+                            client.channels.cache.get(client.visa.VISA.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         }
@@ -177,7 +177,7 @@ module.exports = {
         }
 
         //ONHOLD
-        const HoldChan = client.config.DM_MESSAGE.HOLD.HOLDCHAN;
+        const HoldChan = client.visa.HOLD.HOLDCHAN;
         if (message.channel.id === HoldChan) {
             if (message.content.includes('<@')) {
                 var mention = message.mentions.users.first();
@@ -189,9 +189,9 @@ module.exports = {
 
                     const embed = new EmbedBuilder()
                         .setColor('Orange')
-                        .setThumbnail(client.config.DM_MESSAGE.LOGO)
+                        .setThumbnail(client.visa.LOGO)
                         .setTitle(`EliteX Voice Process`)
-                        .setDescription(`<@${mentionID}>, Your visa application is **on Hold** 😔. Kindly read the rules <#${client.config.DM_MESSAGE.HOLD.RULECHAN}> and attend the next voice process.`)
+                        .setDescription(`<@${mentionID}>, Your visa application is **on Hold** 😔. Kindly read the rules <#${client.visa.HOLD.RULECHAN}> and attend the next voice process.`)
 
                     const sbutton = new ActionRowBuilder()
                         .addComponents(
@@ -213,7 +213,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`Unable to DM <@${mentionID}> (Hold Response)`)
 
-                            return client.channels.cache.get(client.config.DM_MESSAGE.HOLD.LOGCHAN).send({
+                            return client.channels.cache.get(client.visa.HOLD.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         } else {
@@ -221,7 +221,7 @@ module.exports = {
                                 .setColor('Black')
                                 .setDescription(`DM sent to <@${mentionID}> (Hold Response)`)
 
-                            client.channels.cache.get(client.config.DM_MESSAGE.HOLD.LOGCHAN).send({
+                            client.channels.cache.get(client.visa.HOLD.LOGCHAN).send({
                                 embeds: [logembed]
                             });
                         }

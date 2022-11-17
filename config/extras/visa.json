@@ -1,0 +1,32 @@
+{
+    "LOGO": "https://cdn.discordapp.com/attachments/787730813181231144/1022938601652244600/EliteX_Logo.png",
+    "LINK": "https://forms.gle/UF1pWgYCGhFFopDQ9",
+    "SERVER_DETAIL": "https://servers.fivem.net/servers/detail/kvobpa",
+    "CONNECT": "https://cfx.re/join/kvobpa",
+
+    "ACCEPTED": {
+        "LOGCHAN": "",
+        "VPCHAN": "",
+        "WAITING_HALL": ""
+    },
+    "REJECTED": {
+        "REJCHAN": "",
+        "LOGCHAN": "",
+        "RULECHAN": "",
+        "APPLYCHAN": ""
+    },
+    "VISA": {
+        "VISACHAN": "",
+        "HELPCHAN": "",
+        "LOGCHAN": ""
+    },
+    "HOLD": {
+        "HOLDCHAN": "",
+        "RULECHAN": "",
+        "LOGCHAN": ""
+    },
+    "WELCOME": {
+        "LOGCHAN": "",
+        "TAGCHAN": ""
+    }
+}

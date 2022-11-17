@@ -26,7 +26,7 @@ module.exports = {
 
         //command
 
-        const Ticket = client.channels.cache.get(client.config.REDM_TICKET.TICKET_MSG.CHAN_ID);
+        const Ticket = client.channels.cache.get(client.ticket.REDM_TICKET.TICKET_MSG.CHAN_ID);
         async function sendTicketMSG() {
 
             const embed = new EmbedBuilder()

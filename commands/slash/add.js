@@ -31,15 +31,15 @@ module.exports = {
         let Support_Role;
 
         function Fivem() {
-            return Support_Role = client.config.FIVEM_TICKET.ROLE_SUPPORT.ID;
+            return Support_Role = client.ticket.FIVEM_TICKET.ROLE_SUPPORT.ID;
         }
         function Redm() {
-            return Support_Role = client.config.REDM_TICKET.ROLE_SUPPORT.ID;
+            return Support_Role = client.ticket.REDM_TICKET.ROLE_SUPPORT.ID;
         }
 
-        if (interaction.guild.id == client.config.FIVEM_TICKET.GUILDID) {
+        if (interaction.guild.id == client.ticket.FIVEM_TICKET.GUILDID) {
             Fivem();
-        } else if (interaction.guild.id == client.config.REDM_TICKET.GUILDID) {
+        } else if (interaction.guild.id == client.ticket.REDM_TICKET.GUILDID) {
             Redm();
         } else {
             return;

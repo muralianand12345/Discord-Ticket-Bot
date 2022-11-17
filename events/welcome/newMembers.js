@@ -11,16 +11,16 @@ module.exports = {
         const userID = member.user.id;
         const userName = member.user.username;
         const userTag = member.user.discriminator;
-        const formLink = client.config.DM_MESSAGE.LINK;
-        const serverLink = client.config.DM_MESSAGE.SERVER_DETAIL;
+        const formLink = client.visa.LINK;
+        const serverLink = client.visa.SERVER_DETAIL;
 
         const embed = new EmbedBuilder()
             .setColor('Green')
-            .setThumbnail(client.config.DM_MESSAGE.LOGO)
+            .setThumbnail(client.visa.LOGO)
             .setTitle(`Welcome to EliteX RP`)
             .setDescription(`[**<@${userID}>, we are delighted to have you among us. On behalf of ELiteX Team, we would like to extend our warmest welcome!**](${serverLink})`)
             .setFields(
-                { name: "Apply Here", value: `<#${client.config.DM_MESSAGE.WELCOME.TAGCHAN}>` }
+                { name: "Apply Here", value: `<#${client.visa.WELCOME.TAGCHAN}>` }
             )
 
         const sbutton = new ActionRowBuilder()
@@ -44,7 +44,7 @@ module.exports = {
                     .setColor('Black')
                     .setDescription(`Unable to DM <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
 
-                return client.channels.cache.get(client.config.DM_MESSAGE.WELCOME.LOGCHAN).send({
+                return client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
                     embeds: [logembederr]
                 });
             } else {
@@ -52,7 +52,7 @@ module.exports = {
                     .setColor('Black')
                     .setDescription(`DM sent to <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
 
-                client.channels.cache.get(client.config.DM_MESSAGE.WELCOME.LOGCHAN).send({
+                client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
                     embeds: [logembed]
                 });
             }

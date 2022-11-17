@@ -50,7 +50,7 @@ module.exports = {
 
             await interaction.guild.channels.create({
                 name: `fivem-ticket-${interaction.user.username}`,
-                parent: client.config.FIVEM_TICKET.MAIN,
+                parent: client.ticket.FIVEM_TICKET.MAIN,
                 topic: InteID.toString(),
                 permissionOverwrites: [
                     {
@@ -58,7 +58,7 @@ module.exports = {
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
-                        id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
+                        id: client.ticket.FIVEM_TICKET.ROLE_SUPPORT.ID,
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
@@ -174,42 +174,42 @@ module.exports = {
 
                         if (i.values[0] == 'Ooc') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.OOC
+                                parent: client.ticket.FIVEM_TICKET.OOC
                             });
                         };
                         if (i.values[0] == 'CombatLogging') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.CL
+                                parent: client.ticket.FIVEM_TICKET.CL
                             });
                         };
                         if (i.values[0] == 'Bugs') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.BUG
+                                parent: client.ticket.FIVEM_TICKET.BUG
                             });
                         };
                         if (i.values[0] == 'Supporters') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.SUPPORT
+                                parent: client.ticket.FIVEM_TICKET.SUPPORT
                             });
                         };
                         if (i.values[0] == 'Planned') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.PLANNED
+                                parent: client.ticket.FIVEM_TICKET.PLANNED
                             });
                         };
                         if (i.values[0] == 'Character') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.CHAR
+                                parent: client.ticket.FIVEM_TICKET.CHAR
                             });
                         };
                         if (i.values[0] == 'BanAppeal') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.BAN
+                                parent: client.ticket.FIVEM_TICKET.BAN
                             });
                         };
                         if (i.values[0] == 'Others') {
                             c.edit({
-                                parent: client.config.FIVEM_TICKET.OTHER
+                                parent: client.ticket.FIVEM_TICKET.OTHER
                             });
                         };
                     };
@@ -280,14 +280,14 @@ module.exports = {
 
                     chan.edit({
                         name: `closed-${chan.name}`,
-                        parent: client.config.FIVEM_TICKET.CLOSED,
+                        parent: client.ticket.FIVEM_TICKET.CLOSED,
                         permissionOverwrites: [
                             {
                                 id: client.users.cache.get(ChanTopic.toString()), //error
                                 deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                             },
                             {
-                                id: client.config.FIVEM_TICKET.ROLE_SUPPORT.ID,
+                                id: client.ticket.FIVEM_TICKET.ROLE_SUPPORT.ID,
                                 allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                             },
                             {
@@ -340,9 +340,6 @@ module.exports = {
             });
         };
 
-
-
-
         if (interaction.customId == "delete-ticket-fivem") {
 
             if (buttonCooldown.has(interaction.user.id)) {
@@ -358,7 +355,7 @@ module.exports = {
                 if (chan == null) return;
 
                 interaction.reply({
-                    content: 'Saving Messages and Deleting the channel in 10 seconds...'
+                    content: 'Saving Messages and Deleting the channel ...'
                 });
 
                 const chanTopic = BigInt(chan.topic) - BigInt(1);
@@ -368,7 +365,7 @@ module.exports = {
                     limit: -1,
                     returnType: 'string',
                     filename: `transcript-${chan.id}.html`,
-                    saveImages: true,
+                    saveImages: false,
                     poweredBy: false
                 });
 
@@ -386,21 +383,31 @@ module.exports = {
                     .setColor('Dark_Blue')
                     .setTimestamp();
 
-                client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
+                client.channels.cache.get(client.ticket.FIVEM_TICKET.LOG.CHAN_ID).send({
                     embeds: [embed]
                 });
 
                 client.users.cache.get(chanTopic.toString()).send({
                     embeds: [embed]
+                }).catch(error => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM User: <@${chanTopic.toString()}>\n\`Ticket No: ${chan.id}\``)
+
+                        return errorSend.send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
 
                 setTimeout(() => chan.delete().catch(error => {
                     if (error.code == 10003) {
                         return; //channel not found error
                     }
-                }), 10000);
+                }), 2000);
 
-                setTimeout(() => buttonCooldown.delete(interaction.user.id), 20000)
+                setTimeout(() => buttonCooldown.delete(interaction.user.id), 2000)
             }
         };
     },

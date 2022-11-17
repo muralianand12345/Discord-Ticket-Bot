@@ -49,7 +49,7 @@ module.exports = {
 
             await interaction.guild.channels.create({
                 name: `redm-ticket-${interaction.user.username}`,
-                parent: client.config.REDM_TICKET.MAIN,
+                parent: client.ticket.REDM_TICKET.MAIN,
                 topic: InteID.toString(),
                 permissionOverwrites: [
                     {
@@ -57,7 +57,7 @@ module.exports = {
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
-                        id: client.config.REDM_TICKET.ROLE_SUPPORT.ID,
+                        id: client.ticket.REDM_TICKET.ROLE_SUPPORT.ID,
                         allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                     },
                     {
@@ -173,42 +173,42 @@ module.exports = {
 
                         if (i.values[0] == 'Ooc') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.OOC
+                                parent: client.ticket.REDM_TICKET.OOC
                             });
                         };
                         if (i.values[0] == 'CombatLogging') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.CL
+                                parent: client.ticket.REDM_TICKET.CL
                             });
                         };
                         if (i.values[0] == 'Bugs') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.BUG
+                                parent: client.ticket.REDM_TICKET.BUG
                             });
                         };
                         if (i.values[0] == 'Supporters') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.SUPPORT
+                                parent: client.ticket.REDM_TICKET.SUPPORT
                             });
                         };
                         if (i.values[0] == 'Planned') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.PLANNED
+                                parent: client.ticket.REDM_TICKET.PLANNED
                             });
                         };
                         if (i.values[0] == 'Character') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.CHAR
+                                parent: client.ticket.REDM_TICKET.CHAR
                             });
                         };
                         if (i.values[0] == 'BanAppeal') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.BAN
+                                parent: client.ticket.REDM_TICKET.BAN
                             });
                         };
                         if (i.values[0] == 'Others') {
                             c.edit({
-                                parent: client.config.REDM_TICKET.OTHER
+                                parent: client.ticket.REDM_TICKET.OTHER
                             });
                         };
                     };
@@ -279,14 +279,14 @@ module.exports = {
 
                     chan.edit({
                         name: `closed-${chan.name}`,
-                        parent: client.config.REDM_TICKET.CLOSED,
+                        parent: client.ticket.REDM_TICKET.CLOSED,
                         permissionOverwrites: [
                             {
                                 id: client.users.cache.get(ChanTopic.toString()), //error
                                 deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                             },
                             {
-                                id: client.config.REDM_TICKET.ROLE_SUPPORT.ID,
+                                id: client.ticket.REDM_TICKET.ROLE_SUPPORT.ID,
                                 allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel],
                             },
                             {
@@ -365,7 +365,7 @@ module.exports = {
                     limit: -1,
                     returnType: 'string',
                     filename: `transcript-${chan.id}.html`,
-                    saveImages: true,
+                    saveImages: false,
                     poweredBy: false
                 });
 
@@ -383,12 +383,22 @@ module.exports = {
                     .setColor('Dark_Blue')
                     .setTimestamp();
 
-                client.channels.cache.get(client.config.REDM_TICKET.LOG.CHAN_ID).send({
+                client.channels.cache.get(client.ticket.REDM_TICKET.LOG.CHAN_ID).send({
                     embeds: [embed]
                 });
 
                 client.users.cache.get(chanTopic.toString()).send({
                     embeds: [embed]
+                }).catch(error => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM User: <@${chanTopic.toString()}>\n\`Ticket No: ${chan.id}\``)
+
+                        return errorSend.send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
 
                 setTimeout(() => chan.delete().catch(error => {

@@ -36,7 +36,7 @@ module.exports = {
                 limit: -1,
                 returnType: 'string',
                 filename: `transcript-${chan.id}.html`,
-                saveImages: true,
+                saveImages: false,
                 poweredBy: false
             });
 
@@ -55,7 +55,7 @@ module.exports = {
                 .setColor('Red')
                 .setTimestamp();
 
-            client.channels.cache.get(client.config.FIVEM_TICKET.LOG.CHAN_ID).send({
+            client.channels.cache.get(client.ticket.FIVEM_TICKET.LOG.CHAN_ID).send({
                 embeds: [embed]
             });
 

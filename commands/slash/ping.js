@@ -5,7 +5,7 @@ const {
 const wait = require('util').promisify(setTimeout);
 
 module.exports = {
-    cooldown: 10,
+    cooldown: 10000,
 
     data: new SlashCommandBuilder()
         .setName('ping')
@@ -45,7 +45,7 @@ module.exports = {
         await wait(500);
         await interaction.editReply({ content: "Fast As Fuck Boiiiiii 🏃💨 ..." });
         await wait(2000);
-        await interaction.editReplys({ content: "**🏓 Pong!**" });
+        await interaction.editReply({ content: "**🏓 Pong!**" });
 
         let embed = new EmbedBuilder()
             .addFields({ name: "Ping:", value: Math.round(client.ws.ping) + "ms" })

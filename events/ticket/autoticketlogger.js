@@ -10,11 +10,11 @@ module.exports = {
     name: 'ready',
     async execute(client) {
 
-        const runLog = client.config.AUTO_TICKET_LOG.ENABLE;
-        if (runLog === true) {
-            const GuildID = client.config.AUTO_TICKET_LOG.GUILD_ID;
-            const TicName = client.config.AUTO_TICKET_LOG.CHAN_NAME;
-            const Interval = client.config.AUTO_TICKET_LOG.INTERVAL;
+        if (client.config.ENABLE.AUTOTICKET == true) {
+
+            const GuildID = client.ticket.AUTO_TICKET_LOG.GUILD_ID;
+            const TicName = client.ticket.AUTO_TICKET_LOG.CHAN_NAME;
+            const Interval = client.ticket.AUTO_TICKET_LOG.INTERVAL;
 
             const Guild = client.guilds.cache.get(GuildID)
 
@@ -26,7 +26,7 @@ module.exports = {
                     }
                 });
 
-                await arr.forEach(async (chan) => {
+                arr.forEach(async (chan) => {
 
                     if (chan == null) {
                         return;
@@ -48,9 +48,6 @@ module.exports = {
                 });
 
             }, Interval);
-
-        } else {
-            return console.log("Auto Log Disabled")
         }
-    },
+    }
 };

@@ -7,14 +7,14 @@ module.exports = {
     async execute(client) {
 
         //Date
-        const needDatenTime = client.config.DATE.ENABLE;
+        const needDatenTime = client.config.ENABLE.DATE;
 
         if (needDatenTime == true) {
             console.log(colors.green.underline('Date and Time has been enabled'));
-            const TIMEZONE = client.config.DATE.TIMEZONE;
-            const FORMAT = client.config.DATE.FORMATDATE;
-            const CHANNEL_ID = client.config.DATE.CHAN_ID;
-            const UPDATE_INTERVAL = client.config.DATE.UPDATE_INTERVAL;
+            const TIMEZONE = client.date.TIMEZONE;
+            const FORMAT = client.date.FORMATDATE;
+            const CHANNEL_ID = client.date.CHAN_ID;
+            const UPDATE_INTERVAL = client.date.UPDATE_INTERVAL;
 
             const timeNow = moment().tz(TIMEZONE).format(FORMAT);
             const clockChannel = client.channels.cache.get(CHANNEL_ID);

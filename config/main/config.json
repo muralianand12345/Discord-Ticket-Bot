@@ -1,0 +1,66 @@
+{
+    "INFO": {
+        "OWNER_ID": "678402714765361182", 
+        "COOWNER_ID": "758579147009163304", 
+        "PREFIX": "-", 
+
+        "CONSOLE": {
+            "CHAN_ID": "" 
+        }
+    },
+
+    "MESSAGE": {
+		"COOLDOWN_MESSAGE": "You are on `<duration>` cooldown!" 
+	},
+
+    "ERR_LOG": {
+        "CHAN_ID": "", 
+        "ERR_TAG":"<@678402714765361182>" 
+    },
+
+    "STD_LOG": {
+        "CHAN_ID": "" 
+    },
+
+    "EMBED": {
+        "IMAGE": "https://cdn.discordapp.com/attachments/782584284321939468/784745798789234698/2-Transparent.png",
+        "FOOTTEXT": "EliteX RolePlay" 
+    },
+    
+    "TAG_MEMBER": "COMMUNITY", 
+
+    //make sure to remove the comments before starting the bot
+
+    "ENABLE": {
+        "CHATBOT": true, //AI chat with API
+        "DATE": true, //Date update voice channel
+        "VISADM": true, //Visa DM to tagged user
+        "JOBS": true, //Jobs - giverole command
+        "NICKNAME": true, //nickname moderation
+        "STREAMER": true, //auto streamer role
+        "AUTOTICKET": true //auto ticket logging
+    },
+
+    "VOTE": {
+        "ROLE_ID": "",
+        "CHAN_ID": "",
+        "FILE_NAME": "vote1.txt"
+    },
+
+    "DARK_CHAT": {
+        "CHAN_ID": "",
+        "BLACK_MONEY": ""
+    },
+
+    "SUP_PACK" : {
+        "CHAN_ID": "",
+        "FOOTER": ""
+    },
+
+    "ROLE_CHECK": {
+        "ROLE1": "",
+        "ROLE2": "",
+        "GUILDID": ""
+    }
+
+}

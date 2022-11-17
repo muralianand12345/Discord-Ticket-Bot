@@ -36,7 +36,7 @@ const handle  = new Errorhandler(client, {
   stats: true,
 }) 
 
-const config = require('./config.json');
+const config = require('./config/main/config.json');
 const Discord = require('discord.js');
 const std_log = require('./logs/std_log.js');
 
@@ -44,6 +44,25 @@ client.discord = Discord;
 client.config = config;
 client.std_log = std_log;
 client.handle = handle;
+
+//extras configurations
+/*Will be changed in future | cut and short : ) */
+const chatbot = require('./config/extras/chatbot.json');
+const date = require('./config/extras/date.json');
+const job = require('./config/extras/job.json');
+const nickname = require('./config/extras/nickname.json');
+const streamer = require('./config/extras/streamer.json');
+const ticket = require('./config/extras/ticket.json');
+const visa = require('./config/extras/visa.json');
+
+client.chatbot = chatbot;
+client.date = date;
+client.job = job;
+client.nickname = nickname;
+client.streamer = streamer;
+client.ticket = ticket;
+client.visa = visa;
+
 module.exports = client;
 
 //events Read
@@ -77,5 +96,3 @@ process.on('unhandledRejection', async (err, promise) => {
 process.on('uncaughtException', async (err, origin) => {
   handle.createrr(client,undefined, undefined, err)
 });
-
-//handle.createrr(client, message.guild.id, message.content, error)
