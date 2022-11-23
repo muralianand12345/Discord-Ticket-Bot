@@ -54,6 +54,7 @@ const nickname = require('./config/extras/nickname.json');
 const streamer = require('./config/extras/streamer.json');
 const ticket = require('./config/extras/ticket.json');
 const visa = require('./config/extras/visa.json');
+const gang = require('./config/extras/gang.json');
 
 client.chatbot = chatbot;
 client.date = date;
@@ -62,6 +63,7 @@ client.nickname = nickname;
 client.streamer = streamer;
 client.ticket = ticket;
 client.visa = visa;
+client.gang = gang;
 
 module.exports = client;
 

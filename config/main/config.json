@@ -38,7 +38,8 @@
         "JOBS": true, //Jobs - giverole command
         "NICKNAME": true, //nickname moderation
         "STREAMER": true, //auto streamer role
-        "AUTOTICKET": true //auto ticket logging
+        "AUTOTICKET": true, //auto ticket logging
+        "GANGROSTER": true
     },
 
     "VOTE": {
