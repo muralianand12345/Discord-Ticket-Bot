@@ -29,6 +29,13 @@ module.exports = {
         if (!interaction.isButton()) return;
         if (interaction.customId == "open-ticket-fivem") {
 
+            if (interaction.member.roles.cache?.has(client.ticket.FIVEM_TICKET.COOLDOWNROLE)) {
+                return interaction.reply({
+                    content: "**It seems to be you have a Ticket Cooldown!** Contact \`Ticket Supporters\` for further info!",
+                    ephemeral: true
+                });
+            }
+
             const InteID = BigInt(interaction.user.id) + BigInt(1);
 
             if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == InteID.toString())) {
