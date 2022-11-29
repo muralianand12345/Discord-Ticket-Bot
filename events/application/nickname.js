@@ -33,52 +33,65 @@ module.exports = {
             async function NickNameMod(Role) {
 
                 for (var i = 0; i < Role.length; i++) {
-                    const Mention = await client.guilds.cache.get(GuildId).members.cache.get(Role[i].id);
 
-                    const UserNickname = Mention.nickname;
+                    if (Role[i].id == null) {
 
-                    if (UserNickname == null) {
-                        var namePerms = 0;
-
-                        var userName = Mention.user.username;
-                        if (userName.includes("!")) {
-                            await Mention.setNickname(userName.replace('!', '')).catch(async (error) => {
-                                if (error.code == 50013) {
-                                    return namePerms = 1; //Missing Permission
-                                }
-                            }).then(async () => {
-                                if (namePerms == 0) {
-                                    await sendDM(Mention);
-                                    await sendLog(Mention);
-
-                                } else if (namePerms == 1) {
-                                    return;
-                                } else {
-                                    return;
-                                }
-                            });
-                        }
+                        return;
 
                     } else {
-                        var Perms = 0;
 
-                        if (UserNickname.includes("!")) {
-                            await Mention.setNickname(UserNickname.replace('!', '')).catch(async (error) => {
-                                if (error.code == 50013) {
-                                    return Perms = 1; //Missing Permission
-                                }
-                                /*return; //Anyother error*/
-                            }).then(async () => {
-                                if (Perms == 0) {
-                                    await sendDM(Mention);
-                                    await sendLog(Mention);
+                        const Mention = await client.guilds.cache.get(GuildId).members.cache.get(Role[i].id);
 
-                                } else if (Perms == 1) {
-                                    return;
-                                } else {
-                                    return;
+                        if (Mention == null) {
+
+                            return;
+
+                        } else {
+                            
+                            if (Mention.nickname == null) {
+                                var namePerms = 0;
+
+                                var userName = Mention.user.username;
+                                if (userName.includes("!")) {
+                                    await Mention.setNickname(userName.replace('!', '')).catch(async (error) => {
+                                        if (error.code == 50013) {
+                                            return namePerms = 1; //Missing Permission
+                                        }
+                                    }).then(async () => {
+                                        if (namePerms == 0) {
+                                            await sendDM(Mention);
+                                            await sendLog(Mention);
+
+                                        } else if (namePerms == 1) {
+                                            return;
+                                        } else {
+                                            return;
+                                        }
+                                    });
                                 }
-                            });
+
+                            } else {
+                                var Perms = 0;
+
+                                if (Mention.nickname.includes("!")) {
+                                    await Mention.setNickname(Mention.nickname.replace('!', '')).catch(async (error) => {
+                                        if (error.code == 50013) {
+                                            return Perms = 1; //Missing Permission
+                                        }
+                                        /*return; //Anyother error*/
+                                    }).then(async () => {
+                                        if (Perms == 0) {
+                                            await sendDM(Mention);
+                                            await sendLog(Mention);
+
+                                        } else if (Perms == 1) {
+                                            return;
+                                        } else {
+                                            return;
+                                        }
+                                    });
+                                }
+                            }
                         }
                     }
                 }
