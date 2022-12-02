@@ -55,6 +55,7 @@ const streamer = require('./config/extras/streamer.json');
 const ticket = require('./config/extras/ticket.json');
 const visa = require('./config/extras/visa.json');
 const gang = require('./config/extras/gang.json');
+const discordpresence = require('./config/extras/discordpresence.json');
 
 client.chatbot = chatbot;
 client.date = date;
@@ -64,6 +65,7 @@ client.streamer = streamer;
 client.ticket = ticket;
 client.visa = visa;
 client.gang = gang;
+client.discordpresence = discordpresence;
 
 module.exports = client;
 

@@ -39,7 +39,8 @@
         "NICKNAME": true, //nickname moderation
         "STREAMER": true, //auto streamer role
         "AUTOTICKET": true, //auto ticket logging
-        "GANGROSTER": true
+        "GANGROSTER": true,
+        "DISCORDPRESENCE": true
     },
 
     "VOTE": {
