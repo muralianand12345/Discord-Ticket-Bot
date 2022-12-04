@@ -33,29 +33,39 @@ module.exports = {
             )
 
         //DM
-        client.users.cache.get(userID).send({
+        var bool = 0;
+        await client.users.cache.get(userID).send({
             embeds: [embed],
             components: [sbutton]
         }).catch(error => {
 
             //LOG
             if (error.code == 50007) {
-                const logembederr = new EmbedBuilder()
-                    .setColor('Black')
-                    .setDescription(`Unable to DM <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
-
-                return client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
-                    embeds: [logembederr]
-                });
-            } else {
-                const logembed = new EmbedBuilder()
-                    .setColor('Black')
-                    .setDescription(`DM sent to <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
-
-                client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
-                    embeds: [logembed]
-                });
+                bool = 1;
             }
-        })
+        });
+
+        if (bool == 1) {
+            const logembederr = new EmbedBuilder()
+                .setColor('Black')
+                .setDescription(`Unable to DM <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
+
+            return client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
+                embeds: [logembederr]
+            });
+
+        } else if (bool == 0) {
+            const logembed = new EmbedBuilder()
+                .setColor('Black')
+                .setDescription(`DM sent to <@${userID}> \`${userName}#${userTag}\` (Apply Form)`)
+
+            return client.channels.cache.get(client.visa.WELCOME.LOGCHAN).send({
+                embeds: [logembed]
+            });
+
+        } else {
+
+            return;
+        }
     }
 }
