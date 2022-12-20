@@ -28,7 +28,7 @@ module.exports = {
 				.setColor("Green")
 				.setDescription('No webhook was found that I can use!')
 
-			return message.reply({
+			return message.channel.send({
 				content: `<@${message.author.id}>`,
 				embeds: [ReplyEmbed]
 			}).then((msg) => {

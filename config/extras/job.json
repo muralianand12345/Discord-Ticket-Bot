@@ -5,21 +5,5 @@
     "ECPD": {
         "ID": "",
         "HROLE_ID": ""
-    },
-    "ECMS": {
-        "ID": "",
-        "HROLE_ID": ""
-    },
-    "RTO": {
-        "ID": "",
-        "HROLE_ID": ""
-    },
-    "LAWYER": {
-        "ID": "",
-        "HROLE_ID": ""
-    },
-    "NEWS": {
-        "ID": "",
-        "HROLE_ID": ""
     }
 }

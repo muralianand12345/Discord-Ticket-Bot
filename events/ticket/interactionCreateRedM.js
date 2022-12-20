@@ -160,7 +160,7 @@ module.exports = {
                                     );
 
                                 const opened = await c.send({
-                                    content: `**Your Ticket Has Been Created!** *Use \`/id\` and fill the following!*`,
+                                    content: `**Your Ticket Has Been Created!**`,
                                     embeds: [embed],
                                     components: [row]
                                 });
