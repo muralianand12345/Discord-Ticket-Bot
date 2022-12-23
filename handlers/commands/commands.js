@@ -1,7 +1,11 @@
 const fs = require('fs');
 
+const {
+    Events
+} = require('discord.js');
+
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     execute(client) {
 
         //slashCommands Read

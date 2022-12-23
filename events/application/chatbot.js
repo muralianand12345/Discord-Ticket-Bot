@@ -1,8 +1,11 @@
 const Chatbot = require("discord-chatbot");
-const { EmbedBuilder } = require("discord.js");
+const {
+    EmbedBuilder,
+    Events
+} = require("discord.js");
 
 module.exports = {
-    name: 'messageCreate',
+    name: Events.MessageCreate,
     execute: async (message, client) => {
 
         if (client.config.ENABLE.CHATBOT == true) {

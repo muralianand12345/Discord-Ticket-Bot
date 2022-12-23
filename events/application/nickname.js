@@ -1,7 +1,10 @@
-const { EmbedBuilder } = require('discord.js');
+const {
+    EmbedBuilder,
+    Events
+} = require('discord.js');
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     async execute(client) {
 
         if (client.config.ENABLE.NICKNAME == true) {
@@ -47,7 +50,7 @@ module.exports = {
                             return;
 
                         } else {
-                            
+
                             if (Mention.nickname == null) {
                                 var namePerms = 0;
 

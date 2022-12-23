@@ -1,13 +1,14 @@
 const {
     EmbedBuilder,
     Collection,
-    PermissionsBitField
+    PermissionsBitField,
+    Events
 } = require('discord.js');
 const cooldown = new Collection();
 const ms = require('ms');
 
 module.exports = {
-    name: 'interactionCreate',
+    name: Events.InteractionCreate,
     execute: async (interaction, client) => {
 
         //if (!interaction.type === InteractionType.ApplicationCommand) return

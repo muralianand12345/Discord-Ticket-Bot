@@ -1,13 +1,14 @@
 var colors = require('colors/safe');
 const fs = require('fs');
-const { 
-    REST, 
-    Routes 
+const {
+    REST,
+    Routes,
+    Events
 } = require('discord.js');
 require("dotenv").config();
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     execute(client) {
         const clientID = process.env.CLIENT_ID;
         const Token = process.env.TOKEN;
@@ -27,11 +28,11 @@ module.exports = {
         rest.put(Routes.applicationCommands(clientID), {
             body: slashcommands
         }).then(() => console.log(colors.green('Successfully registered application commands.')))
-        .catch( err => {
-            console.log(colors.red(err));
-        });
-        slashcommands.forEach( eachcommands => {
+            .catch(err => {
+                console.log(colors.red(err));
+            });
+        slashcommands.forEach(eachcommands => {
             console.log(colors.blue(`${eachcommands.name} has been loaded`));
-        });    
+        });
     },
 };

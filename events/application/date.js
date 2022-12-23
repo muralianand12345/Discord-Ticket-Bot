@@ -2,8 +2,12 @@ const moment = require('moment');
 const tz = require('moment-timezone');
 var colors = require('colors/safe');
 
+const {
+    Events
+} = require('discord.js')
+
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     async execute(client) {
 
         //Date

@@ -8,7 +8,8 @@ const {
     ChannelType,
     PermissionFlagsBits,
     ComponentType,
-    Embed
+    Embed,
+    Events
 } = require('discord.js');
 //Embeds & Buttons & Select Menus
 const {
@@ -20,7 +21,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
-    name: 'interactionCreate',
+    name: Events.InteractionCreate,
     async execute(interaction, client) {
 
         const errChan = client.config.ERR_LOG.CHAN_ID;
@@ -40,7 +41,7 @@ module.exports = {
 
             if (client.guilds.cache.get(interaction.guildId).channels.cache.find(c => c.topic == InteID.toString())) {
                 interaction.reply({
-                    content: '**You have already created a ticket! Kindly Contact any \`Ticket Supporters\` if not!**',
+                    content: '**You have already created a ticket! Kindly Contact any Ticket Supporters if not!**',
                     ephemeral: true
                 });
 
@@ -407,7 +408,6 @@ module.exports = {
                         });
                     }
                 });
-
                 setTimeout(() => chan.delete().catch(error => {
                     if (error.code == 10003) {
                         return; //channel not found error

@@ -1,9 +1,10 @@
 const {
-    PermissionFlagsBits
+    PermissionFlagsBits,
+    Events
 } = require('discord.js');
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     async execute(client) {
 
         //Sunday = 0, Monday = 1

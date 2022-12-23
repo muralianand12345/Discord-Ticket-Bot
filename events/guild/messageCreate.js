@@ -1,13 +1,14 @@
 const {
     EmbedBuilder,
     Collection,
-    PermissionsBitField
+    PermissionsBitField,
+    Events
 } = require('discord.js');
 const cooldown = new Collection();
 const ms = require('ms');
 
 module.exports = {
-    name: 'messageCreate',
+    name: Events.MessageCreate,
     execute: async (message, client) => {
         const botReply = [
             "Hello! How can I help you?",
@@ -41,15 +42,15 @@ module.exports = {
 
             if (command == null) {
                 const replyEmbed = new EmbedBuilder()
-                .setColor('Red')
-                .setDescription('Invalid Command')
+                    .setColor('Red')
+                    .setDescription('Invalid Command')
                 return message.channel.send({ embeds: [replyEmbed] }).then((msg) => {
                     setTimeout(function () {
                         msg.delete()
                     }, 4000);
                 });
             }
-            
+
             if (!command) command = client.commands.get(client.aliases.get(cmd));
             if (command) {
                 if (command.cooldown) {
@@ -126,8 +127,8 @@ module.exports = {
         } catch (error) {
             global.console.log(error);
             const botErrorEmbed = new EmbedBuilder()
-            .setColor('Red')
-            .setDescription('An Internal **Error** Occurred, Kindly Contact The Bot Developers!')
+                .setColor('Red')
+                .setDescription('An Internal **Error** Occurred, Kindly Contact The Bot Developers!')
             return message.reply({
                 embeds: [botErrorEmbed],
                 ephemeral: true

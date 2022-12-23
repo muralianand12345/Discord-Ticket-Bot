@@ -1,10 +1,13 @@
-const { EmbedBuilder } = require('discord.js');
+const {
+    EmbedBuilder,
+    Events
+} = require('discord.js');
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     async execute(client) {
 
-        const Interval = client.discordpresence.INTERVALS;
+        const Interval = client.discordpresence.INTERVALS; f
 
         //Embeds
         async function ActEmbed(User, presence, color) {
@@ -23,20 +26,20 @@ module.exports = {
         async function CheckPresence() {
             var EliteXExclusive_ID = client.discordpresence.ROLE.ID1;
             var GuildId = client.discordpresence.GUILD.ID;
-            
+
             var GuildInfo, EliteXExclusive;
             var Total_Users = null;
 
             GuildInfo = await client.guilds.cache.get(GuildId);
             EliteXExclusive = await GuildInfo.roles.cache.find(role => role.id == EliteXExclusive_ID);
-            Total_Users = await EliteXExclusive.members.map(m => m.user);
+            Total_Users = await EliteXExclusive.members.map(m => m);
 
-            for (var i = 0; i < Total_Users.length; i++) {
-                const Mention = await client.guilds.cache.get(GuildId).members.cache.get(Total_Users[i].id);
-                if (Mention.presence == null) {
+            await Total_Users.forEach(async (User) => {
+
+                if (User.presence == null) {
                     //return;
                 } else {
-                    Mention.presence.activities.forEach(async (activity) => {
+                    await User.presence.activities.forEach(async (activity) => {
                         if (activity.type == 0) {
                             if (activity.name === "ELITE X") {
                                 await ActEmbed(Mention, activity, "Green");
@@ -74,7 +77,7 @@ module.exports = {
                         }
                     });
                 }
-            }
+            });
         }
 
         if (client.config.ENABLE.DISCORDPRESENCE == true) {

@@ -1,6 +1,6 @@
 {
   "name": "ticket-discordjs14",
-  "version": "3.4.0",
+  "version": "3.4.1",
   "description": "EliteX Ticket Bot DiscordJS@14.0.2 Version",
   "main": "index.js",
   "scripts": {

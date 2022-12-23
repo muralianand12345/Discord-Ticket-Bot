@@ -1,5 +1,6 @@
 const {
-    ChannelType
+    ChannelType,
+    Events
 } = require('discord.js');
 
 const discordTranscripts = require('discord-html-transcripts');
@@ -7,7 +8,7 @@ require("dotenv").config();
 const fs = require('fs');
 
 module.exports = {
-    name: 'ready',
+    name: Events.ClientReady,
     async execute(client) {
 
         if (client.config.ENABLE.AUTOTICKET == true) {

@@ -3,10 +3,11 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    Events
 } = require("discord.js")
 
 module.exports = {
-    name: 'guildMemberAdd',
+    name: Events.GuildMemberAdd,
     async execute(member, client) {
         const userID = member.user.id;
         const userName = member.user.username;
@@ -64,7 +65,6 @@ module.exports = {
             });
 
         } else {
-
             return;
         }
     }

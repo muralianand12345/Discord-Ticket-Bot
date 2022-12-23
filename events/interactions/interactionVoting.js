@@ -1,10 +1,13 @@
 const cooldown = new Set();
 const cooldownTime = 10000;
-const { EmbedBuilder } = require('discord.js');
+const {
+    EmbedBuilder,
+    Events
+} = require('discord.js');
 const fs = require('fs')
 
 module.exports = {
-    name: 'interactionCreate',
+    name: Events.MessageCreate,
     async execute(interaction, client) {
 
         const FileName = client.config.VOTE.FILE_NAME;

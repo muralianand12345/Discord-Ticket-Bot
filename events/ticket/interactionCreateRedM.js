@@ -7,7 +7,8 @@ const buttonCooldown = new Set()
 const {
     ChannelType,
     PermissionFlagsBits,
-    ComponentType
+    ComponentType,
+    Events
 } = require('discord.js');
 //Embeds & Buttons & Select Menus
 const {
@@ -19,7 +20,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
-    name: 'interactionCreate',
+    name: Events.InteractionCreate,
     async execute(interaction, client) {
 
         const errChan = client.config.ERR_LOG.CHAN_ID;

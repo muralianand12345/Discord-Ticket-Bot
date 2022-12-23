@@ -3,10 +3,11 @@ const {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    Events
 } = require("discord.js")
 
 module.exports = {
-    name: 'messageCreate',
+    name: Events.MessageCreate,
     execute: async (message, client) => {
 
         //ACCEPTED
@@ -63,10 +64,10 @@ module.exports = {
 
             } else {
                 const errEmbed = new EmbedBuilder()
-                .setColor('Red')
-                .setDescription(`Your Message has been deleted <#${VPChan}>, kindly mention user properly`)
+                    .setColor('Red')
+                    .setDescription(`Your Message has been deleted <#${VPChan}>, kindly mention user properly`)
                 await client.users.cache.get(message.author.id).send({
-                    embeds: [errEmbed] 
+                    embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
                 });
@@ -126,10 +127,10 @@ module.exports = {
                 }
             } else {
                 const errEmbed = new EmbedBuilder()
-                .setColor('Red')
-                .setDescription(`Your Message has been deleted <#${RejChan}>, kindly mention user properly`)
+                    .setColor('Red')
+                    .setDescription(`Your Message has been deleted <#${RejChan}>, kindly mention user properly`)
                 await client.users.cache.get(message.author.id).send({
-                    embeds: [errEmbed] 
+                    embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
                 });
@@ -194,10 +195,10 @@ module.exports = {
                 }
             } else {
                 const errEmbed = new EmbedBuilder()
-                .setColor('Red')
-                .setDescription(`Your Message has been deleted <#${VisaChan}>, kindly mention user properly`)
+                    .setColor('Red')
+                    .setDescription(`Your Message has been deleted <#${VisaChan}>, kindly mention user properly`)
                 await client.users.cache.get(message.author.id).send({
-                    embeds: [errEmbed] 
+                    embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
                 });
@@ -257,10 +258,10 @@ module.exports = {
                 }
             } else {
                 const errEmbed = new EmbedBuilder()
-                .setColor('Red')
-                .setDescription(`Your Message has been deleted <#${HoldChan}>, kindly mention user properly`)
+                    .setColor('Red')
+                    .setDescription(`Your Message has been deleted <#${HoldChan}>, kindly mention user properly`)
                 await client.users.cache.get(message.author.id).send({
-                    embeds: [errEmbed] 
+                    embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
                 });
