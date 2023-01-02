@@ -23,6 +23,7 @@ module.exports = {
             var GuildInfo, YTRole, Role_Total, PRRole, YT_Total, PR_Total, Role_Total;
 
             GuildInfo = await client.guilds.cache.get(GuildId);
+            await GuildInfo.members.fetch()
 
             setInterval(async () => {
                 YTRole = await GuildInfo.roles.cache.find(role => role.id == YTRoleId);
@@ -41,39 +42,7 @@ module.exports = {
                 async function YTUsers(Role) {
 
                     await Role.forEach(async (User) => {
-                        if (User.presence == null) {
-                            //return;
-                        } else {
-                            //Functions                   
-                            async function AddRole() {
-                                const StreamRoleId = client.streamer.ROLE.STREAM;
-
-                                if (User.roles.cache?.has(StreamRoleId)) {
-                                    return;
-                                } else {
-
-                                    let streamRole = await GuildInfo.roles.cache.get(StreamRoleId);
-                                    await User.roles.add(streamRole).catch(err => {
-                                        console.log(`Streamer Add role Error ${err}`);
-                                    });
-                                    var embed_log = new EmbedBuilder()
-                                        .setDescription("**STREAMER ROLE ADDED**")
-                                        .setFields(
-                                            { name: "User Tag", value: `<@${User.id}>` },
-                                            { name: "User Name", value: `\`${User.username}\`` },
-                                            { name: "User ID", value: `\`${User.id}\`` }
-                                        )
-                                    err_log.send({ embeds: [embed_log] });
-                                }
-                            }
-
-                            async function RemoveRole() {
-                                const StreamRoleId = client.streamer.ROLE.STREAM;
-                                let streamRole = await GuildInfo.roles.cache.get(StreamRoleId);
-                                await User.roles.remove(streamRole).catch(err => {
-                                    console.log(`Streamer Remove role Error ${err}`);
-                                });
-                            }
+                        if (User.presence !== null) {
 
                             var Bool = false;
                             await User.presence.activities.forEach(async (activity) => {
@@ -84,14 +53,31 @@ module.exports = {
 
                             //Add role or remove
                             if (Bool == true) {
-                                await AddRole().catch(err => {
-                                    err_log.send({ content: `**ERROR**\n${err}` });
-                                });
+                                const StreamRoleId = client.streamer.ROLE.STREAM;
+                                if (User.roles.cache?.has(StreamRoleId)) {
+                                    return;
+                                } else {
+                                    let streamRole = await GuildInfo.roles.cache.get(StreamRoleId);
+                                    await User.roles.add(streamRole).catch(err => {
+                                        console.log(`Streamer Add role Error || ${err}`);
+                                    });
+                                    var embed_log = new EmbedBuilder()
+                                        .setDescription("**STREAMER ROLE ADDED**")
+                                        .setFields(
+                                            { name: "User Tag", value: `<@${User.id}>` },
+                                            { name: "User Name", value: `\`${User.user.tag}\`` },
+                                            { name: "User ID", value: `\`${User.id}\`` }
+                                        )
+                                    err_log.send({ embeds: [embed_log] });
+                                }
 
                             } else if (Bool == false) {
-                                await RemoveRole().catch(err => {
-                                    err_log.send({ content: `**ERROR**\n${err}` });
+                                const StreamRoleId = client.streamer.ROLE.STREAM;
+                                let streamRole = await GuildInfo.roles.cache.get(StreamRoleId);
+                                await User.roles.remove(streamRole).catch(err => {
+                                    console.log(`Streamer Remove role Error ${err}`);
                                 });
+
                             } else {
                                 err_log.send({ content: `**ERROR**\nReason: Bool is neither true nor false` });;
                             }
