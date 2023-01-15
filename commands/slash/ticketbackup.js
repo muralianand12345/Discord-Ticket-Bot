@@ -7,6 +7,8 @@ const {
 const discordTranscripts = require('discord-html-transcripts');
 require("dotenv").config();
 const fs = require('fs');
+const ticketData = require("../../events/models/channel.js");
+const ticketModel = require('../../events/models/ticket.js');
 
 module.exports = {
     cooldown: 2000,
@@ -25,6 +27,10 @@ module.exports = {
 
     async execute(interaction, client) {
 
+        var IdData = await ticketData.findOne({
+            ticketGuildID: interaction.guild.id
+        }).catch(err => console.log(err));
+
         //log
         const commandName = "TICKETBACKUP";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
@@ -32,6 +38,11 @@ module.exports = {
         const dmOption = interaction.options.getBoolean('dm') || false;
         const chan = interaction.channel;
         if (chan.name.includes('ticket')) {
+
+            const ticketDoc = await ticketModel.findOne({
+                ticketID: interaction.channel.id
+            }).catch(err => console.log(err));
+
             const htmlCode = await discordTranscripts.createTranscript(chan, {
                 limit: -1,
                 returnType: 'string',
@@ -48,14 +59,13 @@ module.exports = {
                 }
             });
 
-            const chanTopic = BigInt(chan.topic) - BigInt(1);;
             const embed = new EmbedBuilder()
                 .setAuthor({ name: 'Manual Log Ticket', iconURL: client.config.EMBED.IMAGE })
-                .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${chanTopic.toString()}> and logged by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
+                .setDescription(`📰 Logs of the ticket \`${chan.id}\` created by <@!${ticketDoc.userID}> and logged by <@!${interaction.user.id}>\n\nLogs: [**Click here to see the logs**](http://${serverAdd}/transcript-${chan.id}.html)`)
                 .setColor('Red')
                 .setTimestamp();
 
-            client.channels.cache.get(client.ticket.FIVEM_TICKET.LOG.CHAN_ID).send({
+            client.channels.cache.get(IdData.ticketLogChannelID).send({
                 embeds: [embed]
             });
 
@@ -76,13 +86,13 @@ module.exports = {
             });
 
             if (dmOption == true) {
-                client.users.cache.get(chanTopic.toString()).send({
+                client.users.cache.get(ticketDoc.userID).send({
                     embeds: [embed]
                 }).catch(error => {
                     if (error.code == 50007) {
                         const logembed = new EmbedBuilder()
                             .setColor('Black')
-                            .setDescription(`Unable to DM User: <@${chanTopic.toString()}>\n\`Ticket No: ${chan.id}\``)
+                            .setDescription(`Unable to DM User: <@${ticketDoc.userID}>\n\`Ticket No: ${chan.id}\``)
 
                         return errorSend.send({
                             embeds: [logembed]

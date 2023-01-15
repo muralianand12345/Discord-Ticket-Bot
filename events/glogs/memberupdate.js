@@ -59,6 +59,7 @@ module.exports = {
 
         //NICKNAME UPDATE
         const nicknameChan = client.channels.cache.get(client.glog.MEMBER.NICK)
+        if (oldMember.nickname == newMember.nickname) return;
         if (!oldMember.nickname && newMember.nickname) {
             const nickEmbed = new EmbedBuilder()
                 .setColor('Green')

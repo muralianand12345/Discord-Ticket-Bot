@@ -70,6 +70,16 @@ module.exports = {
                     embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
+                }).catch((error) => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM Immigration Officer`)
+
+                        return client.channels.cache.get(client.visa.ACCEPTED.LOGCHAN).send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
             }
         }
@@ -133,6 +143,16 @@ module.exports = {
                     embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
+                }).catch((error) => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM Immigration Officer`)
+
+                        return client.channels.cache.get(client.visa.REJECTED.LOGCHAN).send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
             }
         }
@@ -201,6 +221,16 @@ module.exports = {
                     embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
+                }).catch((error) => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM Immigration Officer`)
+
+                        return client.channels.cache.get(client.visa.VISA.LOGCHAN).send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
             }
         }
@@ -264,6 +294,16 @@ module.exports = {
                     embeds: [errEmbed]
                 }).then(() => {
                     message.delete();
+                }).catch((error) => {
+                    if (error.code == 50007) {
+                        const logembed = new EmbedBuilder()
+                            .setColor('Black')
+                            .setDescription(`Unable to DM Immigration Officer`)
+
+                        return client.channels.cache.get(client.visa.HOLD.LOGCHAN).send({
+                            embeds: [logembed]
+                        });
+                    }
                 });
             }
         }

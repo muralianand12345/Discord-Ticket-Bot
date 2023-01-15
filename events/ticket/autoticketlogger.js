@@ -13,16 +13,15 @@ module.exports = {
 
         if (client.config.ENABLE.AUTOTICKET == true) {
 
-            const GuildID = client.ticket.AUTO_TICKET_LOG.GUILD_ID;
-            const TicName = client.ticket.AUTO_TICKET_LOG.CHAN_NAME;
-            const Interval = client.ticket.AUTO_TICKET_LOG.INTERVAL;
+            const GuildID = "939507689283784735";
+            const Interval = 10800000;
 
             const Guild = client.guilds.cache.get(GuildID)
 
             setInterval(async () => {
                 var arr = [];
                 await Guild.channels.cache.forEach(async (chan) => {
-                    if (chan.name.includes(TicName) && chan.type == ChannelType.GuildText) {
+                    if (chan.name.includes('ticket') && chan.type == ChannelType.GuildText) {
                         arr.push(chan)
                     }
                 });

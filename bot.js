@@ -56,22 +56,22 @@ const date = require('./config/extras/date.json');
 const job = require('./config/extras/job.json');
 const nickname = require('./config/extras/nickname.json');
 const streamer = require('./config/extras/streamer.json');
-const ticket = require('./config/extras/ticket.json');
 const visa = require('./config/extras/visa.json');
 const gang = require('./config/extras/gang.json');
 const discordpresence = require('./config/extras/discordpresence.json');
 const glog = require('./config/extras/glog.json');
+const automod = require('./config/extras/automod.json');
 
 client.chatbot = chatbot;
 client.date = date;
 client.job = job;
 client.nickname = nickname;
 client.streamer = streamer;
-client.ticket = ticket;
 client.visa = visa;
 client.gang = gang;
 client.glog = glog;
 client.discordpresence = discordpresence;
+client.automod = automod;
 
 module.exports = client;
 

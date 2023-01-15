@@ -4,6 +4,8 @@ const {
     PermissionFlagsBits
 } = require('discord.js');
 
+const ticketData = require("../../events/models/channel.js");
+
 module.exports = {
     cooldown: 10000,
     userPerms: [],
@@ -19,6 +21,10 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction, client) {
 
+        const ticketDoc = await ticketModel.findOne({
+            ticketGuildID: interaction.guild.id
+        }).catch(err => console.log(err));
+
         //log
         const commandName = "ADD";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
@@ -28,22 +34,7 @@ module.exports = {
         const user = interaction.options.getUser('target');
         const userID = user.id;
 
-        let Support_Role;
-
-        function Fivem() {
-            return Support_Role = client.ticket.FIVEM_TICKET.ROLE_SUPPORT.ID;
-        }
-        function Redm() {
-            return Support_Role = client.ticket.REDM_TICKET.ROLE_SUPPORT.ID;
-        }
-
-        if (interaction.guild.id == client.ticket.FIVEM_TICKET.GUILDID) {
-            Fivem();
-        } else if (interaction.guild.id == client.ticket.REDM_TICKET.GUILDID) {
-            Redm();
-        } else {
-            return;
-        }
+        let Support_Role = ticketDoc.ticketSupportID;
 
         if (chan.name.includes('ticket')) {
             chan.edit({

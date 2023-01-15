@@ -10,10 +10,8 @@ module.exports = {
         //Sunday = 0, Monday = 1
 
         async function GangRoaster() {
-            const now = new Date();
-            const currDay = now.getDay().toLocaleString("en-IN", {
-                timeZone: "Asia/Kolkata"
-            });
+            const date = new Date();
+            const currDay = new Intl.DateTimeFormat('en-IN', { dateStyle: 'full', timeStyle: 'long', timeZone: 'Asia/Kolkata' }).format(date);
 
             const gangID = client.gang.ROSTER.GANGLEADERID;
             const prID = client.gang.ROSTER.PRID;
@@ -21,7 +19,7 @@ module.exports = {
             const GuildID = client.gang.ROSTER.GUILDID;
             const ChanID = client.gang.ROSTER.CHANID;
 
-            if (currDay == 3) {
+            if (currDay.includes('Wednesday')) {
                 const Guild = client.guilds.cache.get(GuildID)
                 const chan = client.channels.cache.get(ChanID);
                 await chan.edit({
