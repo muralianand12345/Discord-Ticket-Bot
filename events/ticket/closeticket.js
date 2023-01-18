@@ -39,7 +39,7 @@ module.exports = {
             if (!ticketParents) {
                 return;
             } else if (ticketParents) {
-                var closeTicket = ticketParents.otherPar;
+                var closeTicket = ticketParents.closedPar;
             }
 
             const userButton = interaction.user.id;
@@ -64,19 +64,18 @@ module.exports = {
                 components: [row]
             });
 
-            const collector = interaction.channel.createMessageComponentCollector({
+            const collector = verif.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: 10000
+                time: 5000
             });
 
             collector.on('collect', async (i) => {
                 if (i.customId == 'confirm-close') {
-                    interaction.editReply({
+
+                    await i.update({
                         content: `Ticket closed by <@!${i.user.id}>`,
                         components: []
                     });
-
-                    await verif.delete();
 
                     chan.edit({
                         name: `ticket-closed`,
@@ -123,25 +122,26 @@ module.exports = {
                     });
 
                     collector.stop();
-                };
+                }
 
                 if (i.customId == 'no') {
-                    interaction.editReply({
+
+                    await i.update({
                         content: `**Ticket closure cancelled!** (<@${i.user.id}>)`,
                         components: []
                     });
                     collector.stop();
-                };
+                }
             });
 
-            collector.on('end', (i) => {
+            collector.on('end', async (i) => {
                 if (i.size < 1) {
-                    interaction.editReply({
+                    await i.update({
                         content: `**Closing of the canceled ticket!** (<@!${userButton}>)`,
                         components: []
                     });
-                };
+                }
             });
         }
     }
-}
+};
