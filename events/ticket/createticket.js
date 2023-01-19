@@ -212,7 +212,7 @@ module.exports = {
                         };
                         if (i.values[0] == 'Supporters') {
                             c.edit({
-                                parent: ticketParents.supPar
+                                parent: ticketParents.suppPar
                             });
                         };
                         if (i.values[0] == 'Character') {
