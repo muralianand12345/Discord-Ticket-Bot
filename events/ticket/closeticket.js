@@ -136,7 +136,7 @@ module.exports = {
 
             collector.on('end', async (i) => {
                 if (i.size < 1) {
-                    await i.update({
+                    await interaction.editReply({
                         content: `**Closing of the canceled ticket!** (<@!${userButton}>)`,
                         components: []
                     });
