@@ -17,6 +17,10 @@ module.exports = {
         const chan1 = client.automod.TAG.CHAN1;
         const chan2 = client.automod.TAG.CHAN2;
         const chan3 = client.automod.TAG.CHAN3;
+        
+        if (message.guild == null) {
+            return;
+        }
 
         if (message.guild.id == GuildID) {
             const User = message.member;
