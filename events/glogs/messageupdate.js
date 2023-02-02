@@ -7,6 +7,7 @@ module.exports = {
     name: Events.MessageUpdate,
     async execute(oldMessage, newMessage, client) {
 
+        if (!oldMessage.author) return;
         if (oldMessage.author.bot) return;
         if (oldMessage.content === newMessage.content) return;
 
@@ -18,6 +19,9 @@ module.exports = {
             .setColor('Black')
             .setDescription(`A [**Message**](${newMessage.url}) by ${newMessage.author} was **Edited** in ${newMessage.channel}.\n
             **Original**:\n ${Original} \n**Edited**:\n ${Edited}`.slice("0", "4096"))
+            .addFields(
+                { name: "Guild Name", value: oldMessage.guild.name }
+            )
             .setFooter({ text: `Member: ${newMessage.author.tag} | ID: ${newMessage.author.id.toString()}` })
             .setTimestamp()
 

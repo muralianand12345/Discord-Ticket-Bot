@@ -30,6 +30,10 @@ module.exports = {
                     ticketID: interaction.channel.id
                 }).catch(err => console.log(err));
 
+                if (!ticketDoc) {
+                    return interaction.reply({ content: "Internal Error Occured. Delete Ticket Manually || Database missing ||" });
+                }
+
                 var IdData = await ticketData.findOne({
                     ticketGuildID: interaction.guild.id
                 }).catch(err => console.log(err));
@@ -77,7 +81,7 @@ module.exports = {
                             .setColor('Black')
                             .setDescription(`Unable to DM User: <@${ticketDoc.userID}>\n\`Ticket No: ${chan.id}\``)
 
-                        return errorSend.send({
+                        return client.channels.cache.get("LOG CHAN ID").send({
                             embeds: [logembed]
                         });
                     }

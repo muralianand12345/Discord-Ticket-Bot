@@ -18,12 +18,10 @@ module.exports = {
 
         //Role Log
         if (oldMember.roles.cache.size > newMember.roles.cache.size) {
-
             const roleEmbed = new EmbedBuilder()
                 .setColor('Red')
                 .setAuthor({ name: newMember.user.tag, iconURL: newMember.user.avatarURL() })
                 .setTimestamp()
-
             await oldMember.roles.cache.forEach(role => {
                 if (!newMember.roles.cache.has(role.id)) {
                     roleEmbed.addFields(
@@ -31,18 +29,14 @@ module.exports = {
                     );
                 }
             });
-
-            await client.channels.cache.get(client.glog.MEMBER.ROLE).send({
+            return await client.channels.cache.get(client.glog.MEMBER.ROLE).send({
                 embeds: [roleEmbed]
             });
-
         } else if (oldMember.roles.cache.size < newMember.roles.cache.size) {
-
             const roleEmbed = new EmbedBuilder()
                 .setColor("Green")
                 .setAuthor({ name: newMember.user.tag, iconURL: newMember.user.avatarURL() })
                 .setTimestamp()
-
             await newMember.roles.cache.forEach(role => {
                 if (!oldMember.roles.cache.has(role.id)) {
                     roleEmbed.addFields(
@@ -50,8 +44,7 @@ module.exports = {
                     );
                 }
             });
-
-            await client.channels.cache.get(client.glog.MEMBER.ROLE).send({
+            return await client.channels.cache.get(client.glog.MEMBER.ROLE).send({
                 embeds: [roleEmbed]
             });
         }
@@ -67,7 +60,7 @@ module.exports = {
                 .setDescription(`**"${newMember.nickname}" Nickname Added**`)
                 .setTimestamp()
 
-            return nicknameChan.send({
+            return await nicknameChan.send({
                 embeds: [nickEmbed]
             });
         }
@@ -78,7 +71,7 @@ module.exports = {
                 .setDescription(`**"${oldMember.nickname}" Nickname Removed**`)
                 .setTimestamp()
 
-            return nicknameChan.send({
+            return await nicknameChan.send({
                 embeds: [nickEmbed]
             });
         }
@@ -93,7 +86,7 @@ module.exports = {
                 )
                 .setTimestamp()
 
-            return nicknameChan.send({
+            return await nicknameChan.send({
                 embeds: [nickEmbed]
             });
         }

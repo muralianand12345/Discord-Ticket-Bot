@@ -182,6 +182,11 @@ module.exports = {
                                             .setLabel('Close Ticket')
                                             .setEmoji('899745362137477181')
                                             .setStyle(ButtonStyle.Danger),
+                                        new ButtonBuilder()
+                                            .setCustomId('transcript-ticket')
+                                            .setLabel('Transcript')
+                                            .setEmoji('📜')
+                                            .setStyle(ButtonStyle.Primary),
                                     );
 
                                 const opened = await c.send({
