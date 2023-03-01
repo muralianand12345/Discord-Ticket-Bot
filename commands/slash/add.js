@@ -21,7 +21,7 @@ module.exports = {
                 .setRequired(true)),
     async execute(interaction, client) {
 
-        const ticketDoc = await ticketModel.findOne({
+        const ticketDoc = await ticketData.findOne({
             ticketGuildID: interaction.guild.id
         }).catch(err => console.log(err));
 

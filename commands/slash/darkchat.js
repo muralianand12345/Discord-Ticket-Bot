@@ -20,6 +20,17 @@ module.exports = {
 
         const text = interaction.options.getString(`text`) || "No Text";
 
+        if (text.includes('@here') || text.includes('@everyone')) {
+            const ReplyEmbed = new EmbedBuilder()
+                .setColor("Red")
+                .setDescription('Tagging "everyone" or "here" is not permitted')
+
+            return interaction.reply({
+                embeds: [ReplyEmbed],
+                ephemeral: true
+            });
+        }
+
         //log
         const commandName = "DARKCHAT";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);

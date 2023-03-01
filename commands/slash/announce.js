@@ -34,28 +34,26 @@ module.exports = {
         const annnouceText = interaction.options.getString('text');
         const annchannel = interaction.options.getChannel('channelid');
 
-        const commandName = "ADD";
+        const commandName = "ANNOUNCE";
         client.std_log.error(client, commandName, interaction.user.id, interaction.channel.id);
 
         if (annchannel.type !== ChannelType.GuildText) {
             const ReplyEmbed = new EmbedBuilder()
                 .setColor("Red")
-                .setDescription('Select only TEXT Channel!')
+                .setDescription('Select only TEXT Channel!');
 
             return interaction.reply({
                 embeds: [ReplyEmbed],
                 ephemeral: true
             });
         }
-        await interaction.deferReply();
-        await wait(4000);
 
         const finalEmbed = new EmbedBuilder()
             .setColor("Orange")
-            .setDescription(`Announcement Send to <#${annchannel.id}>`)
+            .setDescription(`Announcement Send to <#${annchannel.id}>`);
 
-            annchannel.send({ content: annnouceText }).then(async () => {
-            return await interaction.editReply({ embeds: [finalEmbed], ephemeral: true });
+        annchannel.send({ content: annnouceText }).then(async () => {
+            return await interaction.deferReply({ embeds: [finalEmbed], ephemeral: true });
         });
     }
 };

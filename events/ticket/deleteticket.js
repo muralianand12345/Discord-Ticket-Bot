@@ -16,6 +16,8 @@ module.exports = {
     name: Events.InteractionCreate,
     async execute(interaction, client) {
 
+        const errorSend = client.channels.cache.get('ID');
+
         if (interaction.customId == "delete-ticket") {
 
             if (buttonCooldown.has(interaction.user.id)) {
@@ -81,7 +83,7 @@ module.exports = {
                             .setColor('Black')
                             .setDescription(`Unable to DM User: <@${ticketDoc.userID}>\n\`Ticket No: ${chan.id}\``)
 
-                        return client.channels.cache.get("LOG CHAN ID").send({
+                        return errorSend.send({
                             embeds: [logembed]
                         });
                     }

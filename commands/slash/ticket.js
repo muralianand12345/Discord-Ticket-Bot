@@ -81,6 +81,11 @@ module.exports = {
                     .setDescription('Other Issues Category')
                     .setRequired(true)
                 )
+                .addChannelOption(option => option
+                    .setName('closed')
+                    .setDescription('Closed Ticket Category')
+                    .setRequired(true)
+                ),
         ),
 
     async execute(interaction, client) {
@@ -100,7 +105,13 @@ module.exports = {
             }).catch(console.error);
 
             if (data) {
-                return interaction.reply({ content: 'Ticket System Already Registered!', ephemeral: true });
+                const embedReply = new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription('Ticket System Already Registered!')
+                return interaction.reply({
+                    embeds: [embedReply],
+                    ephemeral: true
+                });
             } else if (!data) {
                 let newData = new channelData({
                     ticketGuildID: interaction.guild.id,
@@ -129,7 +140,13 @@ module.exports = {
                     components: [button]
                 });
 
-                return interaction.reply({ content: 'Ticket System Setup Successfully!', ephemeral: true });
+                const embedReply = new EmbedBuilder()
+                    .setColor('Green')
+                    .setDescription('Ticket System Setup Successfully!')
+                return interaction.reply({
+                    embeds: [embedReply],
+                    ephemeral: true
+                });
             }
         } else if (interaction.options.getSubcommand() === "stop") {
             const data = await channelData.findOne({
@@ -141,9 +158,21 @@ module.exports = {
                     ticketGuildID: interaction.guild.id
                 });
 
-                return interaction.reply({ content: 'Ticket System has been disabled from this server!', ephemeral: true });
+                const embedReply = new EmbedBuilder()
+                    .setColor('Orange')
+                    .setDescription('Ticket System has been disabled from this server!')
+                return interaction.reply({
+                    embeds: [embedReply],
+                    ephemeral: true
+                });
             } else if (!data) {
-                return interaction.reply({ content: `Ticket system isn't enabled for your server!`, ephemeral: true });
+                const embedReply = new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription(`Ticket system isn't enabled for your server!`)
+                return interaction.reply({
+                    embeds: [embedReply],
+                    ephemeral: true
+                });
             }
         } else if (interaction.options.getSubcommand() === "category-setup") {
             const mainPar = await interaction.options.getChannel("main");
@@ -152,6 +181,7 @@ module.exports = {
             const bugPar = await interaction.options.getChannel("bug");
             const charPar = await interaction.options.getChannel("character");
             const otherPar = await interaction.options.getChannel("other");
+            const closedPar = await interaction.options.getChannel("closed");
 
             var bool = false;
             function checkParent(chan) {
@@ -167,6 +197,7 @@ module.exports = {
             checkParent(bugPar);
             checkParent(charPar);
             checkParent(otherPar);
+            checkParent(closedPar);
 
             if (bool == false) {
                 const data = await parentData.findOne({
@@ -174,7 +205,13 @@ module.exports = {
                 }).catch(console.error);
 
                 if (data) {
-                    return interaction.reply({ content: 'Ticket System Already Registered!', ephemeral: true });
+                    const embedReply = new EmbedBuilder()
+                        .setColor('Red')
+                        .setDescription(`Ticket System Already Registered!`)
+                    return interaction.reply({
+                        embeds: [embedReply],
+                        ephemeral: true
+                    });
                 } else if (!data) {
                     let newData = new parentData({
                         guildID: interaction.guild.id,
@@ -184,13 +221,26 @@ module.exports = {
                         bugPar: bugPar.id,
                         charPar: charPar.id,
                         otherPar: otherPar.id,
+                        closedPar: closedPar.id
                     });
                     await newData.save();
 
-                    return interaction.reply({ content: 'Ticket Category Setup Successfully!', ephemeral: true });
+                    const embedReply = new EmbedBuilder()
+                        .setColor('Green')
+                        .setDescription(`Ticket Category Setup Successfully!`)
+                    return interaction.reply({
+                        embeds: [embedReply],
+                        ephemeral: true
+                    });
                 }
             } else if (bool == true) {
-                return interaction.reply({ content: 'Kindly Select only Category!', ephemeral: true });
+                const embedReply = new EmbedBuilder()
+                    .setColor('Red')
+                    .setDescription(`Kindly Select only Category!`)
+                return interaction.reply({
+                    embeds: [embedReply],
+                    ephemeral: true
+                });
             }
         }
     }

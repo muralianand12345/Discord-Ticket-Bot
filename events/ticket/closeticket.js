@@ -66,7 +66,7 @@ module.exports = {
 
             const collector = verif.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: 15000
+                time: 5000
             });
 
             collector.on('collect', async (i) => {
@@ -134,19 +134,11 @@ module.exports = {
                 }
             });
 
-            collector.on('end', async (collected) => {
-                if (collected.size <= 0) {
-                    await interaction.editReply({
+            collector.on('end', async (i) => {
+                if (i.size < 1) {
+                    await i.update({
                         content: `**Closing of the canceled ticket!** (<@!${userButton}>)`,
                         components: []
-                    }).catch(async (err) => {
-                        if (err.code == 10008) {
-                            await interaction.channel.send({ content: '**Ticket Cancellation Message Has Been Deleted!**' }).then((msg) => {
-                                setTimeout(function () {
-                                    msg.delete();
-                                }, 4000);
-                            });
-                        }
                     });
                 }
             });

@@ -86,7 +86,7 @@ module.exports = {
                     inline: true,
                 },
                 {
-                    name: 'Total Tickets Closed',
+                    name: 'Total Tickets Handled',
                     value: `\`\`\`${fs.readdirSync(ticketLogDir).length}\`\`\``,
                     inline: true,
                 },

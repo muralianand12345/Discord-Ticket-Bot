@@ -23,7 +23,7 @@ module.exports = {
         }
         client.std_log.error(client, commandName, interaction.user.id, chanID);
 
-        await interaction.deferReply({ content: "**🏓 Pong!**" });
+        await interaction.reply({ content: "**🏓 Pong!**" });
 
         let embed = new EmbedBuilder()
             .addFields({ name: "Ping:", value: Math.round(client.ws.ping) + "ms" })

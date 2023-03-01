@@ -2,6 +2,7 @@
 
 Discord Ticket Bot For FiveM RP Server!
 Discord.js Version: 14.7.1
+Give Credits :)
 
 ## Installation Steps
 
@@ -52,7 +53,7 @@ So before removing any unwanted code or feature, also remove any other code or f
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ### 💬Discord:
-- Murali Anand (! Murali Anand#5615)
-- Raghava (Raghav#4530)
+- Murali Anand (! Murali Anand#5615) | Main Dev
+- Raghava (Raghav#4530) | Database and Server Administrator
 
 ## A ⭐ to this repository will be encouraging  

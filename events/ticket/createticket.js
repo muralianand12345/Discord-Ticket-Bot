@@ -29,6 +29,7 @@ module.exports = {
         if (interaction.customId == "open-ticket") {
 
             var ticketCheck = await ticketModel.findOne({
+                guildID: interaction.guild.id,
                 userID: interaction.user.id
             }).catch(err => console.log(err));
 
@@ -202,6 +203,7 @@ module.exports = {
                                 ticketDoc.msgPannelID = opened.id;
                                 ticketDoc.ticketStatus = true;
                                 await ticketDoc.save();
+
                             });
                         };
 
@@ -217,7 +219,7 @@ module.exports = {
                         };
                         if (i.values[0] == 'Supporters') {
                             c.edit({
-                                parent: ticketParents.suppPar
+                                parent: ticketParents.supPar
                             });
                         };
                         if (i.values[0] == 'Character') {
