@@ -16,14 +16,34 @@ module.exports = {
             guildID: newState.guild.id
         }).catch(err => console.log(err));
 
-        var vcChecknew = await vcCreateModel.findOne({
-            guildID: newState.guild.id,
-            userID: newState.id
+        var vcCheckold = await vcCreateModel.findOne({
+            guildID: oldState.guild.id,
         }).catch(err => console.log(err));
 
-        if (vcCreateCounts) {
+        var targetChannelId;
+        if (vcCheckold) {
+            targetChannelId = vcCheckold.vcID;
+        }
 
+        if (targetChannelId && oldState.channel?.id === targetChannelId) {
+            const channelToUpdate = oldState.guild.channels.cache.get(targetChannelId);
+            if (channelToUpdate && channelToUpdate.members.size === 0) {
+                await channelToUpdate.delete().then(async () => {
+                    await vcCreateModel.findOneAndRemove({
+                        guildID: oldState.guild.id,
+                        userID: oldState.id
+                    });
+                });
+            }
+        }
+
+        if (vcCreateCounts) {
             if (newState.channel?.id === vcCreateCounts.vcID) {
+                var vcChecknew = await vcCreateModel.findOne({
+                    guildID: newState.guild.id,
+                    userID: newState.id
+                }).catch(err => console.log(err));
+                
                 const newChannel = await newState.guild.channels.create({
                     name: `${vcCreateCounts.name}${User.username}`, //🎤┆
                     parent: vcCreateCounts.parentID,
@@ -33,18 +53,6 @@ module.exports = {
                 });
 
                 await newState.setChannel(newChannel).then(async (a) => {
-
-                    /*if (!vcCreateCounts) {
-                        vcCreateCounts = new vcCreateCount({
-                            guildID: newState.guild.id,
-                            vcCreateCount: 0
-                        });
-                        await vcCreateCounts.save();
-                    }
-
-                    vcCreateCounts.vcCreateCount += 1;
-                    await vcCreateCounts.save();*/
-
 
                     if (vcChecknew) {
                         await vcCreateModel.findOneAndRemove({
@@ -67,27 +75,6 @@ module.exports = {
                         });
                         await vcAdd.save();
                     }
-                });
-            }
-        }
-
-        var vcCheckold = await vcCreateModel.findOne({
-            guildID: oldState.guild.id,
-        }).catch(err => console.log(err));
-
-        var targetChannelId;
-        if (vcCheckold) {
-            targetChannelId = vcCheckold.vcID;
-        }
-
-        if (targetChannelId && oldState.channel?.id === targetChannelId) {
-            const channelToUpdate = oldState.guild.channels.cache.get(targetChannelId);
-            if (channelToUpdate && channelToUpdate.members.size === 0) {
-                await channelToUpdate.delete().then(async () => {
-                    await vcCreateModel.findOneAndRemove({
-                        guildID: oldState.guild.id,
-                        userID: oldState.id
-                    });
                 });
             }
         }
