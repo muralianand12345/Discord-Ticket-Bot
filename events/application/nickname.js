@@ -7,102 +7,100 @@ module.exports = {
     name: Events.ClientReady,
     async execute(client) {
 
+        const roleId = client.nickname.ROLEID;
+        const guildId = client.nickname.GUILDID;
+        const options = [
+
+            "!",
+            "\"",
+            "#",
+            "$",
+            "%",
+            "&",
+            "`",
+            "'",
+            "(",
+            ")",
+            "*",
+            "+",
+            ",",
+            "-",
+            ".",
+            "/",
+            ":",
+            ";",
+            "<",
+            "=",
+            ">",
+            "?",
+            "@",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "[",
+            "]",
+            "_"
+        ];
+
+
         if (client.config.ENABLE.NICKNAME == true) {
+            setInterval(() => {
+                checkNicknames();
+            }, client.nickname.INTERVAL);
+        }
 
-            const GuildId = client.nickname.GUILDID;
-            const NRoleId = client.nickname.ROLEID;
+        //function
 
-            var GuildInfo, NRole, NTotal;
-            GuildInfo = await client.guilds.cache.get(GuildId);
-            NRole = await GuildInfo.roles.cache.find(role => role.id == NRoleId);
-            NTotal = await NRole.members.map(m => m.user);
-
-            async function sendDM(user) {
-                const embed = new EmbedBuilder()
-                    .setColor('Red')
-                    .setDescription(`\`\`\`Your Nickname has been changed\`\`\`\n**Reason**: Auto-NickName Moderation`)
-                client.users.cache.get(user.id).send({
-                    embeds: [embed]
-                });
+        function checkFirstLetterIsOption(str) {
+            const firstLetter = str.charAt(0);
+            if (options.includes(firstLetter)) {
+                return true;
             }
+            return false;
+        }
 
-            async function sendLog(user) {
-                var embed = new EmbedBuilder()
-                    .setDescription(`\`\`\`NickName Changed (!)\`\`\`\n<@${user.id}>`)
-                logChan = client.channels.cache.get(client.nickname.LOG)
-                logChan.send({ embeds: [embed] });
-            }
+        async function logEmbedFunc(userId, memberInfo, nickName) {
+            const logEmbed = new EmbedBuilder()
+                .setColor('#FF0000')
+                .setDescription(`**Nickname Changed!** <@${userId}>`)
+                .addFields(
+                    { name: 'User Name', value: `${memberInfo.user.username}#${memberInfo.user.discriminator}` },
+                    { name: 'Nickname', value: `${nickName}` },
+                );
+            logChan = client.channels.cache.get(client.nickname.LOG).send({ embeds: [logEmbed] });
+        }
 
-            async function NickNameMod(Role) {
+        async function checkNicknames() {
 
-                for (var i = 0; i < Role.length; i++) {
+            const guild = client.guilds.cache.find(guild => guild.id === guildId);
+            if (!guild) return;
 
-                    if (Role[i].id == null) {
+            const roles = roleId.map(roleId => guild.roles.cache.find(role => role.id === roleId));
+            if (roles.some(role => !role)) return;
 
-                        return;
+            for (const [memberId, member] of guild.members.cache) {
+                if (member.roles.cache.some(role => roles.includes(role))) {
+                    if (!member.nickname && member.user.username[0] && checkFirstLetterIsOption(member.user.username[0])) {
+                        const newNickname = member.user.username.slice(1);
+                        await member.setNickname(newNickname);
+                        await logEmbedFunc(memberId, member, newNickname);
+                    }
 
-                    } else {
+                    if (member.displayName && checkFirstLetterIsOption(member.displayName[0])) {
 
-                        const Mention = await client.guilds.cache.get(GuildId).members.cache.get(Role[i].id);
-
-                        if (Mention == null) {
-
-                            return;
-
-                        } else {
-
-                            if (Mention.nickname == null) {
-                                var namePerms = 0;
-
-                                var userName = Mention.user.username;
-                                if (userName.includes("!")) {
-                                    await Mention.setNickname(userName.replace('!', '')).catch(async (error) => {
-                                        if (error.code == 50013) {
-                                            return namePerms = 1; //Missing Permission
-                                        }
-                                    }).then(async () => {
-                                        if (namePerms == 0) {
-                                            await sendDM(Mention);
-                                            await sendLog(Mention);
-
-                                        } else if (namePerms == 1) {
-                                            return;
-                                        } else {
-                                            return;
-                                        }
-                                    });
-                                }
-
-                            } else {
-                                var Perms = 0;
-
-                                if (Mention.nickname.includes("!")) {
-                                    await Mention.setNickname(Mention.nickname.replace('!', '')).catch(async (error) => {
-                                        if (error.code == 50013) {
-                                            return Perms = 1; //Missing Permission
-                                        }
-                                        /*return; //Anyother error*/
-                                    }).then(async () => {
-                                        if (Perms == 0) {
-                                            await sendDM(Mention);
-                                            await sendLog(Mention);
-
-                                        } else if (Perms == 1) {
-                                            return;
-                                        } else {
-                                            return;
-                                        }
-                                    });
-                                }
-                            }
-                        }
+                        const newNickname = member.displayName.slice(1);
+                        await member.setNickname(newNickname);
+                        await logEmbedFunc(memberId, member, newNickname);
                     }
                 }
             }
-
-            setInterval(async () => {
-                NickNameMod(NTotal);
-            }, client.nickname.INTERVAL);
         }
     }
 }
