@@ -1,7 +1,9 @@
 {
-    "ROLEID": "",
+    "ROLEID": [
+            "",
+            ""
+        ],
     "GUILDID": "",
-    "NAME_START": "!",
     "LOG": "",
-    "INTERVAL": 600000
+    "INTERVAL": 10000
 }
