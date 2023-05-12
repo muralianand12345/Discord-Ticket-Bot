@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 require("dotenv").config();
 const {
   Client,
@@ -50,17 +51,13 @@ client.std_log = std_log;
 client.handle = handle;
 
 //extras configurations
-/*Will be changed in future | cut and short : ) */
-const chatbot = require('./config/extras/chatbot.json');
-const date = require('./config/extras/date.json');
-const job = require('./config/extras/job.json');
-const nickname = require('./config/extras/nickname.json');
-const streamer = require('./config/extras/streamer.json');
-const visa = require('./config/extras/visa.json');
-const gang = require('./config/extras/gang.json');
-const discordpresence = require('./config/extras/discordpresence.json');
-const glog = require('./config/extras/glog.json');
-const automod = require('./config/extras/automod.json');
+const extrasDir = path.join(__dirname, 'config', 'extras');
+const extrasFiles = fs.readdirSync(extrasDir);
+
+for (const file of extrasFiles) {
+  const property = path.basename(file, '.json');
+  client[property] = require(path.join(extrasDir, file));
+}
 
 client.chatbot = chatbot;
 client.date = date;
