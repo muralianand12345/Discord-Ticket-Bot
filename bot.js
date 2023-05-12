@@ -59,17 +59,6 @@ for (const file of extrasFiles) {
   client[property] = require(path.join(extrasDir, file));
 }
 
-client.chatbot = chatbot;
-client.date = date;
-client.job = job;
-client.nickname = nickname;
-client.streamer = streamer;
-client.visa = visa;
-client.gang = gang;
-client.glog = glog;
-client.discordpresence = discordpresence;
-client.automod = automod;
-
 module.exports = client;
 
 //events Read
