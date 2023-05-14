@@ -1,83 +1,57 @@
-const cooldown = new Set();
-const cooldownTime = 10000;
 const {
-    EmbedBuilder,
     Events
 } = require('discord.js');
-const fs = require('fs')
+
+const votingModel = require("../../events/models/voting.js");
 
 module.exports = {
-    name: Events.MessageCreate,
+    name: Events.InteractionCreate,
     async execute(interaction, client) {
 
-        const FileName = client.config.VOTE.FILE_NAME;
-        function Vote1Write(User) {
-            var votelog = fs.appendFile(FileName, `${User} === UP\n`, (error) => {
-                if (error) {
-                    throw err;
-                } else {
-                    return interaction.reply({ content: "`Your Response Has Been Noted!`", ephemeral: true });
-                }
+        //if (!interaction.isButton()) return;
+
+        if (interaction.customId && interaction.customId.startsWith("vote-button-")) {
+
+            const voting = await votingModel.findOne({
+                messageId: interaction.message.id,
+                guildId: interaction.guildId
             });
-        }
 
-        function Vote2Write(User) {
-            var votelog = fs.appendFile(FileName, `${User} === DOWN\n`, (error) => {
-                if (error) {
-                    throw err;
-                } else {
-                    return interaction.reply({ content: "`Your Response Has Been Noted!`", ephemeral: true });
+            if (!voting) {
+                return await interaction.reply({ content: "Voting has expired.", ephemeral: true });
+            }
+
+            const vote = {
+                userId: interaction.user.id,
+                buttonId: interaction.customId
+            };
+
+            if (voting.voteType === 'once') {
+                const hasVoted = voting.votes.some(v => v.userId === interaction.user.id);
+                if (hasVoted) {
+                    await interaction.reply({ content: 'You have already voted in this poll.', ephemeral: true });
+                    return;
                 }
-            });
-        }
-
-        //VOTE1 ...............................................
-
-        if (interaction.customId == "vote1") {
-            let UserID = interaction.user.id;
-            if (cooldown.has(interaction.user.id)) {
-                return interaction.reply({ content: "`Settle Down Buddy! Try Again Later (Cooldown)`", ephemeral: true });
-
-            } else {
-                fs.readFile(FileName, function (err, data) {
-                    if (err) throw err;
-                    if (data.includes(UserID)) {
-                        return interaction.reply({ content: "`You Have Already Responded!`", ephemeral: true });
-                    } else {
-                        Vote1Write(UserID);
-                    }
-                });
-
-                cooldown.add(interaction.user.id);
-                setTimeout(() => {
-                    cooldown.delete(interaction.user.id);
-                }, cooldownTime);
             }
-        }
 
-        //VOTE2 ...............................................
+            if (voting.voteType === 'multi') {
+                const hasVoted = voting.votes.some(v => v.userId === interaction.user.id && v.buttonId === interaction.customId);
+                if (hasVoted) {
+                    await interaction.reply({ content: 'You have already voted for this option.', ephemeral: true });
+                    return;
+                }
 
-        if (interaction.customId == "vote2") {
-            let UserID = interaction.user.id;
-            if (cooldown.has(interaction.user.id)) {
-                return interaction.reply({ content: "`Settle Down Buddy! Try Again Later (Cooldown)`", ephemeral: true });
+                voting.votes.push(vote);
+                await voting.save();
 
-            } else {
-
-                fs.readFile(FileName, function (err, data) {
-                    if (err) throw err;
-                    if (data.includes(UserID)) {
-                        return interaction.reply({ content: "`You Have Already Responded!`", ephemeral: true });
-                    } else {
-                        Vote2Write(UserID);
-                    }
-                });
-
-                cooldown.add(interaction.user.id);
-                setTimeout(() => {
-                    cooldown.delete(interaction.user.id);
-                }, cooldownTime);
+                await interaction.reply({ content: "Thank you for your vote!", ephemeral: true });
+                return;
             }
+
+            voting.votes.push(vote);
+            await voting.save();
+
+            await interaction.reply({ content: "Thank you for your vote!", ephemeral: true });
         }
     }
-}
+};

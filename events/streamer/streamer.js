@@ -3,6 +3,9 @@ const {
     Events
 } = require('discord.js');
 
+//This is not actually you do it! We must use PresenceUpdate event and it is more efficient than this
+//If you know how to do, you are most welcomed!
+
 module.exports = {
     name: Events.ClientReady,
     async execute(client) {

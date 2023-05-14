@@ -4,6 +4,14 @@ Discord Ticket Bot For FiveM RP Server!
 Discord.js Version: 14.7.1
 Give Credits :)
 
+Same code used in EliteX Roleplay with some changes and modification!
+
+Also note than this code contains more junks. Just use what you want and remove you don't. 
+
+This is not the code I use in Iconic Roleplay (Tamil), it is totally different with the same logic!
+
+This repository won't be recieving any major updates! Only bug fixes. I think, I have covered almost everything that is needed for Roleplay server!
+
 ## Installation Steps
 
 Requirements:
@@ -36,24 +44,7 @@ bash start.sh
 ``````
 Must: Change .env.example to .env and add values to .env and config.json
 
-## Things to Note Here
-
-There are tooooooo many features in this discord bot code. If anyone isn't configured properly, error might occur.
-So before removing any unwanted code or feature, also remove any other code or file related to that feature.
-
-## Contributers
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 ### 💬Discord:
-- Murali Anand (! Murali Anand#5615) | Main Dev
-- Raghava (Raghav#4530) | Database and Server Administrator
+- Murali Anand (! Murali Anand#5615)
 
 ## A ⭐ to this repository will be encouraging  
