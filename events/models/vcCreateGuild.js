@@ -5,7 +5,8 @@ const vcCreateGuild = Schema({
     vcID: String,
     parentID: String,
     name: String,
-    vcCreateCount: Number
+    vcCreateCount: Number,
+    logID: String
 });
 
 module.exports = model('vccreate-guild', vcCreateGuild);

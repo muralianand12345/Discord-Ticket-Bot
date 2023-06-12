@@ -12,7 +12,7 @@ module.exports = {
     execute: async (interaction, client) => {
 
         //if (!interaction.type === InteractionType.ApplicationCommand) return
-        const command = client.commands.get(interaction.commandName);
+        const command = client.slashCommands.get(interaction.commandName);
         if (!command) return;
 
         try {
@@ -23,7 +23,7 @@ module.exports = {
                         var coolMsg = client.config.MESSAGE["COOLDOWN_MESSAGE"].replace('<duration>', ms(cooldown.get(`${command.name}${interaction.user.id}`) - Date.now(), { long: true }));
                         const coolEmbed = new EmbedBuilder()
                             .setDescription(`${coolMsg}`)
-                            .setColor('Red')
+                            .setColor('#ED4245')
                         return interaction.reply({ embeds: [coolEmbed], ephemeral: true });
                     }
 
@@ -33,14 +33,14 @@ module.exports = {
                             if (!interaction.member.permissions.has(PermissionsBitField.resolve(command.userPerms || []))) {
                                 const userPerms = new EmbedBuilder()
                                     .setDescription(`🚫 <@${interaction.user.id}>, You don't have \`${command.userPerms}\` permissions to use this command!`)
-                                    .setColor('Red')
+                                    .setColor('#ED4245')
                                 return interaction.reply({ embeds: [userPerms], ephemeral: true });
                             }
 
                             if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(command.botPerms || []))) {
                                 const botPerms = new EmbedBuilder()
                                     .setDescription(`🚫 <@${interaction.user.id}>, I don't have \`${command.botPerms}\` permissions to use this command!`)
-                                    .setColor('Red')
+                                    .setColor('#ED4245')
                                 return interaction.reply({ embeds: [botPerms], ephemeral: true });
                             }
                         }
@@ -66,14 +66,14 @@ module.exports = {
                         if (!interaction.member.permissions.has(PermissionsBitField.resolve(command.userPerms || []))) {
                             const userPerms = new EmbedBuilder()
                                 .setDescription(`🚫 <@${interaction.user.id}>, You don't have \`${command.userPerms}\` permissions to use this command!`)
-                                .setColor('Red')
+                                .setColor('#ED4245')
                             return interaction.reply({ embeds: [userPerms], ephemeral: true });
                         }
 
                         if (!interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(command.botPerms || []))) {
                             const botPerms = new EmbedBuilder()
                                 .setDescription(`🚫 <@${interaction.user.id}>, I don't have \`${command.botPerms}\` permissions to use this command!`)
-                                .setColor('Red')
+                                .setColor('#ED4245')
                             return interaction.reply({ embeds: [botPerms], ephemeral: true });
                         }
                     }
@@ -84,7 +84,7 @@ module.exports = {
         } catch (error) {
             global.console.log(error);
             const botErrorEmbed = new EmbedBuilder()
-                .setColor('Red')
+                .setColor('#ED4245')
                 .setDescription('An Internal **Error** Occurred, Kindly Contact The Bot Developers!')
             return interaction.reply({
                 embeds: [botErrorEmbed],

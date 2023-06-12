@@ -20,4 +20,4 @@
     }
 }
 
-"Note (Delete this after editing the config file)": "Get logs at your own risk. Spying on a specific user or a guild is against discord terms and conditions. You don't want logs, just ignore this update. Memory and CPU usage will be very high (still in beta version). Update will be released to reduced loads and API requests."
+"This will make the API request load even worse. Only use if required.""

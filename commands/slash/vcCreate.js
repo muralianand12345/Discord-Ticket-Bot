@@ -27,6 +27,11 @@ module.exports = {
                 .setDescription('Category/Parent where VC to be created!')
                 .setRequired(true)
         )
+        .addChannelOption(option =>
+            option.setName('vc-log')
+                .setDescription('Logs VC create')
+                .setRequired(true)
+        )
         .addStringOption(option =>
             option.setName('vc-name')
                 .setDescription('VC name to start with')
@@ -43,7 +48,7 @@ module.exports = {
         const vcChan = await interaction.options.getChannel("vc-id");
         if (!guildObj.channels.cache.has(vcChan.id)) {
             const embedReply = new EmbedBuilder()
-                .setColor('Red')
+                .setColor('#ED4245')
                 .setDescription(`The Channel does not belong to this server!`)
             return interaction.reply({
                 embeds: [embedReply],
@@ -52,7 +57,7 @@ module.exports = {
         }
         if (vcChan.type !== ChannelType.GuildVoice) {
             const embedReply = new EmbedBuilder()
-                .setColor('Red')
+                .setColor('#ED4245')
                 .setDescription(`Select only voice channels!`)
             return interaction.reply({
                 embeds: [embedReply],
@@ -63,7 +68,7 @@ module.exports = {
         const vcParent = await interaction.options.getChannel("vc-category");
         if (!guildObj.channels.cache.has(vcParent.id)) {
             const embedReply = new EmbedBuilder()
-                .setColor('Red')
+                .setColor('#ED4245')
                 .setDescription(`The Category does not belong to this server!`)
             return interaction.reply({
                 embeds: [embedReply],
@@ -72,7 +77,7 @@ module.exports = {
         }
         if (vcParent.type !== ChannelType.GuildCategory) {
             const embedReply = new EmbedBuilder()
-                .setColor('Red')
+                .setColor('#ED4245')
                 .setDescription(`Select only Category channels!`)
             return interaction.reply({
                 embeds: [embedReply],
@@ -90,6 +95,7 @@ module.exports = {
             });
         }
 
+        const vcLog = await interaction.options.getChannel("vc-log") || null;
         const vcName = await interaction.options.getString("vc-name");
 
         if (!vcName) {
@@ -97,7 +103,8 @@ module.exports = {
                 guildID: interaction.guild.id,
                 vcID: vcChan.id,
                 parentID: vcParent.id,
-                name: null
+                name: null,
+                logID: vcLog.id
             });
             await newData.save();
         } else {
@@ -105,14 +112,14 @@ module.exports = {
                 guildID: interaction.guild.id,
                 vcID: vcChan.id,
                 parentID: vcParent.id,
-                name: vcName
+                name: vcName,
+                logID: vcLog.id
             });
             await newData.save();
         }
 
-
         const embed = new EmbedBuilder()
-            .setColor('Green')
+            .setColor("#57F287")
             .setDescription(`VC Setup Successfull!`)
             .setTimestamp()
         return interaction.reply({

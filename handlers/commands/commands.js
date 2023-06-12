@@ -1,27 +1,32 @@
 const fs = require('fs');
 
 const {
-    Events
+    Events,
+    Collection
 } = require('discord.js');
+
+const messageCommands = new Collection();
+const slashCommands = new Collection();
 
 module.exports = {
     name: Events.ClientReady,
     execute(client) {
 
-        //slashCommands Read
-        const slashcommandFiles = fs.readdirSync('./commands/slash').filter(file => file.endsWith('.js'));
+        const messageCommandFiles = fs.readdirSync('./commands/message').filter(file => file.endsWith('.js'));
 
-        for (const file of slashcommandFiles) {
-            const command = require(`../../commands/slash/${file}`);
-            client.commands.set(command.data.name, command);
-        };
-
-        //messageCommands Read
-        const messagecommandFiles = fs.readdirSync('./commands/message').filter(file => file.endsWith('.js'));
-
-        for (const file of messagecommandFiles) {
+        for (const file of messageCommandFiles) {
             const command = require(`../../commands/message/${file}`);
-            client.commands.set(command.name, command);
-        };
+            messageCommands.set(command.name, command);
+        }
+
+        const slashCommandFiles = fs.readdirSync('./commands/slash').filter(file => file.endsWith('.js'));
+
+        for (const file of slashCommandFiles) {
+            const command = require(`../../commands/slash/${file}`);
+            slashCommands.set(command.data.name, command);
+        }
+
+        client.messageCommands = messageCommands;
+        client.slashCommands = slashCommands;
     }
 }
